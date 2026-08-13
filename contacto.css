@@ -370,6 +370,10 @@
   .wa-float:hover { transform: none; }
 }
 
+/* La cabecera es sticky y mide 68 px: sin esto, al saltar a #comprar el
+   borde superior de la sección queda tapado por ella. */
+#comprar, #form-compra { scroll-margin-top: 80px; }
+
 /* Campo trampa contra robots.
    Se saca de la vista en vez de usar display:none o hidden, porque muchos
    robots saltan los campos ocultos de esa manera — y este lo tienen que ver

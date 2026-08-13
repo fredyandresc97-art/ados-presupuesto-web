@@ -84,10 +84,15 @@
         <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft);">Presupuesto Castilla · árbol de capítulos y partidas</span>
         <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft);">ADOS Presupuesto</span>
       </div>
-      <img src="assets/img/app-presupuesto.png" alt="Presupuesto de obra en ADOS Presupuesto: árbol de capítulos, partidas e insumos con costo directo, AIU y total" style="display: block; width: 100%; height: auto;">
+      <!-- width y height son los del archivo. No fijan el tamaño (manda el
+           style), pero le dan al navegador la proporción para reservar el
+           hueco antes de que la imagen cargue. Sin ellos la página crece de
+           golpe al cargar y las anclas tipo #comprar aterrizan donde no es. -->
+      <img src="assets/img/app-presupuesto.png" width="1917" height="1017" alt="Presupuesto de obra en ADOS Presupuesto: árbol de capítulos, partidas e insumos con costo directo, AIU y total" style="display: block; width: 100%; height: auto;">
     </div>
-    <div style="display: flex; justify-content: center; margin-top: 32px;">
-      <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="light" size="lg" href="Herramientas.dc.html" hint-size="200px,52px" style="color: var(--ados-amber-600)">Conoce cómo funciona</x-import>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 56px;">
+      <p style="font-size: 17px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0; text-align: center; max-width: 44ch; text-wrap: pretty;">Vea el recorrido completo, de la medición sobre el modelo al acta del primer mes.</p>
+      <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="primary" size="lg" href="Herramientas.dc.html" hint-size="260px,56px">Conoce cómo funciona</x-import>
     </div>
   </section>
 

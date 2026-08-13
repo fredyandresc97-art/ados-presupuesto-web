@@ -76,6 +76,29 @@
   }
 
   /* ----------------------------------------------------------
+     Anclas que sobreviven a la carga de las imágenes.
+
+     Al llegar desde otro documento con index.html#comprar, el navegador
+     salta al sitio correcto enseguida — pero las capturas todavía no han
+     cargado. Cuando aparecen empujan el contenido hacia abajo y el
+     visitante se queda mirando la portada, que es justo lo que parecía
+     un enlace roto. Las imágenes ya llevan width/height para reservar su
+     hueco; esto es el cinturón por si alguna se queda sin ellos.
+
+     Solo actúa si el destino se movió más de 100 px respecto de donde
+     está la ventana: si ya se ve, no se toca nada.
+     ---------------------------------------------------------- */
+  function afinarAncla() {
+    if (!location.hash || location.hash.length < 2) return;
+    var destino;
+    try { destino = document.querySelector(location.hash); }
+    catch (e) { return; }          /* un hash que no es selector válido */
+    if (!destino) return;
+    if (Math.abs(destino.getBoundingClientRect().top) < 100) return;
+    destino.scrollIntoView({ block: 'start', behavior: 'instant' });
+  }
+
+  /* ----------------------------------------------------------
      2. El formulario
      ---------------------------------------------------------- */
   function avisar(form, texto, tono) {
@@ -359,5 +382,13 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar);
   else iniciar();
-  window.addEventListener('load', programar);
+
+  window.addEventListener('load', function () {
+    programar();
+    /* Ya cargaron las imágenes y el documento tiene su altura definitiva:
+       es el momento de comprobar que el ancla apunta a donde debe. El
+       segundo intento cubre a x-dc, que puede seguir dibujando después. */
+    afinarAncla();
+    setTimeout(afinarAncla, 400);
+  });
 })();
