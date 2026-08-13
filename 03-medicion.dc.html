@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/base.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/components/interactions.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/styles.css">
+  <script src="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/_ds_bundle.js"></script>
+  <script src="./image-slot.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--ados-white); color: var(--ados-ink); font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--ados-ink); text-decoration: none; transition: color 120ms cubic-bezier(0.2,0,0,1); }
+    a:hover { color: #E7A11E; }
+
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+    .narrow { max-width: 1080px; margin: 0 auto; }
+    .eyebrow { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .label { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); }
+    .h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 42px; line-height: 1.08; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0; text-wrap: pretty; }
+    .h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: var(--ados-ink); margin: 0; }
+    .lead { font-size: 17.5px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0; }
+    .lead strong, .feat .tx strong { color: var(--ados-ink); font-weight: 600; }
+    .mas { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; color: var(--ados-amber-600); }
+
+    /* Barra de apartados */
+    .apbar { display: flex; align-items: stretch; overflow-x: auto; scrollbar-width: none; }
+    .apbar::-webkit-scrollbar { display: none; }
+    .apbar > * { display: flex; align-items: center; gap: 8px; padding: 0 18px; height: 46px; white-space: nowrap; font-size: 13.5px; font-weight: 500; color: var(--ados-ink-soft); border-bottom: 2px solid transparent; }
+    .apbar > a:hover { color: var(--ados-ink); border-bottom-color: var(--border-light-strong); }
+    .apbar > .on { color: var(--ados-ink); font-weight: 600; border-bottom-color: var(--accent); }
+    .apbar .n { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.06em; color: var(--accent); }
+    .apbar > a .n { color: var(--ados-ink-soft); }
+    .apbar > a:hover .n { color: var(--accent); }
+
+    /* Bloques — este apartado va con más aire que los otros */
+    .bloque { padding: 112px 0; border-top: 1px solid var(--border-light); }
+    .bnum { display: flex; align-items: baseline; gap: 16px; margin-bottom: 24px; }
+    .bnum .num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 48px; line-height: 1; letter-spacing: -0.04em; color: var(--accent); }
+    .cols { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 80px; align-items: start; }
+    .cols--center { align-items: center; }
+    .cols--head { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr); gap: 64px; align-items: end; margin-bottom: 56px; }
+    /* Apilada: para las secciones cuya otra columna es una captura apaisada. A media
+       columna (≈568px) la ventana de la app queda al 30% y la hoja no se lee; en una
+       sola columna se lleva los 1216px del contenido. No la usa la sección de la
+       memoria impresa: esa captura es vertical y a media columna se lee de sobra.
+       Va después de .cols para ganarle las columnas y el gap, que empatan en
+       especificidad. */
+    .cols--apilada { grid-template-columns: 1fr; gap: 40px; }
+    /* El :not(:has(figure)) es la parte que importa: sin el, un <figure> envuelto
+       en un <div> heredaba esta medida de lectura y la captura salia encogida
+       respecto a las demas. La medida es para el texto, no para las imagenes. */
+    .cols--apilada > div:not(:has(figure)) { max-width: 78ch; }
+
+    .feat { display: grid; gap: 16px; }
+    .feat > div { display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start; }
+    .feat .dot { width: 8px; height: 8px; background: var(--accent); margin-top: 8px; }
+    .feat .tx { font-size: 16px; line-height: 1.6; color: var(--ados-ink); }
+
+    /* Huecos de imagen */
+    figure.shot { margin: 0; border: 1px solid var(--border-light); background: var(--ados-light); }
+    /* Cada hueco lleva la proporción exacta de su captura, para que la imagen lo llene
+       sin franjas grises. Once son la ventana de la app maximizada (1919×1032); la
+       memoria de cálculo impresa es una página vertical (1013×1316) y por eso .tall
+       tiene aquí su propia proporción. .wide la usan tres capturas apaisadas que van
+       a ancho completo: comparten forma con las demás, cambia el sitio, no el alto. */
+    figure.shot .body { position: relative; aspect-ratio: 1919 / 1032; }
+    figure.shot .body.wide { aspect-ratio: 1919 / 1032; }
+    figure.shot .body.tall { aspect-ratio: 1013 / 1316; }
+    figure.shot .body > image-slot { position: absolute; inset: 0; }
+    figure.shot figcaption { display: flex; align-items: baseline; gap: 10px; padding: 13px 16px; border-top: 1px solid var(--border-light); background: var(--ados-white); font-size: 14px; line-height: 1.5; color: var(--ados-ink-soft); }
+    /* El distintivo con el ID (IMG-MED-01…12) es andamio de producción: sirve para
+       saber qué captura va en cada hueco. Ya están todas puestas, así que va
+       oculto; para volver a verlos, `display: inline-block` en la línea siguiente.
+       Los de los huecos de vídeo (VID-MED-01…03) siguen a la vista:
+       esos aún están vacíos. */
+    figure.shot figcaption .pin { display: none; }
+    .pin { font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); border: 1px solid var(--border-light-strong); padding: 2px 6px; white-space: nowrap; }
+
+    /* Huecos de vídeo — reemplazar el div.vid por un <video controls poster> cuando lleguen */
+    .vid { border: 1px solid var(--border-light-strong); background: var(--ados-light); }
+    .vid .frame { position: relative; aspect-ratio: 16 / 9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 24px; }
+    .vid .frame::before { content: ''; position: absolute; inset: 12px; border: 1px dashed var(--border-light-strong); pointer-events: none; }
+    .vid .play { width: 62px; height: 62px; border: 2px solid var(--accent); border-radius: 999px; display: flex; align-items: center; justify-content: center; }
+    .vid .play span { width: 0; height: 0; border-left: 16px solid var(--accent); border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-left: 4px; }
+    .vid .qué { font-size: 15px; line-height: 1.55; color: var(--ados-ink-soft); max-width: 46ch; }
+    .vid .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 13px 16px; border-top: 1px solid var(--border-light); background: var(--ados-white); }
+    .vid .rank { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: -0.01em; color: var(--ados-ink); }
+
+    /* Regla / cita */
+    .regla { border-left: 3px solid var(--accent); background: var(--ados-light); padding: 28px 32px; }
+    .cita { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 27px; line-height: 1.25; letter-spacing: -0.025em; color: var(--ados-ink); border-left: 3px solid var(--accent); padding-left: 22px; margin: 0; text-wrap: pretty; }
+
+    /* Rejillas */
+    .tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .tri > div { background: var(--ados-white); padding: 28px; }
+    .duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .cuatro { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .cuatro > div { background: var(--ados-white); padding: 28px; }
+
+    /* Tablas */
+    .tabla { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+    .tabla th { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); text-align: left; padding: 13px 18px; border-bottom: 1px solid var(--border-light-strong); }
+    .tabla td { padding: 15px 18px; border-bottom: 1px solid var(--border-light); color: var(--ados-ink); line-height: 1.55; vertical-align: top; }
+    .tabla tr:last-child td { border-bottom: none; }
+    .tabla .vs { color: var(--ados-ink-soft); }
+    .tabla .col { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
+    .cuadro { border: 1px solid var(--border-light); background: var(--ados-white); }
+    .cuadro > .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 11px 18px; border-bottom: 1px solid var(--border-light); background: var(--ados-light); }
+
+    /* Fichas y cadenas */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 13.5px; color: var(--ados-ink); border: 1px solid var(--border-light-strong); background: var(--ados-white); padding: 7px 13px; }
+    .chip b { color: var(--ados-amber-600); font-weight: 700; }
+    .flow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .flow .st { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; color: var(--ados-ink); border: 1px solid var(--border-light); background: var(--ados-white); padding: 10px 16px; }
+    .flow .ar { color: var(--ados-ink-soft); }
+
+    /* Sub-bloques del 5 */
+    .sub { padding: 64px 0; border-top: 1px solid var(--border-light-strong); }
+    .sub:first-of-type { border-top: none; padding-top: 0; }
+    .subnum { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; }
+    .subnum .sn { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.02em; color: var(--on-accent); background: var(--accent); padding: 4px 10px; }
+    .subh { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; line-height: 1.15; letter-spacing: -0.028em; color: var(--ados-ink); margin: 0 0 16px 0; text-wrap: pretty; }
+
+    code { font-family: 'Space Grotesk', ui-monospace, monospace; font-size: 14.5px; background: var(--ados-white); border: 1px solid var(--border-light-strong); padding: 2px 7px; color: var(--ados-ink); }
+
+    /* el encabezado es sticky (68 + 46): los anclajes no deben quedar debajo */
+    section[id], div[id] { scroll-margin-top: 130px; }
+
+    @media (max-width: 1080px) {
+      .cuatro { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .cols, .cols--head { grid-template-columns: 1fr !important; gap: 40px; }
+      .tri, .duo, .cuatro { grid-template-columns: 1fr; }
+      .bloque { padding: 72px 0; }
+      .sub { padding: 48px 0; }
+      .h2 { font-size: 30px; }
+      .subh { font-size: 24px; }
+      .hero-h1 { font-size: 38px !important; }
+      .cita { font-size: 21px; }
+      .cta-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .tabla th, .tabla td { padding: 12px 14px; font-size: 14.5px; }
+    }
+  </style>
+</helmet>
+
+<div style="background: var(--ados-white);">
+
+  <!-- ===================== HEADER + BARRA DE APARTADOS ===================== -->
+  <header style="position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,0.90); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <a href="index.html" style="display: flex; align-items: center; gap: 12px;">
+        <img src="assets/logo/ados-presupuesto-icon.svg" alt="ADOS Presupuesto" style="width: 30px; height: 30px; display: block;">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-ink);">ADOS <span style="font-weight: 500; color: var(--ados-ink-soft);">Presupuesto</span></span>
+      </a>
+      <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="light" size="sm" href="Herramientas.dc.html#recorrido" hint-size="196px,34px">Volver al recorrido</x-import>
+    </div>
+    <div style="border-top: 1px solid var(--border-light);">
+      <div class="wrap">
+        <nav class="apbar">
+          <a href="01-presupuesto.dc.html"><span class="n">01</span>Presupuesto</a>
+          <a href="02-analisis.dc.html"><span class="n">02</span>Análisis</a>
+          <span class="on"><span class="n">03</span>Medición</span>
+          <a href="04-programacion.dc.html"><span class="n">04</span>Programación</a>
+          <a href="05-ejecucion.dc.html"><span class="n">05</span>Ejecución</a>
+          <a href="06-entrega.dc.html"><span class="n">06</span>Entrega</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="wrap" style="padding-top: 112px; padding-bottom: 104px;">
+    <div style="display: flex; align-items: baseline; gap: 18px; margin-bottom: 26px;">
+      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 80px; line-height: 1; letter-spacing: -0.04em; color: var(--accent);">03</span>
+      <span class="eyebrow">Medición · A mano, en el plano o en el modelo</span>
+    </div>
+    <h1 class="hero-h1" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 66px; line-height: 1.02; letter-spacing: -0.035em; color: var(--ados-ink); margin: 0; max-width: 17ch; text-wrap: pretty;">La cantidad deja de ser un número que alguien escribió.</h1>
+    <p style="font-size: 20px; line-height: 1.6; color: var(--ados-ink-soft); margin: 40px 0 0 0; max-width: 62ch; text-wrap: pretty;">
+      Se mide —a mano, sobre el plano o desde el modelo de Revit—, queda escrita con las cuentas
+      que la sostienen, y esa misma medición sirve después para la modificatoria, el acta y el
+      corte del mes.
+    </p>
+    <div class="tri" style="margin-top: 56px;">
+      <div>
+        <div class="label" style="color: var(--accent); margin-bottom: 12px;">A mano</div>
+        <div class="h3" style="margin-bottom: 8px;">Cinta y libreta</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Líneas rotuladas con Nº, largo, ancho y alto. Es la tabla base, y funciona sola.</p>
+      </div>
+      <div>
+        <div class="label" style="color: var(--accent); margin-bottom: 12px;">Sobre el plano</div>
+        <div class="h3" style="margin-bottom: 8px;">DXF y DWG</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Se mide encima del dibujo, enganchado a sus vértices, y la medida cae en la línea.</p>
+      </div>
+      <div>
+        <div class="label" style="color: var(--accent); margin-bottom: 12px;">Desde el modelo</div>
+        <div class="h3" style="margin-bottom: 8px;">Complemento de Revit</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Cada ejemplar del modelo se vuelve una línea de medición, trazable elemento por elemento.</p>
+      </div>
+    </div>
+    <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 20px 0 0 0;">Las tres se mezclan en la misma partida. Ninguna es obligatoria.</p>
+  </section>
+
+  <!-- ===================== EL PROBLEMA ===================== -->
+  <section style="background: var(--ados-navy-900); color: var(--ados-white);">
+    <div class="wrap" style="padding: 96px 32px;">
+      <div class="cols">
+        <div>
+          <div class="eyebrow" style="margin-bottom: 18px;">El problema que resuelve</div>
+          <h2 class="h2" style="color: var(--ados-white); font-size: 36px; max-width: 18ch;">El número que más plata mueve es el que peor respaldo tiene.</h2>
+        </div>
+        <div style="display: grid; gap: 20px;">
+          <p style="font-size: 16.5px; line-height: 1.7; color: var(--text-muted); margin: 0;">En el presupuesto aparece «43,2 m³» y punto. De dónde salió está en una libreta, en un Excel que se llamaba «cubicación final v3» o en la cabeza del que midió, que ya no trabaja ahí.</p>
+          <p style="font-size: 16.5px; line-height: 1.7; color: var(--text-muted); margin: 0;">Entonces llega la interventoría y pregunta. O entra una modificatoria y hay que volver a medir desde cero porque nadie sabe qué contemplaba la cantidad original. O se está cobrando el acta del mes y no hay forma de saber cuánto de ese muro ya se cobró en la de marzo, así que se cobra de menos —o de más, que es peor—.</p>
+          <p style="font-size: 16.5px; line-height: 1.7; color: var(--ados-white); margin: 0;">Y mientras tanto los planos y el modelo de Revit, que tienen las cantidades adentro, se usan para mirar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 1 ===================== -->
+  <section id="que-es-medir" class="wrap">
+    <div class="bloque" style="border-top: none;">
+      <div class="bnum"><span class="num">1</span><span class="label">Qué es medir aquí</span></div>
+      <h2 class="h2" style="max-width: 24ch; margin-bottom: 48px;">En vez de digitar la cantidad, se escriben las líneas que la justifican.</h2>
+
+      <figure class="shot" style="margin-bottom: 56px;">
+        <div class="body wide">
+          <image-slot id="IMG-MED-01" src="assets/img/capturas/03-medicion/IMG-MED-01.png" shape="rect" fit="contain" placeholder="IMG-MED-01 · Panel de Mediciones bajo la hoja: cuatro o cinco líneas rotuladas de una partida real (ejes, tramos, vanos), sus parciales y el total abajo"></image-slot>
+        </div>
+        <figcaption><span class="pin">IMG-MED-01</span><span>La cantidad, con las cuentas que la sostienen.</span></figcaption>
+      </figure>
+
+      <div class="cols" style="gap: 72px;">
+        <div class="cuadro">
+          <div class="bar"><span class="label">Las columnas del panel</span><span class="label">Herramientas → Mediciones</span></div>
+          <table class="tabla">
+            <thead><tr><th style="width: 38%;">Columna</th><th>Qué lleva</th></tr></thead>
+            <tbody>
+              <tr><td class="col">Comentario</td><td class="vs">El rótulo: «Muro eje A», «Zapata Z-1», «Tramo 2–3».</td></tr>
+              <tr><td class="col">Nº</td><td class="vs">Cuántos elementos iguales.</td></tr>
+              <tr><td class="col">Longitud · Ancho · Alto</td><td class="vs">Las dimensiones.</td></tr>
+              <tr><td class="col">Fórmula</td><td class="vs">Cuando la cuenta no es un simple producto.</td></tr>
+              <tr><td class="col">Parcial</td><td class="vs">Lo que da esa línea, calculado.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <div class="regla" style="margin-bottom: 32px;">
+            <p style="font-size: 16.5px; line-height: 1.65; color: var(--ados-ink); margin: 0;">El <strong style="font-weight: 600;">parcial</strong> de cada línea es el producto de lo que tenga escrito. El <strong style="font-weight: 600;">total</strong> es la suma de los parciales — y es la cantidad de la partida.</p>
+          </div>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx">Cada línea tiene su <strong>casilla de marcado</strong>: desmarcada, la línea sigue ahí pero no cuenta. Sirve para dejar registrado lo que se estudió y se descartó, sin borrarlo.</span></div>
+            <div><span class="dot"></span><span class="tx">También se pueden <strong>bloquear casillas sueltas</strong>: un ancho que está escrito como referencia pero que no debe multiplicar.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Los títulos de las columnas se cambian por medición.</strong> En una partida de acero se mide Nº × Longitud × <strong>Peso</strong>, aunque la tercera columna se llame Ancho en las demás. El rótulo cambia en el panel y en la memoria impresa, para que el papel hable el idioma de lo que se está midiendo.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Redondeo del parcial</strong> por medición: no es cómo se ve el número, es cuánto vale. Sirve para replicar clavado una memoria que venía de un Excel y que no aparezcan diferencias de un peso.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 2 ===================== -->
+  <section id="formulas" class="wrap">
+    <div class="bloque">
+      <div class="cols cols--center cols--apilada">
+        <div>
+          <div class="bnum"><span class="num">2</span><span class="label">Fórmulas</span></div>
+          <h2 class="h2" style="margin-bottom: 20px; max-width: 20ch;">Cuando la cuenta no cabe en un producto de tres dimensiones.</h2>
+          <p class="lead" style="margin-bottom: 28px;">Se usan <strong>los códigos de las columnas como variables</strong>, así que la fórmula se lee y se entiende.</p>
+          <div class="chips" style="margin-bottom: 28px;">
+            <span class="chip"><b>N</b> · Nº</span>
+            <span class="chip"><b>LO</b> · Longitud</span>
+            <span class="chip"><b>AN</b> · Ancho</span>
+            <span class="chip"><b>AL</b> · Alto</span>
+          </div>
+          <div style="display: grid; gap: 10px; margin-bottom: 32px;">
+            <code>LO*AN*AL</code>
+            <code>(LO+AN)*2*AL</code>
+            <code>N*3,1416*LO*LO/4</code>
+          </div>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx">Admite <strong>+ − × ÷ y paréntesis</strong>, con decimales en coma o en punto, como se teclea en obra.</span></div>
+            <div><span class="dot"></span><span class="tx">Si hay fórmula, <strong>manda ella</strong>; si no, manda el producto de las columnas. Y la fórmula también se puede bloquear para dejarla escrita sin que cuente.</span></div>
+            <div><span class="dot"></span><span class="tx">Las variables <strong>no cambian aunque se le cambie el título a la columna</strong>: una fórmula guardada hace tres obras sigue valiendo.</span></div>
+          </div>
+        </div>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-MED-02" src="assets/img/capturas/03-medicion/IMG-MED-02.png" shape="rect" fit="contain" placeholder="IMG-MED-02 · Una línea con una fórmula escrita en su columna (LO*AN*AL-0,3*0,3*AL) y su parcial ya resuelto al lado"></image-slot></div>
+          <figcaption><span class="pin">IMG-MED-02</span><span>Y cuando la cuenta no es un simple producto.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 3 ===================== -->
+  <section id="una-herramienta" style="background: var(--ados-navy-900); color: var(--ados-white); margin-top: 24px;">
+    <div class="wrap" style="padding: 104px 32px;">
+      <div class="bnum"><span class="num">3</span><span class="label" style="color: var(--text-faint);">Se mide la casilla, no «el presupuesto»</span></div>
+      <div class="cols--head" style="margin-bottom: 56px;">
+        <h2 class="h2" style="color: var(--ados-white); max-width: 20ch;">Una sola herramienta, cuatro sitios donde se aplica.</h2>
+        <p style="font-size: 17.5px; line-height: 1.65; color: var(--text-muted); margin: 0;">No hay «las mediciones del presupuesto» por un lado y otra cosa distinta para las actas. Hay una tabla, y se aplica a la casilla que esté seleccionada.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border);" class="cuatro">
+        <div style="background: var(--ados-navy-900); padding: 28px;">
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">Cantidad</div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; color: var(--ados-white); margin-bottom: 10px;">De una partida</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">La cantidad del presupuesto.</p>
+        </div>
+        <div style="background: var(--ados-navy-900); padding: 28px;">
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">Cantidad</div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; color: var(--ados-white); margin-bottom: 10px;">De un insumo</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">Dentro del APU, cuando lo que hay que medir es cuánto material entra en la partida.</p>
+        </div>
+        <div style="background: var(--ados-navy-900); padding: 28px;">
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">Aumento / Disminución</div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; color: var(--ados-white); margin-bottom: 10px;">De una modificación</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">Las mayores y menores cantidades de una modificatoria, medidas, no estimadas.</p>
+        </div>
+        <div style="background: var(--ados-navy-900); padding: 28px;">
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">Cant. ejecutada</div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; color: var(--ados-white); margin-bottom: 10px;">De un corte</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">Lo que se cobra en una parcial, en un acta o en el mes.</p>
+        </div>
+      </div>
+
+      <div class="cols cols--center cols--apilada" style="margin-top: 56px;">
+        <div>
+          <p style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 27px; line-height: 1.25; letter-spacing: -0.025em; color: var(--ados-white); border-left: 3px solid var(--accent); padding-left: 22px; margin: 0 0 24px 0; text-wrap: pretty;">Quien aprendió a medir el presupuesto ya sabe medir el acta del mes.</p>
+          <p style="font-size: 16.5px; line-height: 1.65; color: var(--text-muted); margin: 0;">La misma tabla, las mismas fórmulas, el mismo plano, el mismo modelo, la misma memoria impresa.</p>
+        </div>
+        <figure class="shot" style="background: var(--ados-navy-950); border-color: var(--border);">
+          <div class="body"><image-slot id="IMG-MED-03" src="assets/img/capturas/03-medicion/IMG-MED-03.png" shape="rect" fit="contain" placeholder="IMG-MED-03 · Casilla de cantidad seleccionada y el panel de Mediciones abajo mostrando a qué casilla se va a aplicar (mejor en una modificación o un corte)"></image-slot></div>
+          <figcaption style="background: var(--ados-navy-900); border-color: var(--border); color: var(--text-muted);"><span class="pin">IMG-MED-03</span><span>Se mide el presupuesto, la modificatoria y el acta con la misma tabla.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 4 · CAD ===================== -->
+  <section id="cad" class="wrap">
+    <div class="bloque" style="border-top: none;">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">4</span><span class="label">Medir sobre el plano</span></div>
+          <h2 class="h2" style="max-width: 20ch;">El plano deja de ser algo que se mira.</h2>
+        </div>
+        <p class="lead">Se importan planos <strong>DXF y DWG</strong> — el conversor de DWG viene incluido, no hay que tener AutoCAD ni convertir nada aparte.</p>
+      </div>
+
+      <!-- Apilada, no lado a lado: IMG-MED-04 y 05 son la ventana completa y a media
+           columna (586px, 31%) no se leían. A todo el ancho van al 63%. -->
+      <div class="duo" style="grid-template-columns: 1fr; gap: 48px; margin-bottom: 40px;">
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-MED-04" src="assets/img/capturas/03-medicion/IMG-MED-04.png" shape="rect" fit="contain" placeholder="IMG-MED-04 · Visor CAD con un plano abierto, una medición en curso y el cursor enganchado a un vértice, con la marca del enganche visible"></image-slot></div>
+          <figcaption><span class="pin">IMG-MED-04</span><span>Se mide sobre el plano, enganchado al dibujo.</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-MED-05" src="assets/img/capturas/03-medicion/IMG-MED-05.png" shape="rect" fit="contain" placeholder="IMG-MED-05 · El resultado: la medida ya escrita en la línea de Mediciones, con el nombre del plano en el comentario"></image-slot></div>
+          <figcaption><span class="pin">IMG-MED-05</span><span>Y la medida entra sola, como si se hubiera tecleado.</span></figcaption>
+        </figure>
+      </div>
+
+      <!-- HUECO DE VÍDEO 1 · sustituir este div.vid por <video controls poster="…"> cuando llegue -->
+      <div class="vid" style="margin-bottom: 48px;">
+        <div class="frame">
+          <div class="play"><span></span></div>
+          <div>
+            <div class="label" style="margin-bottom: 8px;">Vídeo corto · VID-MED-01</div>
+            <div class="qué">Los dos pasos seguidos: se mide sobre el plano enganchado a un vértice y la medida aparece escrita en la línea de Mediciones.</div>
+          </div>
+        </div>
+        <div class="bar">
+          <span class="rank">Prioridad 1 de 3 — la demostración más vistosa del programa</span>
+          <span class="pin">VID-MED-01</span>
+        </div>
+      </div>
+
+      <div class="cols" style="gap: 72px;">
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx">El plano <strong>queda guardado dentro del archivo de la obra</strong>: se abre en otro computador sin llevar el plano original, y una medición vieja se puede volver a ver sobre el plano que la originó.</span></div>
+          <div><span class="dot"></span><span class="tx"><strong>Capas</strong> que se prenden y apagan, respetando las que venían apagadas del CAD. Se puede medir sobre una capa concreta y dejarlo anotado.</span></div>
+          <div><span class="dot"></span><span class="tx">Cuatro formas de medir: <strong>distancia, área, círculo y conteo de elementos</strong>.</span></div>
+        </div>
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx"><strong>Enganche a los vértices del dibujo</strong>, con su marca en pantalla: se mide sobre la geometría real, no a pulso.</span></div>
+          <div><span class="dot"></span><span class="tx">Las <strong>unidades del dibujo se reconocen</strong> y todo entra en metros.</span></div>
+        </div>
+      </div>
+
+      <div class="regla" style="margin-top: 40px;">
+        <div class="label" style="color: var(--ados-ink); margin-bottom: 12px;">Y lo importante</div>
+        <p style="font-size: 16.5px; line-height: 1.7; color: var(--ados-ink-soft); margin: 0;"><strong style="color: var(--ados-ink); font-weight: 600;">La medida no es un dato aparte.</strong> Cae en las columnas de siempre —Longitud, luego Ancho, luego Alto de la misma línea; el conteo en Nº—, como si se hubiera tecleado. Medir los tres lados de un espacio llena una línea completa; la siguiente medida empieza una línea nueva. Después se edita, se le pone fórmula o se le suma otra a mano, porque <strong style="color: var(--ados-ink); font-weight: 600;">es una medición normal</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 5 · REVIT ===================== -->
+  <section id="revit" style="background: var(--ados-light); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="padding: 104px 32px;">
+      <div class="cols--head" style="margin-bottom: 64px;">
+        <div>
+          <div class="bnum"><span class="num">5</span><span class="label">Medir desde el modelo de Revit</span></div>
+          <h2 class="h2" style="max-width: 20ch;">La cantidad, auditable elemento por elemento.</h2>
+        </div>
+        <p class="lead">El programa no lee el <code>.rvt</code> por fuera: trae <strong>su propio complemento para Revit</strong>, que es lo que lo hace fiable.</p>
+      </div>
+
+      <!-- 5.1 -->
+      <div class="sub">
+        <div class="cols cols--center cols--apilada">
+          <div>
+            <div class="subnum"><span class="sn">5.1</span><span class="label">El complemento</span></div>
+            <h3 class="subh">Un complemento propio para Revit.</h3>
+            <p class="lead" style="margin-bottom: 28px;">Hace tres cosas, y todo pasa <strong>dentro del equipo</strong>: el puente habla en local, nada del modelo sale a internet.</p>
+            <div style="display: grid; gap: 16px;">
+              <div style="background: var(--ados-white); border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 20px 24px;">
+                <div class="h3" style="font-size: 17px; margin-bottom: 8px;">Exporta el modelo</div>
+                <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Con todo lo que el presupuesto necesita: categorías, familias, tipos, ejemplares, <strong style="color: var(--ados-ink); font-weight: 600;">cantidades reales de Revit</strong> —longitud, área, volumen, unidades— y los parámetros de tipo y de ejemplar, incluidos nivel, fase, Nota clave y códigos de medición.</p>
+              </div>
+              <div style="background: var(--ados-white); border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 20px 24px;">
+                <div class="h3" style="font-size: 17px; margin-bottom: 8px;">Hace de puente en vivo</div>
+                <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Con el presupuesto, en los dos sentidos. <a href="#ida-y-vuelta" class="mas">Ver 5.7 →</a></p>
+              </div>
+              <div style="background: var(--ados-white); border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 20px 24px;">
+                <div class="h3" style="font-size: 17px; margin-bottom: 8px;">Manda el modelo actualizado</div>
+                <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Cuando el diseño cambia, sin romper lo ya asignado. <a href="#modelo-cambia" class="mas">Ver 5.8 →</a></p>
+              </div>
+            </div>
+          </div>
+          <figure class="shot" style="background: var(--ados-white);">
+            <div class="body"><image-slot id="IMG-MED-06" src="assets/img/capturas/03-medicion/IMG-MED-06.png" shape="rect" fit="contain" placeholder="IMG-MED-06 · La barra del complemento dentro de Revit, con sus botones"></image-slot></div>
+            <figcaption><span class="pin">IMG-MED-06</span><span>Un complemento propio para Revit.</span></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- 5.2 -->
+      <div class="sub">
+        <div class="cols cols--center cols--apilada">
+          <figure class="shot" style="background: var(--ados-white);">
+            <div class="body"><image-slot id="IMG-MED-07" src="assets/img/capturas/03-medicion/IMG-MED-07.png" shape="rect" fit="contain" placeholder="IMG-MED-07 · Ventana de modelos con el árbol Categoría → Familia → Tipo y, a la derecha, los ejemplares de un tipo con sus cantidades y parámetros"></image-slot></div>
+            <figcaption><span class="pin">IMG-MED-07</span><span>El modelo, con sus cantidades y parámetros.</span></figcaption>
+          </figure>
+          <div>
+            <div class="subnum"><span class="sn">5.2</span><span class="label">Cómo se ve el modelo</span></div>
+            <h3 class="subh">Se navega como en cualquier programa de mediciones serio.</h3>
+            <div class="flow" style="margin-bottom: 28px;">
+              <span class="st">Categoría</span><span class="ar">→</span>
+              <span class="st">Familia</span><span class="ar">→</span>
+              <span class="st">Tipo</span><span class="ar">→</span>
+              <span class="st">Ejemplar</span>
+            </div>
+            <div class="feat">
+              <div><span class="dot"></span><span class="tx">Con sus <strong>parámetros</strong> y sus <strong>cantidades sumadas</strong>.</span></div>
+              <div><span class="dot"></span><span class="tx">Se pueden tener <strong>varios modelos en un mismo presupuesto</strong> —arquitectura, estructura, redes— y trabajarlos por separado.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5.3 -->
+      <div class="sub">
+        <div class="subnum"><span class="sn">5.3</span><span class="label">Enlazar el modelo con el presupuesto</span></div>
+        <h3 class="subh" style="max-width: 22ch;">Cada tipo de Revit, enlazado a su partida.</h3>
+
+        <figure class="shot" style="background: var(--ados-white); margin: 32px 0 40px 0;">
+          <div class="body wide"><image-slot id="IMG-MED-08" src="assets/img/capturas/03-medicion/IMG-MED-08.png" shape="rect" fit="contain" placeholder="IMG-MED-08 · Ventana Asignar mediciones en su rejilla, con el lado del presupuesto y el lado de Revit, y varios tipos ya enlazados"></image-slot></div>
+          <figcaption><span class="pin">IMG-MED-08</span><span>Cada tipo de Revit, enlazado a su partida.</span></figcaption>
+        </figure>
+
+        <div class="cols" style="gap: 72px;">
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx"><strong>Enlace automático por Nota clave:</strong> si el modelo trae la Nota clave —o el código de medición— del tipo, el programa lo cruza solo con el código de la partida. El presupuesto <strong>exporta su listado de notas clave</strong> para cargarlo en Revit, así que el modelador y el presupuestador acuerdan el código una vez y no vuelven a tocarlo.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Enlace manual</strong> para lo demás: se escoge el tipo y se escoge la partida.</span></div>
+          </div>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx"><strong>Un tipo se puede partir por parámetros:</strong> la tubería PVC se separa por Tamaño, y cada tamaño se enlaza con una partida distinta. Un solo tipo de Revit puede alimentar varias partidas, que es como está la vida real.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Filtros por parámetro</strong> para quedarse solo con lo que interesa: una fase, un nivel, un material.</span></div>
+          </div>
+        </div>
+
+        <div style="margin-top: 36px; background: var(--ados-white); border: 1px solid var(--border-light); padding: 26px 30px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap;">
+          <span class="label" style="white-space: nowrap;">Estado por partida</span>
+          <div class="chips">
+            <span class="chip">sin asignar</span>
+            <span class="chip">asignado</span>
+            <span class="chip">revisado</span>
+          </div>
+          <span style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); flex: 1; min-width: 260px;">Para saber en qué va la revisión de una obra de miles de elementos.</span>
+        </div>
+      </div>
+
+      <!-- 5.4 -->
+      <div class="sub">
+        <div class="cols" style="gap: 80px; align-items: center;">
+          <div>
+            <div class="subnum"><span class="sn">5.4</span><span class="label">Qué magnitud se toma</span></div>
+            <h3 class="subh">El criterio con el que ese enlace mide.</h3>
+            <p class="lead">El programa <strong>propone el criterio según la unidad de la partida</strong> — si la partida está en m³, propone Volumen — y se puede cambiar.</p>
+          </div>
+          <div class="chips">
+            <span class="chip">Longitud</span>
+            <span class="chip">Área</span>
+            <span class="chip">Volumen</span>
+            <span class="chip">Unidades</span>
+            <span class="chip"><b>ƒx</b> Fórmula</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5.5 -->
+      <div class="sub">
+        <div class="cols cols--center cols--apilada">
+          <div>
+            <div class="subnum"><span class="sn">5.5</span><span class="label">Fórmulas sobre el modelo</span></div>
+            <h3 class="subh">Cuando la cantidad que hay que pagar no es una de las cuatro que da Revit.</h3>
+            <div class="feat">
+              <div><span class="dot"></span><span class="tx">Se escribe una fórmula con <strong>los parámetros del elemento y las cotas del tipo</strong> —anchura, grosor, canto, longitud—, buscándolos en una lista: <code>2*(anchura+longitud)*canto</code>.</span></div>
+              <div><span class="dot"></span><span class="tx">El programa muestra <strong>la fórmula ya sustituida</strong> con los valores del ejemplar, para comprobar que da lo que tiene que dar antes de aplicarla a mil elementos.</span></div>
+              <div><span class="dot"></span><span class="tx">Se puede poner <strong>en el enlace</strong>, y vale para todos los ejemplares de ese tipo, o <strong>en una línea suelta</strong>, para el caso raro.</span></div>
+            </div>
+          </div>
+          <figure class="shot" style="background: var(--ados-white);">
+            <div class="body"><image-slot id="IMG-MED-09" src="assets/img/capturas/03-medicion/IMG-MED-09.png" shape="rect" fit="contain" placeholder="IMG-MED-09 · Ventana de Fórmula de medición con la lista de parámetros disponibles a la izquierda y la fórmula escrita abajo"></image-slot></div>
+            <figcaption><span class="pin">IMG-MED-09</span><span>Y si la cantidad no la da el modelo, se calcula.</span></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- 5.6 -->
+      <div class="sub">
+        <div class="subnum"><span class="sn">5.6</span><span class="label">Cada elemento, una línea</span></div>
+        <h3 class="subh" style="max-width: 24ch;">La cantidad no es un total opaco: es elemento por elemento.</h3>
+        <div class="tri" style="margin-top: 32px;">
+          <div>
+            <div class="h3" style="margin-bottom: 10px;">Una línea por ejemplar</div>
+            <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Cada ejemplar del modelo se convierte en una línea de medición de su partida, con su identificador, y se puede revisar una a una.</p>
+          </div>
+          <div>
+            <div class="h3" style="margin-bottom: 10px;">Se sigue trabajando encima</div>
+            <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Escribirle un factor que la multiplique —un 1,05 de desperdicio, un 0,5 si solo cuenta la mitad—, desmarcarla para que no cuente, o comentarla.</p>
+          </div>
+          <div>
+            <div class="h3" style="margin-bottom: 10px;">Conviven con lo medido a mano</div>
+            <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">En la misma partida y en la misma tabla: lo que el modelo no tiene se mide como siempre.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5.7 -->
+      <div class="sub" id="ida-y-vuelta">
+        <div class="subnum"><span class="sn">5.7</span><span class="label">Del presupuesto a Revit y de Revit al presupuesto</span></div>
+        <h3 class="subh" style="max-width: 22ch;">«¿Esta cantidad de qué es?» se responde señalando el muro en la pantalla.</h3>
+
+        <div class="duo" style="margin: 32px 0 40px 0;">
+          <div style="background: var(--ados-white); border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 28px 30px;">
+            <div class="label" style="margin-bottom: 12px;">Desde el presupuesto</div>
+            <div class="h3" style="font-size: 22px; margin-bottom: 12px;">F3 — Mostrar en Revit</div>
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Estando en una partida o en una línea, Revit <strong style="color: var(--ados-ink); font-weight: 600;">selecciona los elementos, hace zoom y los resalta</strong>. Revit tiene que estar abierto en el mismo equipo.</p>
+          </div>
+          <div style="background: var(--ados-white); border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 28px 30px;">
+            <div class="label" style="margin-bottom: 12px;">Desde Revit</div>
+            <div class="h3" style="font-size: 22px; margin-bottom: 12px;">Buscar en Presupuesto</div>
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Al revés: se selecciona un elemento en Revit, se pulsa el botón del complemento y el presupuesto <strong style="color: var(--ados-ink); font-weight: 600;">abre la partida que lo mide</strong>.</p>
+          </div>
+        </div>
+
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0 0 40px 0; max-width: 70ch;">La identidad que viaja es el <strong style="color: var(--ados-ink); font-weight: 600;">identificador único del elemento en Revit</strong>, no un número que cambie al recrear el elemento.</p>
+
+        <figure class="shot" style="background: var(--ados-white); margin-bottom: 32px;">
+          <div class="body wide"><image-slot id="IMG-MED-10" src="assets/img/capturas/03-medicion/IMG-MED-10.png" shape="rect" fit="contain" placeholder="IMG-MED-10 · Las dos pantallas: el presupuesto en una partida y Revit con el elemento seleccionado y resaltado"></image-slot></div>
+          <figcaption><span class="pin">IMG-MED-10</span><span>F3: y Revit le muestra cuál es.</span></figcaption>
+        </figure>
+
+        <!-- HUECO DE VÍDEO 2 · sustituir este div.vid por <video controls poster="…"> cuando llegue -->
+        <div class="vid">
+          <div class="frame">
+            <div class="play"><span></span></div>
+            <div>
+              <div class="label" style="margin-bottom: 8px;">Vídeo corto · VID-MED-02</div>
+              <div class="qué">Se pulsa F3 sobre una partida y Revit selecciona, enfoca y resalta el elemento. Y la vuelta: se escoge un elemento en Revit y el presupuesto abre su partida.</div>
+            </div>
+          </div>
+          <div class="bar">
+            <span class="rank">Prioridad 2 de 3 — lo que más impresiona en una demostración</span>
+            <span class="pin">VID-MED-02</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5.8 -->
+      <div class="sub" id="modelo-cambia">
+        <div style="background: var(--ados-navy-900); color: var(--ados-white); padding: 48px 52px;">
+          <div class="subnum"><span class="sn">5.8</span><span class="label" style="color: var(--text-faint);">Cuando el modelo cambia</span></div>
+          <h3 class="subh" style="color: var(--ados-white); max-width: 24ch;">Lo que hace que el BIM sirva en una obra de verdad y no solo en la presentación.</h3>
+          <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 0 0 32px 0; max-width: 62ch;">El diseño siempre cambia. El modelador vuelve a exportar y el complemento manda el modelo actualizado, que <strong style="color: var(--ados-white); font-weight: 600;">sustituye</strong> al anterior en vez de añadir otro.</p>
+          <div class="cols" style="gap: 64px;">
+            <div>
+              <div class="label" style="color: var(--accent); margin-bottom: 16px;">No se pierde nada de lo asignado</div>
+              <div style="display: grid; gap: 12px;">
+                <div style="display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start;"><span style="width: 8px; height: 8px; background: var(--accent); margin-top: 8px;"></span><span style="font-size: 16px; line-height: 1.55; color: var(--ados-white);">Los enlaces tipo ↔ partida</span></div>
+                <div style="display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start;"><span style="width: 8px; height: 8px; background: var(--accent); margin-top: 8px;"></span><span style="font-size: 16px; line-height: 1.55; color: var(--ados-white);">Las separaciones por parámetro</span></div>
+                <div style="display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start;"><span style="width: 8px; height: 8px; background: var(--accent); margin-top: 8px;"></span><span style="font-size: 16px; line-height: 1.55; color: var(--ados-white);">Las fórmulas</span></div>
+                <div style="display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start;"><span style="width: 8px; height: 8px; background: var(--accent); margin-top: 8px;"></span><span style="font-size: 16px; line-height: 1.55; color: var(--ados-white);">Los ajustes hechos a mano en las líneas</span></div>
+              </div>
+              <p style="font-size: 16px; line-height: 1.65; color: var(--text-muted); margin: 20px 0 0 0;">Y el presupuesto <strong style="color: var(--ados-white); font-weight: 600;">vuelve a medir</strong> con el modelo nuevo.</p>
+            </div>
+            <div style="display: flex; align-items: center;">
+              <p style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3; letter-spacing: -0.02em; color: var(--ados-white); border-left: 3px solid var(--accent); padding-left: 22px; margin: 0; text-wrap: pretty;">Sin esto, cada revisión del modelo obligaría a rehacer la asignación entera — que es exactamente por lo que mucha gente abandona el BIM en presupuestos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 6 · MEMORIA ===================== -->
+  <section id="memoria" class="wrap">
+    <div class="bloque" style="border-top: none;">
+      <div class="cols cols--center" style="gap: 80px;">
+        <figure class="shot">
+          <div class="body tall"><image-slot id="IMG-MED-11" src="assets/img/capturas/03-medicion/IMG-MED-11.png" shape="rect" fit="contain" placeholder="IMG-MED-11 · Página de la memoria de cálculo exportada en PDF: la partida con sus líneas rotuladas, los parciales y el total"></image-slot></div>
+          <figcaption><span class="pin">IMG-MED-11</span><span>La memoria de cálculo ya está escrita.</span></figcaption>
+        </figure>
+        <div>
+          <div class="bnum"><span class="num">6</span><span class="label">La memoria de cálculo</span></div>
+          <h2 class="h2" style="margin-bottom: 20px; max-width: 20ch;">No hay que armar la memoria: ya está escrita.</h2>
+          <p class="lead" style="margin-bottom: 32px;">Porque es la misma tabla con la que se midió.</p>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx">Sale en <strong>PDF, una hoja por partida medida</strong>, con el logo y los datos de la empresa.</span></div>
+            <div><span class="dot"></span><span class="tx">Con <strong>plantillas de memoria configurables</strong>, para ajustarse al formato que pida cada entidad, y vista previa antes de imprimir.</span></div>
+            <div><span class="dot"></span><span class="tx">Respalda <strong>lo que se esté midiendo</strong>: la memoria del presupuesto, la de una modificatoria o la del corte — y en el acta sale además lo ejecutado en actas anteriores y lo presente en ésta.</span></div>
+            <div><span class="dot"></span><span class="tx">Los rótulos de las columnas que se hayan cambiado —Ancho → Peso— <strong>salen así en el papel</strong>.</span></div>
+          </div>
+          <p class="cita" style="margin-top: 36px; font-size: 24px;">La discusión con la interventoría se gana con papel, y aquí el papel se genera solo.</p>
+        </div>
+      </div>
+
+      <!-- HUECO DE VÍDEO 3 · sustituir este div.vid por <video controls poster="…"> cuando llegue -->
+      <div class="vid" style="margin-top: 56px;">
+        <div class="frame">
+          <div class="play"><span></span></div>
+          <div>
+            <div class="label" style="margin-bottom: 8px;">Vídeo corto · VID-MED-03</div>
+            <div class="qué">Una medición completa de principio a fin: se abre la partida, se escriben las líneas, se mide sobre el plano, y sale la memoria de cálculo en PDF.</div>
+          </div>
+        </div>
+        <div class="bar">
+          <span class="rank">Prioridad 3 de 3 — el recorrido completo, de la primera línea a la memoria</span>
+          <span class="pin">VID-MED-03</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 7 ===================== -->
+  <section id="toda-la-obra" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">7</span><span class="label">Durante toda la obra</span></div>
+          <h2 class="h2" style="max-width: 20ch;">Medir una vez y que sirva hasta el cierre.</h2>
+        </div>
+        <p class="lead">La medición del presupuesto <strong>se trae</strong> a una modificatoria o a un corte y se ajusta, en vez de empezar de cero.</p>
+      </div>
+
+      <div class="cols cols--center cols--apilada">
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx"><strong>Cada línea conserva su identidad aunque se copie.</strong> Por eso el programa sabe cuánto de esa línea ya se cobró en meses o actas anteriores —incluso si por el camino hubo una modificatoria que cambió la memoria— y no se cobra dos veces.</span></div>
+          <div><span class="dot"></span><span class="tx"><strong>Avance parcial por línea:</strong> «el muro del eje 2 va por el 60 %» se registra multiplicando esa línea, sin tocar sus dimensiones originales. La memoria del acta sigue enseñando el muro completo y lo que se cobra de él.</span></div>
+          <div><span class="dot"></span><span class="tx"><strong>Seguimiento diario:</strong> cada línea puede llevar el día en que se ejecutó, o un rango para cargar la semana de una vez. El corte sigue siendo el mes; el día solo dice cuándo se hizo. Lo que no se fecha cuenta al cierre del mes.</span></div>
+          <div><span class="dot"></span><span class="tx"><strong>Seguimiento mensual</strong> y <strong>Parciales</strong> usan exactamente la misma tabla.</span></div>
+        </div>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-MED-12" src="assets/img/capturas/03-medicion/IMG-MED-12.png" shape="rect" fit="contain" placeholder="IMG-MED-12 · El calendario del Seguimiento diario desplegado, con el avance cargado en varios días del mes"></image-slot></div>
+          <figcaption><span class="pin">IMG-MED-12</span><span>Y la misma medición sirve el resto de la obra.</span></figcaption>
+        </figure>
+      </div>
+
+      <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 32px 0 0 0;">Los cortes, las actas y las modificatorias se cuentan en el <a href="05-ejecucion.dc.html" class="mas">apartado 05 · Ejecución →</a></p>
+    </div>
+  </section>
+
+  <!-- ===================== POR QUÉ IMPORTA ===================== -->
+  <section style="background: var(--ados-light); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="padding: 96px 32px;">
+      <div class="eyebrow" style="margin-bottom: 18px;">Por qué importa</div>
+      <h2 class="h2" style="max-width: 22ch; margin-bottom: 56px;">Ocho cosas que cambian cuando la cantidad se mide y queda escrita.</h2>
+      <div class="cuatro" style="background: var(--border-light);">
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Deja de ser un número sin dueño</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Es el número con las cuentas que lo sostienen, y se imprime.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Una herramienta, cinco usos</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Presupuesto, insumos, modificatorias, actas y meses se miden igual: se aprende una vez.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">El plano y el modelo se usan, no se miran</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Se mide encima y la medida entra sola, con el rastro de qué elemento la produjo.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Auditable elemento por elemento</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Con Revit se puede señalar en la pantalla cuál es cuál.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Cuando el modelo cambia, no se rehace el trabajo</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Ésa es la diferencia entre usar BIM en la presentación y usarlo en la obra.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">La memoria sale sola</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">En el formato de cada entidad, para el presupuesto, para la modificatoria y para cada acta.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">No se cobra dos veces ni se deja de cobrar</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">El programa sabe qué parte de cada línea ya se pagó.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Se puede medir a mano</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Nada de esto obliga a tener Revit ni planos digitales: el que mide con cinta y libreta usa la misma tabla.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PREGUNTAS ===================== -->
+  <section class="wrap" style="padding-top: 96px; padding-bottom: 96px;">
+    <div class="eyebrow" style="margin-bottom: 18px;">Preguntas</div>
+    <h2 class="h2" style="max-width: 22ch; margin-bottom: 56px;">Lo que preguntan sobre la medición.</h2>
+    <div class="duo" style="gap: 44px 64px;">
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Tengo que usar BIM o CAD para medir?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No. La tabla de mediciones funciona sola, con cinta y libreta. El plano y el modelo son dos formas más de llenar esa misma tabla, y se pueden mezclar en la misma partida.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Qué necesito para lo de Revit?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Revit instalado y el complemento del programa. El complemento exporta el modelo y hace de puente; el presupuesto no abre el <code>.rvt</code> por su cuenta.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Y si el modelo cambia?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Se manda el modelo actualizado desde Revit y <strong style="color: var(--ados-ink); font-weight: 600;">sustituye</strong> al anterior conservando todo lo asignado: enlaces, separaciones por parámetro, fórmulas y ajustes de las líneas. Se vuelve a medir sin rehacer el trabajo.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Sirve con modelos de otros programas o con IFC?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Hoy no. El camino BIM es Revit, con el complemento propio.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿El programa cuenta solo las puertas de un plano DWG?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No automáticamente. El conteo lo hace usted marcando, pero enganchado a la geometría del dibujo, y el resultado cae solo en la columna Nº.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿La memoria de cálculo la puedo entregar?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Sí, en PDF, una hoja por partida, con el membrete de su empresa y con la plantilla que pida la entidad. Y sirve igual para el presupuesto, la modificatoria y cada acta.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Cómo sé que no estoy cobrando dos veces la misma cantidad?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Porque cada línea de medición conserva su identidad cuando se lleva de un corte a otro. El programa sabe cuánto de ella ya se cobró antes, aunque en el camino haya habido una modificatoria.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section style="background: var(--ados-navy-900);">
+    <div class="wrap cta-grid" style="padding: 104px 32px; display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,0.8fr); gap: 80px; align-items: center;">
+      <div>
+        <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 46px; line-height: 1.05; letter-spacing: -0.035em; color: var(--ados-white); margin: 0; text-wrap: pretty;">Traiga un plano o un modelo suyo.</h2>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 22px 0 0 0; max-width: 52ch;">Medimos sobre él en vivo, enlazamos los tipos a sus partidas y le sacamos la memoria de cálculo en PDF antes de que termine la reunión.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; align-items: start;">
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="primary" size="lg" href="index.html#contacto" full-width="{{ true }}" hint-size="100%,52px">Solicitar demostración</x-import>
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="secondary" size="lg" href="Herramientas.dc.html#recorrido" full-width="{{ true }}" hint-size="100%,52px">Volver al recorrido</x-import>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ANTERIOR / SIGUIENTE ===================== -->
+  <section style="background: var(--ados-navy-950); border-top: 1px solid var(--border);">
+    <div class="wrap" style="padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <a href="02-analisis.dc.html" style="display: flex; align-items: baseline; gap: 12px; color: var(--ados-white);">
+        <span class="label" style="color: var(--text-faint);">Anterior</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-white);">← 02 · Análisis</span>
+      </a>
+      <a href="Herramientas.dc.html#recorrido" style="color: var(--text-muted); font-size: 14.5px;">Todos los apartados</a>
+      <a href="04-programacion.dc.html" style="display: flex; align-items: baseline; gap: 12px; color: var(--ados-white);">
+        <span class="label" style="color: var(--text-faint);">Siguiente</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-white);">04 · Programación →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer style="background: var(--ados-navy-900); border-top: 1px solid var(--border);">
+    <div class="wrap" style="padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <img src="assets/logo/ados-logo-light.svg" alt="ADOS Ingeniería y Arquitectura" style="height: 26px; display: block;">
+      <div style="font-size: 13.5px; color: var(--text-faint);">ADOS Ingeniería y Arquitectura SAS · Colombia</div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+</body>
+</html>

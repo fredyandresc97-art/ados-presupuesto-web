@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/base.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/components/interactions.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/styles.css">
+  <script src="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/_ds_bundle.js"></script>
+  <script src="./image-slot.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--ados-white); color: var(--ados-ink); font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--ados-ink); text-decoration: none; transition: color 120ms cubic-bezier(0.2,0,0,1); }
+    a:hover { color: #E7A11E; }
+
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+    .eyebrow { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .label { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); }
+    .h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0; text-wrap: pretty; }
+    .h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: var(--ados-ink); margin: 0; }
+    .lead { font-size: 17px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0; }
+    .lead strong, .feat .tx strong { color: var(--ados-ink); font-weight: 600; }
+    .mas { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; color: var(--ados-amber-600); }
+
+    /* Barra de apartados */
+    .apbar { display: flex; align-items: stretch; gap: 0; overflow-x: auto; scrollbar-width: none; }
+    .apbar::-webkit-scrollbar { display: none; }
+    .apbar > * { display: flex; align-items: center; gap: 8px; padding: 0 18px; height: 46px; white-space: nowrap; font-size: 13.5px; font-weight: 500; color: var(--ados-ink-soft); border-bottom: 2px solid transparent; }
+    .apbar > a:hover { color: var(--ados-ink); border-bottom-color: var(--border-light-strong); }
+    .apbar > .on { color: var(--ados-ink); font-weight: 600; border-bottom-color: var(--accent); }
+    .apbar .n { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.06em; color: var(--accent); }
+    .apbar > a .n { color: var(--ados-ink-soft); }
+    .apbar > a:hover .n { color: var(--accent); }
+
+    /* Bloques */
+    .bloque { padding: 88px 0; border-top: 1px solid var(--border-light); }
+    .bnum { display: flex; align-items: baseline; gap: 16px; margin-bottom: 22px; }
+    .bnum .num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 44px; line-height: 1; letter-spacing: -0.04em; color: var(--accent); }
+    .cols { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 72px; align-items: start; }
+    .cols--center { align-items: center; }
+    .cols--head { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr); gap: 64px; align-items: end; margin-bottom: 48px; }
+    /* Apilada: para las secciones cuya otra columna es una captura apaisada. A media
+       columna (≈572px) la ventana de la app queda al 30% y la hoja no se lee; en una
+       sola columna se lleva los 1216px del contenido. No la usa la sección del APU
+       impreso: esa captura es vertical y a media columna se lee de sobra.
+       Va después de .cols para ganarle las columnas y el gap, que empatan en
+       especificidad. */
+    .cols--apilada { grid-template-columns: 1fr; gap: 40px; }
+    /* El :not(:has(figure)) es la parte que importa: sin el, un <figure> envuelto
+       en un <div> heredaba esta medida de lectura y la captura salia encogida
+       respecto a las demas. La medida es para el texto, no para las imagenes. */
+    .cols--apilada > div:not(:has(figure)) { max-width: 78ch; }
+
+    .feat { display: grid; gap: 14px; }
+    .feat > div { display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start; }
+    .feat .dot { width: 8px; height: 8px; background: var(--accent); margin-top: 8px; }
+    .feat .tx { font-size: 16px; line-height: 1.55; color: var(--ados-ink); }
+
+    /* Huecos de imagen */
+    figure.shot { margin: 0; border: 1px solid var(--border-light); background: var(--ados-light); }
+    /* Cada hueco lleva la proporción exacta de su captura, para que la imagen lo
+       llene sin franjas grises. Nueve son la ventana de la app maximizada
+       (1919×1032); la décima es una página de PDF en vertical (1042×1345) y por eso
+       .tall tiene aquí su propia proporción y no es solo un nombre heredado. */
+    figure.shot .body { position: relative; aspect-ratio: 1919 / 1032; }
+    figure.shot .body.wide { aspect-ratio: 1919 / 1032; }
+    figure.shot .body.tall { aspect-ratio: 1042 / 1345; }
+    figure.shot .body > image-slot { position: absolute; inset: 0; }
+    figure.shot figcaption { display: flex; align-items: baseline; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--border-light); background: var(--ados-white); font-size: 14px; line-height: 1.5; color: var(--ados-ink-soft); }
+    /* El distintivo con el ID (IMG-ANA-01…10) es andamio de producción: dice qué captura
+       va en cada hueco. Ya están las diez puestas, así que va oculto; para volver a
+       verlos, `display: inline-block` en la línea siguiente. El texto del hueco vacío
+       ya se borra solo al soltar la imagen. */
+    figure.shot figcaption .pin { display: none; }
+    figure.shot figcaption .pin { font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); border: 1px solid var(--border-light-strong); padding: 2px 6px; white-space: nowrap; }
+
+    /* Regla / cita */
+    .regla { border-left: 3px solid var(--accent); background: var(--ados-light); padding: 26px 28px; }
+    .cita { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.25; letter-spacing: -0.025em; color: var(--ados-ink); border-left: 3px solid var(--accent); padding-left: 22px; margin: 0; text-wrap: pretty; }
+
+    /* Rejillas */
+    .tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .tri > div { background: var(--ados-white); padding: 26px; }
+    .duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .cuatro { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .cuatro > div { background: var(--ados-white); padding: 26px; }
+
+    /* Tablas */
+    .tabla { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+    .tabla th { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); text-align: left; padding: 12px 18px; border-bottom: 1px solid var(--border-light-strong); }
+    .tabla td { padding: 15px 18px; border-bottom: 1px solid var(--border-light); color: var(--ados-ink); line-height: 1.5; vertical-align: top; }
+    .tabla tr:last-child td { border-bottom: none; }
+    .tabla .vs { color: var(--ados-ink-soft); }
+    .tabla strong { font-weight: 600; }
+    .tabla .tipo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
+    .cuadro { border: 1px solid var(--border-light); }
+    .cuadro > .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 18px; border-bottom: 1px solid var(--border-light); background: var(--ados-light); }
+
+    /* Fórmula y cadenas */
+    .eq { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.01em; color: var(--ados-ink); }
+    .eq em { font-style: normal; color: var(--ados-amber-600); }
+    .flow { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .flow .st { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; color: var(--ados-ink); border: 1px solid var(--border-light); background: var(--ados-white); padding: 10px 16px; }
+    .flow .st.fin { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+    .flow .ar { color: var(--ados-ink-soft); font-size: 15px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 13px; color: var(--ados-ink); border: 1px solid var(--border-light-strong); padding: 6px 12px; }
+    .chip b { color: var(--ados-amber-600); font-weight: 700; }
+
+    code { font-family: 'Space Grotesk', ui-monospace, monospace; font-size: 14px; background: var(--ados-light); border: 1px solid var(--border-light); padding: 1px 6px; }
+
+    /* el encabezado es sticky (68 + 46): los anclajes no deben quedar debajo */
+    section[id] { scroll-margin-top: 130px; }
+
+    @media (max-width: 1080px) {
+      .cuatro { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .cols, .cols--head { grid-template-columns: 1fr !important; gap: 40px; }
+      .tri, .duo, .cuatro { grid-template-columns: 1fr; }
+      .bloque { padding: 64px 0; }
+      .h2 { font-size: 30px; }
+      .hero-h1 { font-size: 38px !important; }
+      .cita { font-size: 21px; }
+      .eq { font-size: 17px; }
+      .cta-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .tabla th, .tabla td { padding: 12px 14px; font-size: 14.5px; }
+    }
+  </style>
+</helmet>
+
+<div style="background: var(--ados-white);">
+
+  <!-- ===================== HEADER + BARRA DE APARTADOS ===================== -->
+  <header style="position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,0.90); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <a href="index.html" style="display: flex; align-items: center; gap: 12px;">
+        <img src="assets/logo/ados-presupuesto-icon.svg" alt="ADOS Presupuesto" style="width: 30px; height: 30px; display: block;">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-ink);">ADOS <span style="font-weight: 500; color: var(--ados-ink-soft);">Presupuesto</span></span>
+      </a>
+      <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="light" size="sm" href="Herramientas.dc.html#recorrido" hint-size="196px,34px">Volver al recorrido</x-import>
+    </div>
+    <div style="border-top: 1px solid var(--border-light);">
+      <div class="wrap">
+        <nav class="apbar">
+          <a href="01-presupuesto.dc.html"><span class="n">01</span>Presupuesto</a>
+          <span class="on"><span class="n">02</span>Análisis</span>
+          <a href="03-medicion.dc.html"><span class="n">03</span>Medición</a>
+          <a href="04-programacion.dc.html"><span class="n">04</span>Programación</a>
+          <a href="05-ejecucion.dc.html"><span class="n">05</span>Ejecución</a>
+          <a href="06-entrega.dc.html"><span class="n">06</span>Entrega</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="wrap" style="padding-top: 96px; padding-bottom: 88px;">
+    <div style="display: flex; align-items: baseline; gap: 18px; margin-bottom: 24px;">
+      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 72px; line-height: 1; letter-spacing: -0.04em; color: var(--accent);">02</span>
+      <span class="eyebrow">Análisis · APU, AIU y catálogo</span>
+    </div>
+    <h1 class="hero-h1" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 60px; line-height: 1.04; letter-spacing: -0.035em; color: var(--ados-ink); margin: 0; max-width: 19ch; text-wrap: pretty;">El análisis vive dentro de la partida.</h1>
+    <div class="cols--head" style="margin-top: 36px; align-items: end;">
+      <p style="font-size: 19px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0; max-width: 58ch; text-wrap: pretty;">
+        El APU deja de ser una hoja aparte que hay que mantener: es parte de la partida, y de él
+        salen el precio, el listado de insumos y hasta cuánto se demora la actividad.
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light);">
+        <div style="background: var(--ados-white); padding: 16px 14px;"><div class="label" style="margin-bottom: 6px;">Insumos</div><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; color: var(--ados-ink);">Cinco tipos</div></div>
+        <div style="background: var(--ados-white); padding: 16px 14px;"><div class="label" style="margin-bottom: 6px;">Mano de obra</div><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; color: var(--ados-ink);">Jornal cargado</div></div>
+        <div style="background: var(--ados-white); padding: 16px 14px;"><div class="label" style="margin-bottom: 6px;">AIU</div><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; color: var(--ados-ink);">Simple o detallado</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EL PROBLEMA ===================== -->
+  <section style="background: var(--ados-navy-900); color: var(--ados-white);">
+    <div class="wrap" style="padding: 80px 32px;">
+      <div class="cols">
+        <div>
+          <div class="eyebrow" style="margin-bottom: 18px;">El problema que resuelve</div>
+          <h2 class="h2" style="color: var(--ados-white); font-size: 34px; max-width: 20ch;">Análisis que ya no describen cómo trabaja la empresa.</h2>
+        </div>
+        <div style="display: grid; gap: 18px;">
+          <p style="font-size: 16.5px; line-height: 1.65; color: var(--text-muted); margin: 0;">El APU es donde de verdad se decide si una obra se gana o se pierde, y es lo primero que se hace mal. En Excel vive en otra pestaña —o en otro archivo—, con una tablita por partida copiada de la anterior. Cuando sube el precio del acero hay que abrir las cuarenta tablitas. Cuando el maestro dice que ese muro no rinde 12 m² por día sino 8, nadie vuelve a tocarlo porque tocaría rehacer la cuenta. Y la herramienta menor, que es un 5 % de la mano de obra, alguien la dejó como un valor fijo hace tres obras y ahí sigue.</p>
+          <p style="font-size: 16.5px; line-height: 1.65; color: var(--ados-white); margin: 0;">Al final se termina presupuestando con análisis que ya no describen cómo trabaja la empresa, sino cómo trabajaba cuando se armó la primera plantilla.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 1 ===================== -->
+  <section id="composicion" class="wrap">
+    <div class="bloque" style="border-top: none;">
+      <div class="bnum"><span class="num">1</span><span class="label">Qué compone un análisis unitario</span></div>
+      <h2 class="h2" style="max-width: 24ch; margin-bottom: 40px;">Cinco tipos de insumo, cada uno con su sitio en el análisis.</h2>
+
+      <figure class="shot" style="margin-bottom: 48px;">
+        <div class="body wide">
+          <image-slot id="IMG-ANA-01" src="assets/img/capturas/02-analisis/IMG-ANA-01.png" shape="rect" fit="contain" placeholder="IMG-ANA-01 · APU de una partida completo y abierto, con renglones de los cinco tipos y el precio unitario cuadrando abajo"></image-slot>
+        </div>
+        <figcaption><span class="pin">IMG-ANA-01</span><span>El análisis vive dentro de la partida.</span></figcaption>
+      </figure>
+
+      <div class="cuadro" style="margin-bottom: 32px;">
+        <div class="bar"><span class="label">Los cinco tipos</span><span class="label">Renglones del APU</span></div>
+        <table class="tabla">
+          <thead><tr><th style="width: 20%;">Tipo</th><th style="width: 42%;">Qué entra</th><th>Cómo se cuenta</th></tr></thead>
+          <tbody>
+            <tr><td class="tipo">Material</td><td class="vs">Cemento, acero, ladrillo, agregados.</td><td class="vs">Cantidad por unidad de partida, con su <strong style="color: var(--ados-ink);">% de desperdicio</strong>.</td></tr>
+            <tr><td class="tipo">Equipo</td><td class="vs">Mezcladora, retroexcavadora, formaleta, andamio.</td><td class="vs">Normalmente por hora o por día de uso.</td></tr>
+            <tr><td class="tipo">Mano de obra</td><td class="vs">Oficial, ayudante, cuadrilla.</td><td class="vs">Por hora o por jornal, con <strong style="color: var(--ados-ink);">prestaciones calculadas o precio directo</strong>.</td></tr>
+            <tr><td class="tipo">Transporte</td><td class="vs">Acarreos, volqueta, fletes.</td><td class="vs">Por viaje, por m³-km o como se contrate.</td></tr>
+            <tr><td class="tipo">Otros</td><td class="vs">Herramienta menor, ensayos, provisionales.</td><td class="vs">Valor propio <strong style="color: var(--ados-ink);">o un porcentaje</strong> de otra parte del análisis.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="regla">
+        <div class="label" style="color: var(--ados-ink); margin-bottom: 14px;">Cada renglón lleva cantidad —el rendimiento—, precio y desperdicio</div>
+        <div class="eq" style="margin-bottom: 14px;">importe del renglón <em>=</em> cantidad <em>×</em> precio <em>×</em> (1 + desperdicio)</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Y el <strong style="color: var(--ados-ink); font-weight: 600;">precio unitario de la partida es la suma de sus renglones</strong>: no es un número tecleado que alguien tenga que acordarse de actualizar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 2 ===================== -->
+  <section id="mano-de-obra" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">2</span><span class="label">Mano de obra</span></div>
+          <h2 class="h2" style="max-width: 22ch;">El jornal que se paga no es el que cuesta.</h2>
+        </div>
+        <p class="lead">Es el insumo que más se equivoca. Aquí hay <strong>dos maneras de costearlo</strong>, y se elige por insumo: ninguna de las dos es «la buena», conviven en el mismo presupuesto.</p>
+      </div>
+
+      <div class="cols cols--center cols--apilada">
+        <div style="display: grid; gap: 20px;">
+          <div style="border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 26px 28px;">
+            <div class="label" style="margin-bottom: 10px;">Clic derecho → Jornal y prestaciones</div>
+            <div class="h3" style="font-size: 22px; margin-bottom: 12px;">Con desglose prestacional</div>
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0 0 14px 0;">Se digita el <strong style="color: var(--ados-ink); font-weight: 600;">jornal base</strong> y el <strong style="color: var(--ados-ink); font-weight: 600;">factor prestacional</strong>, y el programa calcula el jornal cargado. El porcentaje es el <strong style="color: var(--ados-ink); font-weight: 600;">factor total</strong> —210,91 % significa que el jornal cargado es 2,1091 veces el básico—, tal como se maneja en los análisis de obra.</p>
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">El precio del insumo queda <strong style="color: var(--ados-ink); font-weight: 600;">derivado</strong>: cambia el jornal base y se recalculan todas las partidas donde entra esa cuadrilla.</p>
+          </div>
+          <div style="border: 1px solid var(--border-light); border-left: 3px solid var(--ados-navy-700); padding: 26px 28px;">
+            <div class="label" style="margin-bottom: 10px;">Sin desglose</div>
+            <div class="h3" style="font-size: 22px; margin-bottom: 12px;">Con el precio directo</div>
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Si ya se sabe cuánto cuesta la hora del oficial cargada —o si el contrato es a destajo—, se teclea y punto. Se quita el desglose y el precio vuelve a editarse a mano.</p>
+          </div>
+        </div>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-ANA-02" src="assets/img/capturas/02-analisis/IMG-ANA-02.png" shape="rect" fit="contain" placeholder="IMG-ANA-02 · Panel Jornal y prestaciones sobre un insumo de mano de obra: jornal base, factor y Jornal total (precio)"></image-slot></div>
+          <figcaption><span class="pin">IMG-ANA-02</span><span>La mano de obra, costeada de verdad.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 3 ===================== -->
+  <section id="porcentuales" class="wrap">
+    <div class="bloque">
+      <div class="cols cols--center cols--apilada">
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-ANA-03" src="assets/img/capturas/02-analisis/IMG-ANA-03.png" shape="rect" fit="contain" placeholder="IMG-ANA-03 · Selector de unidad de un insumo Otros desplegado: % Mano de obra, % Materiales, % Equipos, % Transporte, % Costo directo y los ítems del propio APU"></image-slot></div>
+          <figcaption><span class="pin">IMG-ANA-03</span><span>La herramienta menor es un 5 % de la mano de obra, y se recalcula sola.</span></figcaption>
+        </figure>
+        <div>
+          <div class="bnum"><span class="num">3</span><span class="label">Renglones porcentuales</span></div>
+          <h2 class="h2" style="margin-bottom: 18px; max-width: 20ch;">La herramienta menor no cuesta un valor fijo.</h2>
+          <p class="lead" style="margin-bottom: 28px;">Cuesta un 5 % de la mano de obra. Los ensayos son un porcentaje del costo directo. Eso, en Excel, es una fórmula que apunta a una celda y que se rompe al insertar una fila.</p>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx">Un insumo de tipo <strong>Otros</strong> puede tener como unidad un <strong>porcentaje</strong>, y se elige sobre qué se calcula: <strong>% Mano de obra, % Materiales, % Equipos, % Transporte o % Costo directo</strong>.</span></div>
+            <div><span class="dot"></span><span class="tx">También puede ser el porcentaje de <strong>un renglón concreto</strong> del mismo análisis, escogido de la lista por su código. Por ejemplo, un 3 % solo del acero.</span></div>
+            <div><span class="dot"></span><span class="tx">Se elige <strong>de una lista desplegable</strong>: no hay que memorizar códigos ni escribir fórmulas.</span></div>
+            <div><span class="dot"></span><span class="tx">El porcentaje <strong>se recalcula solo</strong> cuando cambia lo que tiene debajo. Si sube la cuadrilla, sube la herramienta menor.</span></div>
+            <div><span class="dot"></span><span class="tx">Los renglones porcentuales <strong>no entran en la base de otros porcentuales</strong>, así que no hay forma de armar un círculo que se muerda la cola.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 4 ===================== -->
+  <section id="alta-insumos" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">4</span><span class="label">Alta de insumos</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Se escribe y ya existe.</h2>
+        </div>
+        <p class="lead">Nada de ir antes a un maestro de insumos, darlo de alta, volver a la partida y buscarlo. Se inserta la fila, se escribe la descripción, la unidad y el precio, y ya está.</p>
+      </div>
+
+      <div class="cols cols--center cols--apilada">
+        <div>
+          <div class="feat" style="margin-bottom: 32px;">
+            <div><span class="dot"></span><span class="tx"><strong>El insumo se crea escribiéndolo en el APU.</strong> Desde ese momento es de toda la obra: aparece en la vista Insumos, se puede usar en cualquier otra partida y su precio, al cambiarlo, se propaga a todas.</span></div>
+            <div><span class="dot"></span><span class="tx">Entra solo a la lista de insumos con <strong>código automático según su tipo</strong>. El prefijo lo pone el programa; si después se cambia el tipo del insumo, le <strong>reasigna el código</strong> para que siga cuadrando.</span></div>
+            <div><span class="dot"></span><span class="tx">Y al revés: si el insumo ya existe —en la obra o en el <strong>Catálogo</strong>— se trae con <strong>Insumo del catálogo</strong> en vez de volver a escribirlo.</span></div>
+          </div>
+          <div class="chips">
+            <span class="chip"><b>MA</b>001 · material</span>
+            <span class="chip"><b>MO</b>001 · mano de obra</span>
+            <span class="chip"><b>EQ</b>001 · equipo</span>
+            <span class="chip"><b>TR</b>001 · transporte</span>
+            <span class="chip"><b>OT</b>001 · otros</span>
+          </div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--ados-ink-soft); margin: 20px 0 0 0;">El catálogo como banco de precios de la empresa se cuenta en el <a href="01-presupuesto.dc.html#empezar" class="mas">apartado 01 · Presupuesto →</a></p>
+        </div>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-ANA-04" src="assets/img/capturas/02-analisis/IMG-ANA-04.png" shape="rect" fit="contain" placeholder="IMG-ANA-04 · Renglón nuevo recién escrito en un APU con su código automático (MA007) y, al lado, la vista Insumos donde ya aparece"></image-slot></div>
+          <figcaption><span class="pin">IMG-ANA-04</span><span>Se escribe en el análisis y queda dado de alta.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 5 ===================== -->
+  <section id="cuatro-veces" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">5</span><span class="label">Un APU no es solo un precio</span></div>
+          <h2 class="h2" style="max-width: 22ch;">El mismo análisis, ya escrito, sirve para tres cosas más.</h2>
+        </div>
+        <p class="cita">El APU se escribe una vez y trabaja cuatro veces.</p>
+      </div>
+
+      <!-- Apilada, no lado a lado: IMG-ANA-05 y 06 son la ventana completa y a media
+           columna (592px, 31%) no se leían. A todo el ancho van al 63%. -->
+      <div class="duo" style="grid-template-columns: 1fr; gap: 48px; margin-bottom: 48px;">
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-ANA-05" src="assets/img/capturas/02-analisis/IMG-ANA-05.png" shape="rect" fit="contain" placeholder="IMG-ANA-05 · Ventana Duración en modo «Calculada con el rendimiento del APU», con la tabla de renglones y cuál marca el ritmo"></image-slot></div>
+          <figcaption><span class="pin">IMG-ANA-05</span><span>El mismo análisis dice cuánto tarda la actividad.</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-ANA-06" src="assets/img/capturas/02-analisis/IMG-ANA-06.png" shape="rect" fit="contain" placeholder="IMG-ANA-06 · Vista Insumos con la cantidad total de la obra"></image-slot></div>
+          <figcaption><span class="pin">IMG-ANA-06</span><span>Y cuánto material lleva la obra.</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="cuatro">
+        <div>
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">Una</div>
+          <div class="h3" style="margin-bottom: 10px;">El precio de la partida</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">La suma de sus renglones, que se recalcula sola cada vez que se toca un precio o un rendimiento.</p>
+        </div>
+        <div>
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">Dos</div>
+          <div class="h3" style="margin-bottom: 10px;">El total de insumos de la obra</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0 0 12px 0;">Cantidad de la partida × rendimiento del renglón, sumado en todas las partidas donde entra: cuántos bultos de cemento lleva la obra, cuántas horas de retroexcavadora, cuántos jornales de oficial. Es lo que se le manda al proveedor para que cotice.</p>
+          <a href="01-presupuesto.dc.html#insumos" class="mas">Vista Insumos →</a>
+        </div>
+        <div>
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">Tres</div>
+          <div class="h3" style="margin-bottom: 10px;">La duración de la actividad</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0 0 12px 0;">Si un renglón del APU se mide en tiempo —hora, hora cuadrilla, jornal, día—, ese renglón dice cuánto tarda la partida. Manda <strong style="color: var(--ados-ink); font-weight: 600;">el renglón más lento</strong>: la volqueta y la retro no rinden igual, y la actividad va al paso del recurso crítico. Se puede fijar otro a mano.</p>
+          <a href="04-programacion.dc.html" class="mas">Apartado 04 →</a>
+        </div>
+        <div>
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">Cuatro</div>
+          <div class="h3" style="margin-bottom: 10px;">El plan de compras y el flujo de caja</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0 0 12px 0;">El mismo análisis repartido sobre las fechas del cronograma: qué comprar en cada período y cuánta plata se va cada mes.</p>
+          <a href="04-programacion.dc.html" class="mas">Apartado 04 →</a>
+        </div>
+      </div>
+
+      <div class="regla" style="margin-top: 24px;">
+        <div class="label" style="color: var(--ados-ink); margin-bottom: 10px;">Factor de rendimiento</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Para lo que el análisis no cuenta —traslados, acomodación de equipo— hay un factor sobre la duración: <strong style="color: var(--ados-ink); font-weight: 600;">1,2 = un 20 % más lento</strong>, sin tocar el precio. Y se puede aplicar a todas las partidas de un golpe, no una por una.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 6 ===================== -->
+  <section id="ajustes" class="wrap">
+    <div class="bloque">
+      <div class="cols cols--center cols--apilada">
+        <div>
+          <div class="bnum"><span class="num">6</span><span class="label">Ajustes finos</span></div>
+          <h2 class="h2" style="margin-bottom: 18px; max-width: 20ch;">Lo que la obra sí pide.</h2>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx"><strong>Desperdicio por renglón</strong>, en porcentaje. El acero no se corta perfecto y el análisis lo dice.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Sub-partidas:</strong> una partida puede entrar como insumo de otra. Sirve para los ítems que se arman con ítems ya analizados, como una placa que lleva concreto, acero y formaleta.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Factor de sobrecosto por partida:</strong> un multiplicador del precio unitario para zona distante, altura o dificultad. Infla el precio <strong>sin ensuciar el análisis</strong> — los insumos y los rendimientos quedan como son, que es lo que hay que poder mostrar si lo revisan.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Mediciones dentro del renglón del APU:</strong> cuando la cantidad de un insumo no es un número redondo, se puede medir ahí mismo y dejar las cuentas escritas.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Redondeo estilo Excel:</strong> el precio del insumo se redondea antes de multiplicar, que es como salen los análisis en papel. Sirve para replicar clavado un Excel de origen y que no aparezcan diferencias de un peso.</span></div>
+          </div>
+        </div>
+        <div>
+          <figure class="shot" style="margin-bottom: 24px;">
+            <div class="body"><image-slot id="IMG-ANA-07" src="assets/img/capturas/02-analisis/IMG-ANA-07.png" shape="rect" fit="contain" placeholder="IMG-ANA-07 · Clic derecho sobre una partida mostrando Factor de sobrecosto, o la ventana del factor abierta"></image-slot></div>
+            <figcaption><span class="pin">IMG-ANA-07</span><span>Sobrecostos de zona sin ensuciar el análisis.</span></figcaption>
+          </figure>
+          <div style="border: 1px solid var(--border-light-strong); padding: 24px 26px;">
+            <div class="label" style="margin-bottom: 14px;">Dos factores, dos cosas distintas</div>
+            <div style="display: grid; gap: 14px;">
+              <div style="display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: baseline;">
+                <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ados-amber-600); white-space: nowrap;">Plata</span>
+                <span style="font-size: 15.5px; line-height: 1.55; color: var(--ados-ink);"><strong style="font-weight: 600;">Factor de sobrecosto</strong> — multiplica el precio unitario de la partida.</span>
+              </div>
+              <div style="display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: baseline;">
+                <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ados-ink-soft); white-space: nowrap;">Tiempo</span>
+                <span style="font-size: 15.5px; line-height: 1.55; color: var(--ados-ink);"><strong style="font-weight: 600;">Factor de rendimiento</strong> — alarga la duración de la actividad.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 7 ===================== -->
+  <section id="plantillas" class="wrap">
+    <div class="bloque">
+      <div class="cols cols--center cols--apilada">
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-ANA-08" src="assets/img/capturas/02-analisis/IMG-ANA-08.png" shape="rect" fit="contain" placeholder="IMG-ANA-08 · Catálogo con el buscador escrito, enseñando plantillas de APU encontradas por nombre"></image-slot></div>
+          <figcaption><span class="pin">IMG-ANA-08</span><span>Sus análisis, guardados y buscables.</span></figcaption>
+        </figure>
+        <div>
+          <div class="bnum"><span class="num">7</span><span class="label">La biblioteca</span></div>
+          <h2 class="h2" style="margin-bottom: 18px; max-width: 20ch;">Los análisis quedan, no se pierden.</h2>
+          <p class="lead" style="margin-bottom: 28px;">La biblioteca es suya y se hace sola, guardando los análisis que ya arma: su forma de hacer las cosas, con sus rendimientos reales, en un sitio y no repartida en carpetas.</p>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx">Con <strong>Guardar APU</strong>, el análisis de una partida se convierte en una <strong>plantilla con nombre</strong> dentro del catálogo, que vive fuera del archivo de obra y por eso sirve para todas.</span></div>
+            <div><span class="dot"></span><span class="tx">Con <strong>Aplicar plantilla</strong>, ese análisis completo —insumos, rendimientos, desperdicios— se le monta a otra partida, en esta obra o en cualquier otra.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Las plantillas se buscan por nombre.</strong></span></div>
+            <div><span class="dot"></span><span class="tx">Se puede tener <strong>más de un catálogo</strong> —por región, por cliente, por año— y llenarlo pegando desde Excel.</span></div>
+          </div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--ados-ink-soft); margin: 24px 0 0 0;">Y siguen estando las <strong style="color: var(--ados-ink); font-weight: 600;">Referencias</strong>: arrastrar partidas con su APU completo desde otra obra. <a href="01-presupuesto.dc.html#empezar" class="mas">Apartado 01 →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 8 ===================== -->
+  <section id="aiu" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">8</span><span class="label">AIU</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Administración, imprevistos y utilidad — sustentados.</h2>
+        </div>
+        <p class="lead">Sobre el costo directo de la obra. Dos modos, y el detallado es el que piden en obra pública.</p>
+      </div>
+
+      <div class="cols cols--center cols--apilada" style="margin-bottom: 40px;">
+        <div style="display: grid; gap: 20px;">
+          <div style="border: 1px solid var(--border-light); border-left: 3px solid var(--ados-navy-700); padding: 26px 28px;">
+            <div class="h3" style="font-size: 22px; margin-bottom: 10px;">Modo simple</div>
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Tres porcentajes y listo.</p>
+          </div>
+          <div style="border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 26px 28px;">
+            <div class="h3" style="font-size: 22px; margin-bottom: 10px;">Modo detallado</div>
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0 0 14px 0;">Cada categoría se abre en <strong style="color: var(--ados-ink); font-weight: 600;">componentes</strong> con su descripción —director de obra, campamento, pólizas, ensayos— y cada componente puede ser <strong style="color: var(--ados-ink); font-weight: 600;">un % del costo directo o un valor fijo</strong>.</p>
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">El AIU deja de ser un número negociado a ojo y pasa a estar sustentado renglón por renglón.</p>
+          </div>
+        </div>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-ANA-09" src="assets/img/capturas/02-analisis/IMG-ANA-09.png" shape="rect" fit="contain" placeholder="IMG-ANA-09 · Panel AIU en modo detallado, con componentes de Administración y su aporte, y el total del presupuesto abajo"></image-slot></div>
+          <figcaption><span class="pin">IMG-ANA-09</span><span>AIU sustentado, no negociado a ojo.</span></figcaption>
+        </figure>
+      </div>
+
+      <div style="border: 1px solid var(--border-light); background: var(--ados-light); padding: 28px 32px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
+        <span class="label" style="white-space: nowrap;">El total de la obra</span>
+        <span class="eq">costo directo <em>+</em> A <em>+</em> I <em>+</em> U</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 9 ===================== -->
+  <section id="impreso" class="wrap">
+    <div class="bloque">
+      <div class="cols cols--center" style="gap: 72px;">
+        <div>
+          <div class="bnum"><span class="num">9</span><span class="label">El análisis impreso</span></div>
+          <h2 class="h2" style="margin-bottom: 18px; max-width: 20ch;">El formato de análisis unitario de toda la vida.</h2>
+          <p class="lead" style="margin-bottom: 28px;">Cuando hay que entregar los análisis —y casi siempre hay que entregarlos— salen en Excel o en PDF, <strong>una partida por página</strong>.</p>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx">Cuatro secciones numeradas, cada una con su subtotal. Los renglones de <strong>Otros</strong> se imprimen dentro de Equipo, como se acostumbra.</span></div>
+            <div><span class="dot"></span><span class="tx">Se puede exportar <strong>solo la partida seleccionada</strong>, un capítulo, lo filtrado o la obra entera.</span></div>
+            <div><span class="dot"></span><span class="tx">La mano de obra imprime su <strong>jornal base</strong> cuando lo tiene, para que se vea de dónde sale el precio de la cuadrilla.</span></div>
+          </div>
+          <div class="chips" style="margin-top: 28px;">
+            <span class="chip"><b>I.</b> Equipo</span>
+            <span class="chip"><b>II.</b> Materiales</span>
+            <span class="chip"><b>III.</b> Transporte</span>
+            <span class="chip"><b>IV.</b> Mano de obra</span>
+          </div>
+          <div class="label" style="margin: 28px 0 14px 0;">Bloque de totales al pie</div>
+          <div class="flow">
+            <span class="st">costo directo</span><span class="ar">→</span>
+            <span class="st">factor</span><span class="ar">→</span>
+            <span class="st">costo ajustado</span><span class="ar">→</span>
+            <span class="st">AIU</span><span class="ar">→</span>
+            <span class="st fin">precio total</span>
+          </div>
+        </div>
+        <figure class="shot">
+          <div class="body tall"><image-slot id="IMG-ANA-10" src="assets/img/capturas/02-analisis/IMG-ANA-10.png" shape="rect" fit="contain" placeholder="IMG-ANA-10 · Página del APU exportado en formato análisis unitario (PDF), con sus secciones numeradas y el bloque de totales"></image-slot></div>
+          <figcaption><span class="pin">IMG-ANA-10</span><span>Y se entrega en el formato de siempre.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== POR QUÉ IMPORTA ===================== -->
+  <section style="background: var(--ados-light); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); margin-top: 88px;">
+    <div class="wrap" style="padding: 88px 32px;">
+      <div class="eyebrow" style="margin-bottom: 18px;">Por qué importa</div>
+      <h2 class="h2" style="max-width: 22ch; margin-bottom: 48px;">Ocho cosas que cambian cuando el análisis es parte de la partida.</h2>
+      <div class="cuatro" style="background: var(--border-light);">
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Vive dentro de la partida</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">No en otra pestaña que hay que acordarse de actualizar.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Un precio se cambia en un sitio</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Y se propaga a todas las partidas, capítulos y al total.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">La herramienta menor deja de estar desactualizada</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Ella y los ensayos son un porcentaje que se recalcula solo, no un valor fijo de hace tres obras.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">La mano de obra queda bien costeada</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Con las prestaciones calculadas, en vez de un «súbale un 60 %» de memoria.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">No hay que crear los insumos antes</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Se escriben en el análisis y quedan dados de alta para toda la obra.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Se escribe una vez y trabaja cuatro veces</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">El mismo APU da el precio, el listado de compras y la duración de la actividad.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">La empresa acumula sus análisis</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">En vez de recopiarlos: de la segunda obra en adelante, presupuestar es escoger.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Se entrega lo que piden</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">En el formato de análisis unitario de siempre, en Excel o PDF.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PREGUNTAS ===================== -->
+  <section class="wrap" style="padding-top: 88px; padding-bottom: 88px;">
+    <div class="eyebrow" style="margin-bottom: 18px;">Preguntas</div>
+    <h2 class="h2" style="max-width: 22ch; margin-bottom: 48px;">Lo que preguntan sobre los análisis.</h2>
+    <div class="duo" style="gap: 40px 64px;">
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Tengo que crear los insumos antes de armar el APU?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No. Se escriben dentro del análisis y quedan dados de alta en la obra, con su código, listos para usarse en cualquier otra partida.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Cómo manejo la herramienta menor?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Como un renglón de tipo Otros con unidad de porcentaje, calculado sobre la mano de obra —o sobre lo que usted elija—. Se recalcula solo cuando cambia la cuadrilla.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">Yo ya sé cuánto me cuesta la hora del oficial, ¿tengo que meter prestaciones?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No. Puede teclear el precio directo. El desglose de jornal base y factor prestacional está para quien lo quiera, insumo por insumo.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿El programa me dice cuánto rinde una cuadrilla?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No, y ningún programa serio se lo debería decir: el rendimiento depende de su obra y de su gente. Lo que hace es guardar <strong style="color: var(--ados-ink); font-weight: 600;">el suyo</strong> y usarlo para el precio y para la duración.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Puedo usar los análisis que ya tengo?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Sí, por dos caminos: pegándolos desde Excel, o arrastrando las partidas con su APU completo desde otro presupuesto con Referencias.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Los análisis se entregan como los pide la interventoría?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Salen en el formato de análisis unitario clásico —equipo, materiales, transporte, mano de obra, con costo directo, factor y AIU—, una partida por página, en Excel o en PDF.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section style="background: var(--ados-navy-900);">
+    <div class="wrap cta-grid" style="padding: 96px 32px; display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,0.8fr); gap: 80px; align-items: center;">
+      <div>
+        <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 44px; line-height: 1.05; letter-spacing: -0.035em; color: var(--ados-white); margin: 0; text-wrap: pretty;">Traiga un análisis suyo y lo montamos.</h2>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 22px 0 0 0; max-width: 50ch;">Con su cuadrilla, su factor prestacional y sus rendimientos — y le enseñamos qué pasa con el precio unitario cuando sube el jornal.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; align-items: start;">
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="primary" size="lg" href="index.html#contacto" full-width="{{ true }}" hint-size="100%,52px">Solicitar demostración</x-import>
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="secondary" size="lg" href="Herramientas.dc.html#recorrido" full-width="{{ true }}" hint-size="100%,52px">Volver al recorrido</x-import>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ANTERIOR / SIGUIENTE ===================== -->
+  <section style="background: var(--ados-navy-950); border-top: 1px solid var(--border);">
+    <div class="wrap" style="padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <a href="01-presupuesto.dc.html" style="display: flex; align-items: baseline; gap: 12px; color: var(--ados-white);">
+        <span class="label" style="color: var(--text-faint);">Anterior</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-white);">← 01 · Presupuesto</span>
+      </a>
+      <a href="Herramientas.dc.html#recorrido" style="color: var(--text-muted); font-size: 14.5px;">Todos los apartados</a>
+      <a href="03-medicion.dc.html" style="display: flex; align-items: baseline; gap: 12px; color: var(--ados-white);">
+        <span class="label" style="color: var(--text-faint);">Siguiente</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-white);">03 · Medición →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer style="background: var(--ados-navy-900); border-top: 1px solid var(--border);">
+    <div class="wrap" style="padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <img src="assets/logo/ados-logo-light.svg" alt="ADOS Ingeniería y Arquitectura" style="height: 26px; display: block;">
+      <div style="font-size: 13.5px; color: var(--text-faint);">ADOS Ingeniería y Arquitectura SAS · Colombia</div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+</body>
+</html>

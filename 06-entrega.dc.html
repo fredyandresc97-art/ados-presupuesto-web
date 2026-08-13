@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/base.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/components/interactions.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/styles.css">
+  <script src="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/_ds_bundle.js"></script>
+  <script src="./image-slot.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--ados-white); color: var(--ados-ink); font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--ados-ink); text-decoration: none; transition: color 120ms cubic-bezier(0.2,0,0,1); }
+    a:hover { color: #E7A11E; }
+
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+    .eyebrow { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .label { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); }
+    .h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0; text-wrap: pretty; }
+    .h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: var(--ados-ink); margin: 0; }
+    .lead { font-size: 17px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0; }
+    .lead strong, .feat .tx strong { color: var(--ados-ink); font-weight: 600; }
+    .mas { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; color: var(--ados-amber-600); }
+
+    /* Barra de apartados */
+    .apbar { display: flex; align-items: stretch; overflow-x: auto; scrollbar-width: none; }
+    .apbar::-webkit-scrollbar { display: none; }
+    .apbar > * { display: flex; align-items: center; gap: 8px; padding: 0 18px; height: 46px; white-space: nowrap; font-size: 13.5px; font-weight: 500; color: var(--ados-ink-soft); border-bottom: 2px solid transparent; }
+    .apbar > a:hover { color: var(--ados-ink); border-bottom-color: var(--border-light-strong); }
+    .apbar > .on { color: var(--ados-ink); font-weight: 600; border-bottom-color: var(--accent); }
+    .apbar .n { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.06em; color: var(--accent); }
+    .apbar > a .n { color: var(--ados-ink-soft); }
+    .apbar > a:hover .n { color: var(--accent); }
+
+    /* Bloques */
+    .bloque { padding: 96px 0; border-top: 1px solid var(--border-light); }
+    .bloque--first { border-top: none; }
+    .bnum { display: flex; align-items: baseline; gap: 16px; margin-bottom: 22px; }
+    .bnum .num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 46px; line-height: 1; letter-spacing: -0.04em; color: var(--accent); }
+    .cols { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 76px; align-items: start; }
+    .cols--center { align-items: center; }
+    .cols--head { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr); gap: 64px; align-items: end; margin-bottom: 52px; }
+
+    .feat { display: grid; gap: 15px; }
+    .feat > div { display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start; }
+    .feat .dot { width: 8px; height: 8px; background: var(--accent); margin-top: 8px; }
+    .feat .tx { font-size: 16px; line-height: 1.58; color: var(--ados-ink); }
+    .feat--dark .tx { color: var(--ados-white); }
+    .feat--dark .tx strong { color: var(--ados-white); font-weight: 600; }
+    .feat--sm .tx { font-size: 15.5px; line-height: 1.55; }
+
+    /* Huecos de imagen */
+    figure.shot { margin: 0; border: 1px solid var(--border-light); background: var(--ados-light); }
+    figure.shot .body { position: relative; aspect-ratio: 1919 / 1032; }
+    figure.shot .body.wide { aspect-ratio: 1919 / 1032; }
+    figure.shot .body.tall { aspect-ratio: 1013 / 1316; }
+    figure.shot .body > image-slot { position: absolute; inset: 0; }
+    figure.shot figcaption { display: flex; align-items: baseline; gap: 10px; padding: 13px 16px; border-top: 1px solid var(--border-light); background: var(--ados-white); font-size: 14px; line-height: 1.5; color: var(--ados-ink-soft); }
+    /* El distintivo con el ID (IMG-ENT-01…09) es andamio de producción: sirve para
+       saber qué captura va en cada hueco. Ya están todas puestas, así que va
+       oculto; para volver a verlos, `display: inline-block` en la línea siguiente. */
+    figure.shot figcaption .pin { display: none; }
+    .pin { font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); border: 1px solid var(--border-light-strong); padding: 2px 6px; white-space: nowrap; }
+
+    /* Regla / cita / franja ámbar */
+    .regla { border-left: 3px solid var(--accent); background: var(--ados-light); padding: 26px 30px; }
+    .cita { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.25; letter-spacing: -0.025em; color: var(--ados-ink); border-left: 3px solid var(--accent); padding-left: 22px; margin: 0; text-wrap: pretty; }
+    .ambar { background: var(--accent); color: var(--on-accent); padding: 36px 40px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+    .ambar .f { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 28px; line-height: 1.2; letter-spacing: -0.028em; color: var(--on-accent); max-width: 26ch; text-wrap: pretty; }
+    .ambar .g { font-size: 16px; line-height: 1.6; color: var(--on-accent); opacity: 0.82; max-width: 34ch; }
+
+    /* Rejillas */
+    .tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .tri > div { background: var(--ados-white); padding: 26px; }
+    .duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .cuatro { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .cuatro > div { background: var(--ados-white); padding: 26px; }
+
+    /* Bloque 7 — perfiles */
+    .perfiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .perfil { background: var(--ados-white); border: 1px solid var(--border-light); border-top: 4px solid var(--accent); padding: 36px 34px; display: flex; flex-direction: column; }
+    .perfil .rol { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); margin-bottom: 14px; }
+    .perfil .tit { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 27px; line-height: 1.15; letter-spacing: -0.028em; color: var(--ados-ink); margin-bottom: 12px; text-wrap: pretty; }
+    .perfil .sub { font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0 0 26px 0; }
+    .perfil .cierre { margin-top: auto; padding-top: 24px; border-top: 1px solid var(--border-light); font-size: 15.5px; line-height: 1.6; color: var(--ados-ink); }
+    .perfil .cierre strong { font-weight: 600; }
+
+    /* Tablas */
+    .tabla { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+    .tabla th { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); text-align: left; padding: 13px 18px; border-bottom: 1px solid var(--border-light-strong); }
+    .tabla th.c, .tabla td.c { text-align: center; width: 92px; }
+    .tabla td { padding: 15px 18px; border-bottom: 1px solid var(--border-light); color: var(--ados-ink); line-height: 1.55; vertical-align: top; }
+    .tabla tr:last-child td { border-bottom: none; }
+    .tabla .vs { color: var(--ados-ink-soft); }
+    .tabla .qu { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+    .tabla .si { color: var(--ados-amber-600); font-weight: 700; }
+    .tabla .no { color: var(--ados-ink-soft); opacity: 0.5; }
+    .cuadro { border: 1px solid var(--border-light); background: var(--ados-white); }
+    .cuadro > .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 11px 18px; border-bottom: 1px solid var(--border-light); background: var(--ados-light); }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 13.5px; color: var(--ados-ink); border: 1px solid var(--border-light-strong); background: var(--ados-white); padding: 7px 13px; }
+    .chip b { color: var(--ados-amber-600); font-weight: 700; }
+    .flow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .flow .st { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; color: var(--ados-ink); border: 1px solid var(--border-light); background: var(--ados-white); padding: 10px 16px; }
+    .flow .st.fin { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+    .flow .ar { color: var(--ados-ink-soft); }
+
+    code { font-family: 'Space Grotesk', ui-monospace, monospace; font-size: 14.5px; background: var(--ados-white); border: 1px solid var(--border-light-strong); padding: 2px 7px; color: var(--ados-ink); }
+
+    /* el encabezado es sticky (68 + 46): los anclajes no deben quedar debajo */
+    section[id], div[id] { scroll-margin-top: 130px; }
+
+    @media (max-width: 1080px) {
+      .cuatro { grid-template-columns: repeat(2, 1fr); }
+      .perfiles { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 900px) {
+      .cols, .cols--head { grid-template-columns: 1fr !important; gap: 40px; }
+      .tri, .duo, .cuatro { grid-template-columns: 1fr; }
+      .bloque { padding: 64px 0; }
+      .h2 { font-size: 29px; }
+      .hero-h1 { font-size: 36px !important; }
+      .cita { font-size: 21px; }
+      .ambar { padding: 28px; }
+      .ambar .f { font-size: 22px; }
+      .perfil { padding: 28px 24px; }
+      .perfil .tit { font-size: 23px; }
+      .cta-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .tabla th, .tabla td { padding: 12px 14px; font-size: 14.5px; }
+    }
+  </style>
+</helmet>
+
+<div style="background: var(--ados-white);">
+
+  <!-- ===================== HEADER + BARRA DE APARTADOS ===================== -->
+  <header style="position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,0.90); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <a href="index.html" style="display: flex; align-items: center; gap: 12px;">
+        <img src="assets/logo/ados-presupuesto-icon.svg" alt="ADOS Presupuesto" style="width: 30px; height: 30px; display: block;">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-ink);">ADOS <span style="font-weight: 500; color: var(--ados-ink-soft);">Presupuesto</span></span>
+      </a>
+      <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="light" size="sm" href="Herramientas.dc.html#recorrido" hint-size="196px,34px">Volver al recorrido</x-import>
+    </div>
+    <div style="border-top: 1px solid var(--border-light);">
+      <div class="wrap">
+        <nav class="apbar">
+          <a href="01-presupuesto.dc.html"><span class="n">01</span>Presupuesto</a>
+          <a href="02-analisis.dc.html"><span class="n">02</span>Análisis</a>
+          <a href="03-medicion.dc.html"><span class="n">03</span>Medición</a>
+          <a href="04-programacion.dc.html"><span class="n">04</span>Programación</a>
+          <a href="05-ejecucion.dc.html"><span class="n">05</span>Ejecución</a>
+          <span class="on"><span class="n">06</span>Entrega</span>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="wrap" style="padding-top: 104px; padding-bottom: 96px;">
+    <div style="display: flex; align-items: baseline; gap: 18px; margin-bottom: 26px;">
+      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 76px; line-height: 1; letter-spacing: -0.04em; color: var(--accent);">06</span>
+      <span class="eyebrow">Entrega · Excel con fórmulas y PDF</span>
+    </div>
+    <h1 class="hero-h1" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 64px; line-height: 1.03; letter-spacing: -0.035em; color: var(--ados-ink); margin: 0; max-width: 17ch; text-wrap: pretty;">Lo que hay que entregar ya está escrito.</h1>
+    <p style="font-size: 19.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 38px 0 0 0; max-width: 62ch; text-wrap: pretty;">
+      Presupuesto, análisis unitarios, memorias de cálculo, cronograma, flujo y plan de compras
+      salen de lo mismo que se trabajó — en Excel con fórmulas vivas o en PDF con el membrete de
+      la empresa.
+    </p>
+    <div class="tri" style="margin-top: 52px;">
+      <div>
+        <div class="label" style="color: var(--accent); margin-bottom: 12px;">Un botón</div>
+        <div class="h3" style="margin-bottom: 8px;">Qué, cuánto y en qué formato</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">No hay un menú con quince exportaciones distintas: hay una ventana y tres decisiones.</p>
+      </div>
+      <div>
+        <div class="label" style="color: var(--accent); margin-bottom: 12px;">Fórmulas vivas</div>
+        <div class="h3" style="margin-bottom: 8px;">El Excel se sigue trabajando</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Cambia una cantidad y se recalculan importes, capítulos, AIU y total dentro del propio Excel.</p>
+      </div>
+      <div>
+        <div class="label" style="color: var(--accent); margin-bottom: 12px;">Su membrete</div>
+        <div class="h3" style="margin-bottom: 8px;">No el del programa</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Logo, NIT, datos de contacto y color de la empresa en todo lo que se imprime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EL PROBLEMA ===================== -->
+  <section style="background: var(--ados-navy-900); color: var(--ados-white);">
+    <div class="wrap" style="padding: 88px 32px;">
+      <div class="cols">
+        <div>
+          <div class="eyebrow" style="margin-bottom: 18px;">El problema que resuelve</div>
+          <h2 class="h2" style="color: var(--ados-white); font-size: 35px; max-width: 19ch;">Una obra no se entrega con una pantalla: se entrega con una carpeta.</h2>
+        </div>
+        <div style="display: grid; gap: 20px;">
+          <p style="font-size: 16.5px; line-height: 1.7; color: var(--text-muted); margin: 0;">Presupuesto, análisis unitarios, memorias de cálculo, cronograma, flujo de caja, actas. Y ahí es donde se va la última semana antes de radicar: copiar del programa al Excel, del Excel al Word, armar tablitas, cuadrar totales que no cuadran, pegar el logo, exportar a PDF, descubrir que la cantidad de la partida 3.4 cambió después de imprimir y volver a empezar.</p>
+          <p style="font-size: 16.5px; line-height: 1.7; color: var(--ados-white); margin: 0;">El problema no es exportar: es que <strong style="font-weight: 600;">lo que se entrega se vuelve a armar a mano</strong>, y a partir de ese momento es un documento suelto que ya no tiene nada que ver con el archivo de trabajo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 1 ===================== -->
+  <section id="un-boton" class="wrap">
+    <div class="bloque bloque--first">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">1</span><span class="label">Un solo botón</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Contenido, alcance y formato.</h2>
+        </div>
+        <p class="lead">Antes de exportar, la ventana dice <strong>cuántas partidas van a salir</strong>. Se entrega el capítulo de estructuras sin tener que borrar los demás en una copia del archivo.</p>
+      </div>
+
+      <figure class="shot" style="margin-bottom: 48px;">
+        <div class="body wide">
+          <image-slot id="IMG-ENT-01" src="assets/img/capturas/06-entrega/IMG-ENT-01.png" shape="rect" fit="contain" placeholder="IMG-ENT-01 · La ventana Exportar, con las tres decisiones a la vista: qué exportar, alcance y formato"></image-slot>
+        </div>
+        <figcaption><span class="pin">IMG-ENT-01</span><span>Un botón: qué, cuánto y en qué formato.</span></figcaption>
+      </figure>
+
+      <div class="cols" style="gap: 64px;">
+        <div class="cuadro">
+          <div class="bar"><span class="label">Qué exportar</span><span class="label">Inicio → Exportación</span></div>
+          <table class="tabla">
+            <thead><tr><th>Contenido</th><th class="c">Excel</th><th class="c">PDF</th></tr></thead>
+            <tbody>
+              <tr><td><span class="qu">Presupuesto</span><br><span class="vs">Capítulos y partidas con cantidad, precio e importe.</span></td><td class="c si">✓</td><td class="c si">✓</td></tr>
+              <tr><td><span class="qu">Presupuesto + APU (desglose)</span><br><span class="vs">Lo mismo, abriendo el análisis de cada partida. En PDF sale el presupuesto y detrás los análisis.</span></td><td class="c si">✓</td><td class="c si">✓</td></tr>
+              <tr><td><span class="qu">APU · análisis unitario</span><br><span class="vs">El formato clásico, una partida por hoja o página.</span></td><td class="c si">✓</td><td class="c si">✓</td></tr>
+              <tr><td><span class="qu">Lista de insumos</span><br><span class="vs">Cada insumo con su cantidad total y su valor.</span></td><td class="c si">✓</td><td class="c no">—</td></tr>
+              <tr><td><span class="qu">Memoria de cálculo</span><br><span class="vs">Una hoja por partida medida.</span></td><td class="c no">—</td><td class="c si">✓</td></tr>
+              <tr><td><span class="qu">Todo (hojas separadas)</span><br><span class="vs">Presupuesto, presupuesto con APU e insumos en un archivo.</span></td><td class="c si">✓</td><td class="c no">—</td></tr>
+              <tr><td><span class="qu">La vista tal como se ve</span><br><span class="vs">Las filas y columnas que hay ahora en pantalla.</span></td><td class="c si">✓</td><td class="c no">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <div class="label" style="margin-bottom: 16px;">Alcance — lo que ahorra el trabajo de recortar después</div>
+          <div style="display: grid; gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); margin-bottom: 28px;">
+            <div style="background: var(--ados-white); padding: 20px 24px;"><div class="h3" style="font-size: 17px;">Todo el presupuesto</div></div>
+            <div style="background: var(--ados-white); padding: 20px 24px;"><div class="h3" style="font-size: 17px;">Solo un capítulo</div></div>
+            <div style="background: var(--ados-white); padding: 20px 24px;"><div class="h3" style="font-size: 17px; margin-bottom: 4px;">Solo lo filtrado</div><div style="font-size: 15px; line-height: 1.55; color: var(--ados-ink-soft);">Lo que quedó en pantalla tras aplicar un filtro.</div></div>
+            <div style="background: var(--ados-white); padding: 20px 24px;"><div class="h3" style="font-size: 17px;">Solo lo seleccionado</div></div>
+          </div>
+          <div class="regla">
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Y para los análisis, <strong style="color: var(--ados-ink); font-weight: 600;">Solo la partida seleccionada</strong>: para cuando la interventoría pide un análisis concreto y no los doscientos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 2 · FÓRMULAS VIVAS ===================== -->
+  <section id="formulas-vivas" style="background: var(--ados-light); border-top: 3px solid var(--accent); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="padding: 96px 32px;">
+      <div class="bnum"><span class="num">2</span><span class="label">El Excel</span></div>
+      <h2 class="h2" style="font-size: 48px; max-width: 20ch; margin-bottom: 32px;">Sale con <span style="color: var(--accent);">fórmulas vivas</span>.</h2>
+      <p class="lead" style="font-size: 19px; max-width: 64ch; margin-bottom: 48px;">No es un volcado muerto de números: sale con las fórmulas puestas. Cambiar una cantidad o un precio <strong>recalcula el importe, el capítulo, el AIU y el total</strong> dentro del propio Excel.</p>
+
+      <!--
+        HUECO IMG-ENT-02 — REQUISITO DE LA CAPTURA:
+        tiene que verse la BARRA DE FÓRMULAS de Excel con la fórmula de una celda de
+        importe seleccionada. Sin la barra de fórmulas visible, la captura no prueba nada
+        y este bloque pierde su argumento. Si no se puede, el bloque va sin imagen.
+      -->
+      <figure class="shot" style="background: var(--ados-white); margin-bottom: 40px;">
+        <div class="body wide">
+          <image-slot id="IMG-ENT-02" src="assets/img/capturas/06-entrega/IMG-ENT-02.png" shape="rect" fit="contain" placeholder="IMG-ENT-02 · El Excel exportado abierto, con una celda de importe seleccionada y SU FÓRMULA VISIBLE EN LA BARRA DE FÓRMULAS. Esa barra es la prueba: sin ella la captura no dice nada."></image-slot>
+        </div>
+        <figcaption><span class="pin">IMG-ENT-02</span><span>El Excel sale con fórmulas vivas.</span></figcaption>
+      </figure>
+
+      <div class="cols" style="gap: 76px; margin-bottom: 44px;">
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx">Los análisis unitarios llevan <strong>su cuenta completa, desperdicio incluido</strong>.</span></div>
+          <div><span class="dot"></span><span class="tx">Sirve para lo que todo el mundo hace igual: mandarle el presupuesto a un cliente, a un socio o a una entidad que va a trastear los números en su hoja.</span></div>
+        </div>
+        <div style="display: flex; align-items: center;">
+          <p class="cita">Es el argumento contrario al de casi todo el software: el trabajo es del usuario y se lo puede llevar.</p>
+        </div>
+      </div>
+
+      <div class="ambar">
+        <div class="f">Se lo puede llevar y seguir trabajando.</div>
+        <div class="g">Sin quedar atrapado en el programa — que es justo lo que nadie promete.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 3 ===================== -->
+  <section id="membrete" class="wrap">
+    <div class="bloque bloque--first">
+      <div class="cols cols--center" style="gap: 76px;">
+        <div>
+          <div class="bnum"><span class="num">3</span><span class="label">El PDF</span></div>
+          <h2 class="h2" style="margin-bottom: 20px; max-width: 20ch;">Sale con su membrete.</h2>
+          <p class="lead" style="margin-bottom: 32px;">Se configura una vez en <strong>Formato PDF / Empresa</strong> y vale para el presupuesto, los análisis, las memorias y la programación.</p>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx"><strong>Logo, nombre, NIT, dirección, teléfono y correo</strong> de la empresa, en el encabezado de todo lo que se imprime.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Color de acento</strong> para encabezados y totales: el PDF sale con los colores de la empresa, no con los del programa.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Tamaño de hoja</strong> —Carta, Oficio, A4, A3, Tabloide y hasta A0 para los cronogramas— y orientación.</span></div>
+          </div>
+          <div class="regla" style="margin-top: 32px;">
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Para quien trabaja con <strong style="color: var(--ados-ink); font-weight: 600;">varias organizaciones o razones sociales</strong>, esto es lo que evita tener dos instalaciones o andar cambiando el logo antes de cada entrega.</p>
+          </div>
+        </div>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-ENT-03" src="assets/img/capturas/06-entrega/IMG-ENT-03.png" shape="rect" fit="contain" placeholder="IMG-ENT-03 · La configuración de Formato PDF / Empresa con el logo cargado, al lado de una página exportada que lo lleva"></image-slot></div>
+          <figcaption><span class="pin">IMG-ENT-03</span><span>Con el membrete de su empresa.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 4 ===================== -->
+  <section id="memoria" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">4</span><span class="label">La memoria de cálculo</span></div>
+          <h2 class="h2" style="max-width: 22ch;">No se arma: se escribe sola.</h2>
+        </div>
+        <p class="lead">Es la misma tabla con la que se midió. <strong>Quien mide, ya hizo la memoria</strong> — no hay un segundo paso. <a href="03-medicion.dc.html#memoria" class="mas">Ver medición →</a></p>
+      </div>
+
+      <!-- La 04 es una página vertical y la 05 una ventana apaisada: columnas proporcionadas
+           para que las dos figuras queden a una altura parecida. -->
+      <div class="duo" style="margin-bottom: 44px; grid-template-columns: 0.34fr 0.66fr; align-items: start;">
+        <figure class="shot">
+          <div class="body tall"><image-slot id="IMG-ENT-04" src="assets/img/capturas/06-entrega/IMG-ENT-04.png" shape="rect" fit="contain" placeholder="IMG-ENT-04 · Una página de la memoria de cálculo en PDF: la partida, sus líneas rotuladas, los parciales y el total"></image-slot></div>
+          <figcaption><span class="pin">IMG-ENT-04</span><span>La memoria ya estaba escrita.</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-ENT-05" src="assets/img/capturas/06-entrega/IMG-ENT-05.png" shape="rect" fit="contain" placeholder="IMG-ENT-05 · La ventana de Plantillas de memoria con su vista previa al lado"></image-slot></div>
+          <figcaption><span class="pin">IMG-ENT-05</span><span>Con el formato que le pida cada entidad.</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="label" style="margin-bottom: 20px;">Respalda lo que se esté trabajando, sin elegir nada raro</div>
+      <div class="tri" style="margin-bottom: 40px;">
+        <div>
+          <div class="h3" style="font-size: 17px; margin-bottom: 10px;">Con el presupuesto abierto</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">La memoria del presupuesto.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 17px; margin-bottom: 10px;">Con una modificación seleccionada</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">La memoria de esa modificatoria: mayores y menores cantidades, medidas.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 17px; margin-bottom: 10px;">Con un corte seleccionado</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">La memoria de esa acta o de ese mes, con lo ejecutado en actas anteriores y lo presente en ésta.</p>
+        </div>
+      </div>
+
+      <div class="cols" style="gap: 76px;">
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx">Sale en <strong>PDF, una hoja por partida medida</strong>, con el membrete de la empresa.</span></div>
+          <div><span class="dot"></span><span class="tx">Los rótulos de columna que se hayan cambiado en la medición —Ancho → Peso, en acero— <strong>salen así en el papel</strong>.</span></div>
+        </div>
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx"><strong>Plantillas configurables:</strong> encabezado, columnas de la tabla de mediciones, cuerpo, cierre y pie, en vertical u horizontal.</span></div>
+          <div><span class="dot"></span><span class="tx">Se pueden tener <strong>varias plantillas</strong> —una por entidad— y elegir cuál está activa, con vista previa antes de exportar.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 5 ===================== -->
+  <section id="apu" class="wrap">
+    <div class="bloque">
+      <div class="cols cols--center" style="gap: 76px;">
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-ENT-06" src="assets/img/capturas/06-entrega/IMG-ENT-06.png" shape="rect" fit="contain" placeholder="IMG-ENT-06 · Una página del APU exportado en formato análisis unitario, con sus secciones numeradas y el bloque de totales"></image-slot></div>
+          <figcaption><span class="pin">IMG-ENT-06</span><span>Los análisis, uno por página.</span></figcaption>
+        </figure>
+        <div>
+          <div class="bnum"><span class="num">5</span><span class="label">El APU</span></div>
+          <h2 class="h2" style="margin-bottom: 20px; max-width: 20ch;">Hoja por hoja, en el formato de toda la vida.</h2>
+          <p class="lead" style="margin-bottom: 28px;">Una partida por hoja o por página, en <strong>Excel o PDF</strong>.</p>
+          <div class="chips" style="margin-bottom: 28px;">
+            <span class="chip"><b>I.</b> Equipo</span>
+            <span class="chip"><b>II.</b> Materiales</span>
+            <span class="chip"><b>III.</b> Transporte</span>
+            <span class="chip"><b>IV.</b> Mano de obra</span>
+          </div>
+          <div class="feat feat--sm" style="margin-bottom: 28px;">
+            <div><span class="dot"></span><span class="tx">Cada sección con su <strong>subtotal</strong>.</span></div>
+            <div><span class="dot"></span><span class="tx">La mano de obra imprime su <strong>jornal base</strong> cuando lo tiene: se ve de dónde sale el precio de la cuadrilla.</span></div>
+            <div><span class="dot"></span><span class="tx">Y se puede exportar <strong>solo la partida seleccionada</strong>.</span></div>
+          </div>
+          <div class="label" style="margin-bottom: 14px;">Bloque de totales al pie</div>
+          <div class="flow">
+            <span class="st">costo directo</span><span class="ar">→</span>
+            <span class="st">factor</span><span class="ar">→</span>
+            <span class="st">costo ajustado</span><span class="ar">→</span>
+            <span class="st">AIU</span><span class="ar">→</span>
+            <span class="st fin">precio total</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 6 ===================== -->
+  <section id="programacion" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">6</span><span class="label">La programación también se entrega</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Tres entregables más, desde la pestaña Programación.</h2>
+        </div>
+        <p class="lead">El cronograma de una obra grande se imprime de verdad: a escala, y en hojas que se pegan. <a href="04-programacion.dc.html#imprimir" class="mas">Ver programación →</a></p>
+      </div>
+
+      <div class="duo" style="margin-bottom: 44px;">
+        <figure class="shot">
+          <div class="body" style="aspect-ratio: 1379 / 887;"><image-slot id="IMG-ENT-07" src="assets/img/capturas/06-entrega/IMG-ENT-07.png" shape="rect" fit="contain" placeholder="IMG-ENT-07 · El Gantt exportado a PDF, con su tabla a la izquierda, las barras y la línea base"></image-slot></div>
+          <figcaption><span class="pin">IMG-ENT-07</span><span>Y el cronograma, listo para imprimir.</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-ENT-08" src="assets/img/capturas/06-entrega/IMG-ENT-08.png" shape="rect" fit="contain" placeholder="IMG-ENT-08 · La ventana de exportar la programación, con el tamaño de hoja y el aviso de cuántas hojas van a salir"></image-slot></div>
+          <figcaption><span class="pin">IMG-ENT-08</span><span>Le dice cuántas hojas van a salir.</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="tri">
+        <div>
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">PDF</div>
+          <div class="h3" style="margin-bottom: 10px;">Diagrama de Gantt</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Las columnas que estén a la vista, las barras, la línea base y las flechas de sucesión. Se elige tamaño de hoja y orientación, el programa avisa cuántas hojas van a salir, y cuando no cabe en una <strong style="color: var(--ados-ink); font-weight: 600;">se parte a la misma escala en todas</strong> para poder pegarlas.</p>
+        </div>
+        <div>
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">Excel o PDF</div>
+          <div class="h3" style="margin-bottom: 10px;">Flujo de caja</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Agrupado por día, semana o mes, con el costo directo y el AIU separados.</p>
+        </div>
+        <div>
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">Excel o PDF</div>
+          <div class="h3" style="margin-bottom: 10px;">Recursos por período</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">El plan de compras, insumo por insumo y período por período.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 7 · QUÉ ENTREGA CADA QUIEN ===================== -->
+  <section id="cada-quien" style="background: var(--ados-light); border-top: 3px solid var(--accent); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="padding: 104px 32px;">
+      <div class="bnum"><span class="num">7</span><span class="label">Qué entrega cada quien</span></div>
+      <div class="cols--head" style="margin-bottom: 52px;">
+        <h2 class="h2" style="font-size: 48px; max-width: 18ch;">El mismo programa entrega cosas distintas.</h2>
+        <p class="lead" style="font-size: 18px;">Según a qué se dedique usted. Búsquese en una de las tres.</p>
+      </div>
+
+      <figure class="shot" style="background: var(--ados-white); margin-bottom: 48px;">
+        <div class="body wide" style="aspect-ratio: 1536 / 1024;"><image-slot id="IMG-ENT-09" src="assets/img/capturas/06-entrega/IMG-ENT-09.png" shape="rect" fit="contain" placeholder="IMG-ENT-09 · Composición de la carpeta de entrega: varias páginas —presupuesto, APU, memoria, Gantt— sobre la mesa o superpuestas"></image-slot></div>
+        <figcaption><span class="pin">IMG-ENT-09</span><span>Todo lo que hay que radicar.</span></figcaption>
+      </figure>
+
+      <div class="perfiles">
+        <div class="perfil">
+          <div class="rol">Si presupuesta para otros</div>
+          <div class="tit">Consultor, proyectista, oficina de presupuestos</div>
+          <p class="sub">Lo que se radica con la propuesta, y todo sale de lo ya trabajado.</p>
+          <div class="feat feat--sm">
+            <div><span class="dot"></span><span class="tx"><strong>Presupuesto</strong> en Excel con fórmulas vivas y en PDF con membrete.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Análisis unitarios</strong>, uno por página, en el formato de siempre.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Memoria de cálculo</strong> de las cantidades, que ya está hecha desde que se midió.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Cronograma</strong> y <strong>flujo de caja</strong> para la propuesta.</span></div>
+            <div><span class="dot"></span><span class="tx">Y el <strong>alcance por capítulo o por selección</strong>, para las entregas parciales que siempre piden.</span></div>
+          </div>
+          <div class="cierre">Aquí es donde el consultor gana los días: <strong>medir y sustentar son el mismo acto</strong>.</div>
+        </div>
+
+        <div class="perfil">
+          <div class="rol">Si construye</div>
+          <div class="tit">Contratista, constructor</div>
+          <p class="sub">Lo que se entrega cada mes, durante toda la obra.</p>
+          <div class="feat feat--sm">
+            <div><span class="dot"></span><span class="tx"><strong>Memoria del acta o del mes</strong>, con lo ejecutado en actas anteriores y lo presente en ésta.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Memoria de las modificatorias</strong>, con las mayores y menores cantidades medidas.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Cantidades y valores ejecutados</strong> en Excel, tal como se ven en pantalla.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Plan de compras</strong> por semana o por mes, para el almacén y para el que negocia con proveedores.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Flujo de caja</strong> para la gerencia y para el banco.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Gantt actualizado</strong> con la línea base, para el comité de obra.</span></div>
+          </div>
+          <div class="cierre">Es la misma memoria del presupuesto, reutilizada: <strong>no se arman documentos nuevos cada mes</strong>, se marca lo ejecutado y se exporta.</div>
+        </div>
+
+        <div class="perfil">
+          <div class="rol">Si dirige o interventora</div>
+          <div class="tit">Dirección de obra e interventoría</div>
+          <p class="sub">Lo que hace falta para aprobar y para controlar.</p>
+          <div class="feat feat--sm">
+            <div><span class="dot"></span><span class="tx"><strong>Curva S</strong>, <strong>% ejecutado</strong> y <strong>desviación</strong> contra la línea base.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Presupuesto ajustado</strong> con las modificatorias aplicadas, y el original al lado.</span></div>
+            <div><span class="dot"></span><span class="tx">Y la memoria que sustenta <strong>cada cantidad</strong> que se está aprobando.</span></div>
+          </div>
+          <div class="cierre">La pregunta «¿de dónde sale este número?» tiene respuesta <strong>escrita</strong>, partida por partida.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 8 ===================== -->
+  <section id="otras-salidas" class="wrap">
+    <div class="bloque bloque--first">
+      <div class="bnum"><span class="num">8</span><span class="label">Otras salidas</span></div>
+      <h2 class="h2" style="max-width: 22ch; margin-bottom: 44px;">Dos más, para casos concretos.</h2>
+      <div class="duo">
+        <div style="border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 30px 32px;">
+          <div class="label" style="margin-bottom: 12px;">Inicio → Exportación</div>
+          <div class="h3" style="font-size: 22px; margin-bottom: 12px;">Nota clave para Revit</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">El listado de códigos del presupuesto en texto, para cargarlo en el modelo y que el enlace tipo ↔ partida se haga solo. <a href="03-medicion.dc.html#revit" class="mas">Ver medición →</a></p>
+        </div>
+        <div style="border: 1px solid var(--border-light); border-left: 3px solid var(--ados-navy-700); padding: 30px 32px;">
+          <div class="label" style="margin-bottom: 12px;">Contenido de Excel</div>
+          <div class="h3" style="font-size: 22px; margin-bottom: 12px;">La vista tal como se ve</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Lo que hay en pantalla —con las columnas que estén activas, incluidas las de modificaciones y las de ejecución— a Excel, sin fórmulas. Para cuando lo que se necesita es exactamente lo que se está mirando.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== POR QUÉ IMPORTA ===================== -->
+  <section style="background: var(--ados-navy-900); color: var(--ados-white);">
+    <div class="wrap" style="padding: 88px 32px;">
+      <div class="eyebrow" style="margin-bottom: 18px;">Por qué importa</div>
+      <h2 class="h2" style="color: var(--ados-white); max-width: 22ch; margin-bottom: 52px;">Siete razones por las que la última semana deja de ser la peor.</h2>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border);" class="cuatro">
+        <div style="background: var(--ados-navy-900); padding: 26px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.2; letter-spacing: -0.02em; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Lo que se entrega no se vuelve a armar</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">Sale de lo mismo que se trabajó: no hay transcripción ni versiones que se desincronicen.</p>
+        </div>
+        <div style="background: var(--ados-navy-900); padding: 26px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.2; letter-spacing: -0.02em; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">La memoria no cuesta un día: cuesta cero</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">Ya estaba escrita desde que se midió.</p>
+        </div>
+        <div style="background: var(--ados-navy-900); padding: 26px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.2; letter-spacing: -0.02em; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">El Excel se puede seguir trabajando</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">Con fórmulas. El trabajo es del usuario.</p>
+        </div>
+        <div style="background: var(--ados-navy-900); padding: 26px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.2; letter-spacing: -0.02em; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">El PDF sale con el membrete de la empresa</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">No con el del programa.</p>
+        </div>
+        <div style="background: var(--ados-navy-900); padding: 26px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.2; letter-spacing: -0.02em; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Se entrega solo lo que piden</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">Un capítulo, lo filtrado o una sola partida.</p>
+        </div>
+        <div style="background: var(--ados-navy-900); padding: 26px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.2; letter-spacing: -0.02em; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">La misma obra alimenta a los tres perfiles</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">Al consultor, al constructor y al que dirige, cada uno con lo suyo.</p>
+        </div>
+        <div style="background: var(--ados-navy-900); padding: 26px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.2; letter-spacing: -0.02em; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">El cronograma grande se imprime de verdad</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">A escala y en hojas que se pegan.</p>
+        </div>
+        <div style="background: var(--ados-navy-900); padding: 26px; display: flex; align-items: center;">
+          <a href="Herramientas.dc.html#recorrido" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--accent);">Volver al recorrido completo →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PREGUNTAS ===================== -->
+  <section class="wrap" style="padding-top: 88px; padding-bottom: 88px;">
+    <div class="eyebrow" style="margin-bottom: 18px;">Preguntas</div>
+    <h2 class="h2" style="max-width: 22ch; margin-bottom: 52px;">Lo que preguntan antes de radicar.</h2>
+    <div class="duo" style="gap: 44px 64px;">
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿El Excel que exporta se puede editar?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Sí, y trae las fórmulas puestas: cambia una cantidad y se recalculan importes, capítulos, AIU y total dentro del propio Excel.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿La memoria de cálculo la tengo que armar aparte?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No. Es la misma tabla con la que midió. Si midió, la memoria ya está: solo se exporta.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Puedo entregar solo un capítulo?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Sí. El alcance puede ser todo el presupuesto, un capítulo, lo que quedó filtrado en pantalla o solo lo seleccionado.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Sale con el logo de mi empresa?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Sí, con logo, NIT, datos de contacto y el color que elija, en todo lo que se imprime.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">Trabajo para dos empresas distintas, ¿tengo que estar cambiando el logo?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Los datos de empresa se configuran y se aplican a lo que se exporte. Conviene revisarlos antes de una entrega si alterna entre organizaciones.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Me saca el formato de acta de mi entidad?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No. Le saca las cantidades, los valores y la memoria que los sustenta, en Excel y en PDF; el formulario propio de la entidad se diligencia con eso.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Y el cronograma de una obra grande?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">En PDF, al tamaño de hoja que elija —hasta A0—, avisándole cuántas hojas salen y partiéndolo a la misma escala para que se puedan pegar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section style="background: var(--ados-navy-900);">
+    <div class="wrap cta-grid" style="padding: 96px 32px; display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,0.8fr); gap: 80px; align-items: center;">
+      <div>
+        <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 44px; line-height: 1.05; letter-spacing: -0.035em; color: var(--ados-white); margin: 0; text-wrap: pretty;">Dígame qué le toca radicar.</h2>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 22px 0 0 0; max-width: 52ch;">Se lo exportamos en la demostración: el presupuesto en Excel con sus fórmulas, los análisis uno por página y la memoria de cálculo con su membrete.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; align-items: start;">
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="primary" size="lg" href="index.html#contacto" full-width="{{ true }}" hint-size="100%,52px">Solicitar demostración</x-import>
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="secondary" size="lg" href="Herramientas.dc.html#recorrido" full-width="{{ true }}" hint-size="100%,52px">Volver al recorrido</x-import>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ANTERIOR / CIERRE ===================== -->
+  <section style="background: var(--ados-navy-950); border-top: 1px solid var(--border);">
+    <div class="wrap" style="padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <a href="05-ejecucion.dc.html" style="display: flex; align-items: baseline; gap: 12px; color: var(--ados-white);">
+        <span class="label" style="color: var(--text-faint);">Anterior</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-white);">← 05 · Ejecución</span>
+      </a>
+      <a href="Herramientas.dc.html#recorrido" style="color: var(--text-muted); font-size: 14.5px;">Todos los apartados</a>
+      <a href="01-presupuesto.dc.html" style="display: flex; align-items: baseline; gap: 12px; color: var(--ados-white);">
+        <span class="label" style="color: var(--text-faint);">Cierra el recorrido</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-white);">Volver al 01 · Presupuesto →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer style="background: var(--ados-navy-900); border-top: 1px solid var(--border);">
+    <div class="wrap" style="padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <img src="assets/logo/ados-logo-light.svg" alt="ADOS Ingeniería y Arquitectura" style="height: 26px; display: block;">
+      <div style="font-size: 13.5px; color: var(--text-faint);">ADOS Ingeniería y Arquitectura SAS · Colombia</div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+</body>
+</html>

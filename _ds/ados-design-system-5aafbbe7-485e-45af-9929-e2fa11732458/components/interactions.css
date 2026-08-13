@@ -1,0 +1,48 @@
+/* ============================================================
+   ADOS — COMPONENT INTERACTION STATES
+   Hover / active / focus rules for the React primitives.
+   Inline styles can't express :hover; these live in the global closure.
+   ============================================================ */
+
+/* ---- Button ---- */
+.ados-btn--primary:hover   { background: var(--accent-hover) !important; }
+.ados-btn--primary:active  { background: var(--accent-press) !important; transform: translateY(1px); }
+.ados-btn--secondary:hover { border-color: var(--accent) !important; color: var(--accent) !important; }
+.ados-btn--secondary:active{ transform: translateY(1px); }
+.ados-btn--ghost:hover     { background: rgba(255,255,255,0.06) !important; }
+.ados-btn--ghost:active    { background: rgba(255,255,255,0.10) !important; }
+.ados-btn--light:hover     { background: #0F151B !important; }
+.ados-btn[aria-disabled="true"] { pointer-events: none; }
+
+/* ---- IconButton ---- */
+.ados-iconbtn--ghost:hover   { background: rgba(255,255,255,0.07) !important; }
+.ados-iconbtn--outline:hover { border-color: var(--accent) !important; color: var(--accent) !important; }
+.ados-iconbtn--solid:hover   { background: var(--accent-hover) !important; }
+
+/* ---- Card ---- */
+.ados-card--interactive { cursor: pointer; }
+.ados-card--interactive:hover { border-color: var(--accent) !important; }
+
+/* ---- Inputs ---- */
+.ados-input:focus,
+.ados-textarea:focus,
+.ados-select:focus {
+  border-color: var(--accent) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(249,178,51,0.18);
+}
+.ados-input::placeholder,
+.ados-textarea::placeholder { color: var(--text-faint); }
+
+/* ---- Tabs ---- */
+.ados-tab:hover { color: var(--text) !important; }
+
+/* ---- Website header (pill nav + CTA) ---- */
+.ados-navpill:hover { background: var(--ados-light-200) !important; }
+.ados-navpill:hover[style*="navy-900"] { background: var(--ados-navy-900) !important; }
+.ados-cta-pill:hover { background: var(--accent-hover) !important; }
+.ados-cta-pill:active { background: var(--accent-press) !important; transform: translateY(1px); }
+
+/* ---- Switch / Checkbox focus ---- */
+.ados-switch:focus-visible,
+.ados-checkbox:focus-visible { outline: var(--ring-width) solid var(--focus-on-dark); outline-offset: 2px; }

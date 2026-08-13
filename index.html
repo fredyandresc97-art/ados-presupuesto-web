@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/base.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/components/interactions.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/styles.css">
+  <script src="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/_ds_bundle.js"></script>
+  <script src="./image-slot.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--ados-white); color: var(--ados-ink); font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--ados-ink); text-decoration: none; transition: color 120ms cubic-bezier(0.2,0,0,1); }
+    a:hover { color: #E7A11E; }
+    /* cada hueco llena el recuadro que lo contiene, que es quien fija la proporción */
+    image-slot { display: block; width: 100%; height: 100%; }
+    .nav-link[data-active="true"] { color: var(--ados-ink) !important; }
+    .nav-link[data-active="true"] .nav-rule { transform: scaleX(1) !important; }
+    .stage-row:nth-child(even) { direction: rtl; }
+    .stage-row:nth-child(even) > * { direction: ltr; }
+    @media (max-width: 900px) {
+      .stage-row { grid-template-columns: 1fr !important; }
+      .nav-links { display: none !important; }
+      .hero-h1 { font-size: 48px !important; }
+      .problema-row { grid-template-columns: 1fr !important; gap: 28px !important; }
+      .dirigido-grid { grid-template-columns: repeat(2, 1fr) !important; row-gap: 40px !important; }
+    }
+  </style>
+</helmet>
+
+<div style="background: var(--ados-white);">
+
+  <header style="position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,0.86); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border-light);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 0 32px; height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 32px;">
+      <a href="#top" style="display: flex; align-items: center; gap: 12px;">
+        <img src="assets/logo/ados-presupuesto-icon.svg" alt="ADOS Presupuesto" style="width: 30px; height: 30px; display: block;">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-ink);">ADOS <span style="font-weight: 500; color: var(--ados-ink-soft);">Presupuesto</span></span>
+      </a>
+      <nav class="nav-links" style="display: flex; align-items: center; gap: 34px;">
+        <a class="nav-link" href="#producto" data-spy="producto" style="position: relative; font-size: 14px; font-weight: 500; color: var(--ados-ink-soft); padding: 6px 0;">Producto<span class="nav-rule" style="position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 200ms cubic-bezier(0.2,0,0,1);"></span></a>
+        <a class="nav-link" href="#problema" data-spy="problema" style="position: relative; font-size: 14px; font-weight: 500; color: var(--ados-ink-soft); padding: 6px 0;">Problema<span class="nav-rule" style="position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 200ms cubic-bezier(0.2,0,0,1);"></span></a>
+        <a class="nav-link" href="#etapas" data-spy="etapas" style="position: relative; font-size: 14px; font-weight: 500; color: var(--ados-ink-soft); padding: 6px 0;">Etapas<span class="nav-rule" style="position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 200ms cubic-bezier(0.2,0,0,1);"></span></a>
+        <a class="nav-link" href="#integraciones" data-spy="integraciones" style="position: relative; font-size: 14px; font-weight: 500; color: var(--ados-ink-soft); padding: 6px 0;">Integraciones<span class="nav-rule" style="position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 200ms cubic-bezier(0.2,0,0,1);"></span></a>
+      </nav>
+      <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="primary" size="sm" href="#contacto" hint-size="196px,34px">Solicitar demostración</x-import>
+    </div>
+  </header>
+
+  <section id="top" style="max-width: 1280px; margin: 0 auto; padding: 104px 32px 0 32px;">
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 26px;">
+      <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Tag" tone="default" hint-size="118px,26px">Software ADOS</x-import>
+      <span style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft);">Presupuesto · Costo · Tiempo</span>
+    </div>
+    <h1 class="hero-h1" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 78px; line-height: 1.02; letter-spacing: -0.035em; color: var(--ados-ink); margin: 0; max-width: 16ch; text-wrap: pretty;">ADOS <span style="color: var(--accent);">Presupuesto</span></h1>
+    <div style="display: grid; grid-template-columns: minmax(0,1fr) minmax(0,420px); gap: 64px; align-items: end; margin-top: 40px;">
+      <p style="font-size: 19px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0; max-width: 58ch; text-wrap: pretty;">
+        Un software que le permite crear presupuestos de obra completos y estructurados — capítulos, subcapítulos, partidas y análisis de precios unitarios — donde las cantidades salen siempre de mediciones trazables: ingresadas manualmente, tomadas de los planos CAD o extraídas del modelo BIM. Ese mismo presupuesto acompaña la obra hasta el cierre, con seguimiento mensual, cobros parciales y actas de modificación.
+      </p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="primary" size="lg" href="#contacto" hint-size="240px,52px">Solicitar demostración</x-import>
+        
+      </div>
+    </div>
+    <div style="margin-top: 72px; border: 1px solid var(--border-light); background: var(--ados-light); padding: 0;">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 16px; border-bottom: 1px solid var(--border-light);">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft);">Presupuesto Castilla · árbol de capítulos y partidas</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft);">ADOS Presupuesto</span>
+      </div>
+      <img src="assets/img/app-presupuesto.png" alt="Presupuesto de obra en ADOS Presupuesto: árbol de capítulos, partidas e insumos con costo directo, AIU y total" style="display: block; width: 100%; height: auto;">
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 32px;">
+      <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="light" size="lg" href="Herramientas.dc.html" hint-size="200px,52px" style="color: var(--ados-amber-600)">Conoce cómo funciona</x-import>
+    </div>
+  </section>
+
+  <section id="producto" style="max-width: 1280px; margin: 0 auto; padding: 112px 32px 0 32px;">
+    <div style="display: grid; grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); gap: 80px; align-items: start;">
+      <div>
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px;">Qué es</div>
+        <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0; text-wrap: pretty;">La herramienta para crear presupuestos, mantener catálogos y seguir los contratos de obra.</h2>
+      </div>
+      <div style="display: grid; gap: 28px; padding-top: 8px;">
+        <p style="font-size: 17px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Software de construcción de presupuestos y seguimiento de proyecto, orientado a BIM sin dejar de lado el CAD y el flujo tradicional. Integra mediciones, referencias, partidas e insumos en un entorno coherente y fácil de usar.</p>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Facilita la estandarización, la reutilización y el intercambio de datos entre los distintos agentes de la edificación: planificación, seguimiento mensual y los cambios que surjan durante la ejecución, en un solo entorno.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px;">
+          <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Tag" tone="default" hint-size="auto,26px">Historial de versiones</x-import>
+          <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Tag" tone="default" hint-size="auto,26px">Mayores y menores cantidades</x-import>
+          <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Tag" tone="default" hint-size="auto,26px">Cobros parciales</x-import>
+          <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Tag" tone="default" hint-size="auto,26px">Comparación de escenarios</x-import>
+          <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Tag" tone="default" hint-size="auto,26px">Seguimiento mensual</x-import>
+          <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Tag" tone="default" hint-size="auto,26px">Memorias de cálculo</x-import>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="problema" style="margin-top: 112px; background: var(--ados-navy-900); color: var(--ados-white);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 104px 32px;">
+      <div style="display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 80px; align-items: start; padding-bottom: 8px;">
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px;">El problema</div>
+          <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; color: var(--ados-white); margin: 0; text-wrap: pretty;">La hoja de cálculo es una gran herramienta. No es un sistema de presupuesto.</h2>
+        </div>
+        <div style="display: grid; gap: 18px;">
+          <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 0;">El problema no es Excel: es pedirle que haga de base de datos de insumos, de estructura jerárquica, de generador de APU y de sistema de seguimiento al mismo tiempo. Ahí aparece la informática sumergida — archivos que solo entiende quien los creó, incompatibles entre agentes y con el error viajando hasta la obra.</p>
+          <p style="font-size: 17px; line-height: 1.65; color: var(--ados-white); margin: 0;">ADOS Presupuesto trae resuelto de fábrica todo ese montaje previo.</p>
+        </div>
+      </div>
+      <div class="problema-row" style="display: grid; grid-template-columns: minmax(0,1.55fr) minmax(0,1fr); gap: 56px; align-items: center; padding: 64px 0; border-bottom: 1px solid var(--border);">
+        <div style="border: 1px solid var(--border); background: var(--ados-navy-950); aspect-ratio: 1919 / 1032;">
+          <image-slot id="problema-01" src="assets/img/capturas/ados-presupuesto/problema-01.png" shape="rect" fit="contain" placeholder="Captura del punto 1"></image-slot>
+        </div>
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 14px;">01</div>
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; line-height: 1.15; letter-spacing: -0.03em; color: var(--ados-white); margin: 0 0 16px 0; text-wrap: pretty;">Necesita una base de datos antes de empezar</h3>
+          <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 0 0 20px 0;">Para que un código traiga precio, unidad y rendimiento hace falta un catálogo de insumos ya montado. Sin él, cada celda es un valor escrito a mano que nadie puede actualizar después.</p>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px;">Sin catálogo, cada precio es un dato huérfano.</div>
+        </div>
+      </div>
+      <div class="problema-row" style="display: grid; grid-template-columns: minmax(0,1.55fr) minmax(0,1fr); gap: 56px; align-items: center; padding: 64px 0; border-bottom: 1px solid var(--border);">
+        <div style="border: 1px solid var(--border); background: var(--ados-navy-950); aspect-ratio: 1919 / 1032;">
+          <image-slot id="problema-02" src="assets/img/capturas/ados-presupuesto/problema-02.png" shape="rect" fit="contain" placeholder="Captura del punto 2"></image-slot>
+        </div>
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 14px;">02</div>
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; line-height: 1.15; letter-spacing: -0.03em; color: var(--ados-white); margin: 0 0 16px 0; text-wrap: pretty;">No hay jerarquía real</h3>
+          <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 0 0 20px 0;">Capítulo, subcapítulo y partida se simulan con agrupaciones y segmentación de datos. Funciona, pero navegar el árbol, mover un capítulo completo o renumerar sigue siendo trabajo manual.</p>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px;">La estructura de la obra no cabe en filas y columnas.</div>
+        </div>
+      </div>
+      <div class="problema-row" style="display: grid; grid-template-columns: minmax(0,1.55fr) minmax(0,1fr); gap: 56px; align-items: center; padding: 64px 0; border-bottom: 1px solid var(--border);">
+        <div style="border: 1px solid var(--border); background: var(--ados-navy-950); aspect-ratio: 1919 / 1032;">
+          <image-slot id="problema-03" src="assets/img/capturas/ados-presupuesto/problema-03.png" shape="rect" fit="contain" placeholder="Captura del punto 3"></image-slot>
+        </div>
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 14px;">03</div>
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; line-height: 1.15; letter-spacing: -0.03em; color: var(--ados-white); margin: 0 0 16px 0; text-wrap: pretty;">APU y memorias construidos a mano</h3>
+          <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 0 0 20px 0;">Cada plantilla de análisis de precio unitario y cada memoria de cálculo hay que armarla, formatearla y mantenerla. Y no se generan solas: se copian una por una, partida por partida.</p>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px;">Cientos de APU, uno a uno.</div>
+        </div>
+      </div>
+      <div class="problema-row" style="display: grid; grid-template-columns: minmax(0,1.55fr) minmax(0,1fr); gap: 56px; align-items: center; padding: 64px 0; border-bottom: 1px solid var(--border);">
+        <div style="border: 1px solid var(--border); background: var(--ados-navy-950); aspect-ratio: 1919 / 1032;">
+          <image-slot id="problema-04" src="assets/img/capturas/ados-presupuesto/problema-04.png" shape="rect" fit="contain" placeholder="Captura del punto 4"></image-slot>
+        </div>
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 14px;">04</div>
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; line-height: 1.15; letter-spacing: -0.03em; color: var(--ados-white); margin: 0 0 16px 0; text-wrap: pretty;">Vínculos que se rompen en silencio</h3>
+          <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 0 0 20px 0;">Los datos viven amarrados entre hojas. Basta insertar una fila, renombrar una pestaña o mover un rango para que la referencia se pierda — y el número sigue apareciendo como si nada.</p>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px;">El error no avisa: se imprime.</div>
+        </div>
+      </div>
+      <div class="problema-row" style="display: grid; grid-template-columns: minmax(0,1.55fr) minmax(0,1fr); gap: 56px; align-items: center; padding: 64px 0; border-bottom: 1px solid var(--border);">
+        <div style="border: 1px solid var(--border); background: var(--ados-navy-950); aspect-ratio: 1919 / 1032;">
+          <image-slot id="problema-05" src="assets/img/capturas/ados-presupuesto/problema-05.png" shape="rect" fit="contain" placeholder="Captura del punto 5"></image-slot>
+        </div>
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 14px;">05</div>
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; line-height: 1.15; letter-spacing: -0.03em; color: var(--ados-white); margin: 0 0 16px 0; text-wrap: pretty;">Una fórmula distinta en cada hoja</h3>
+          <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 0 0 20px 0;">Cada hoja llama celdas diferentes, así que la fórmula se rehace pestaña por pestaña. Navegar entre decenas de hojas termina siendo parte del trabajo diario.</p>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px;">El archivo crece; la trazabilidad no.</div>
+        </div>
+      </div>
+      <div class="problema-row" style="display: grid; grid-template-columns: minmax(0,1.55fr) minmax(0,1fr); gap: 56px; align-items: center; padding: 64px 0; border-bottom: 1px solid var(--border);">
+        <div style="border: 1px solid var(--border); background: var(--ados-navy-950); aspect-ratio: 1919 / 1032;">
+          <image-slot id="problema-06" src="assets/img/capturas/ados-presupuesto/problema-06.png" shape="rect" fit="contain" placeholder="Captura del punto 6"></image-slot>
+        </div>
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 14px;">06</div>
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; line-height: 1.15; letter-spacing: -0.03em; color: var(--ados-white); margin: 0 0 16px 0; text-wrap: pretty;">Las cantidades de material piden otra hoja</h3>
+          <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 0 0 20px 0;">Para saber cuánto material se necesita hay que montar una hoja aparte que busque y sume por insumo. Y hay que saber hacerla: el presupuesto queda dependiendo de quien domina el archivo.</p>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px;">El conocimiento se queda en una persona.</div>
+        </div>
+      </div>
+      <div class="problema-row" style="display: grid; grid-template-columns: minmax(0,1.55fr) minmax(0,1fr); gap: 56px; align-items: center; padding: 64px 0; border-bottom: 1px solid var(--border);">
+        <div style="border: 1px solid var(--border); background: var(--ados-navy-950); aspect-ratio: 1919 / 1032;">
+          <image-slot id="problema-07" src="assets/img/capturas/ados-presupuesto/problema-07.png" shape="rect" fit="contain" placeholder="Captura del punto 7"></image-slot>
+        </div>
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 14px;">07</div>
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; line-height: 1.15; letter-spacing: -0.03em; color: var(--ados-white); margin: 0 0 16px 0; text-wrap: pretty;">Y todo se repite en el siguiente proyecto</h3>
+          <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 0 0 20px 0;">Catálogo, plantillas, fórmulas y vínculos se vuelven a montar desde cero en cada presupuesto. Horas de trabajo antes de escribir la primera partida.</p>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: var(--ados-white); border-left: 2px solid var(--accent); padding-left: 14px;">Cada obra empieza otra vez en blanco.</div>
+        </div>
+      </div>
+      <div style="background: var(--accent); border-radius: 6px; padding: 44px 48px; margin-top: 64px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap;">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; line-height: 1.15; letter-spacing: -0.03em; color: var(--on-accent); max-width: 24ch;">Cero montaje previo. Empiece por la primera partida.</div>
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="light" size="lg" href="#etapas" hint-size="212px,52px">Conoce el proceso</x-import>
+      </div>
+    </div>
+  </section>
+
+  <section id="etapas" style="max-width: 1280px; margin: 0 auto; padding: 112px 32px 0 32px;">
+    <div style="display: flex; align-items: end; justify-content: space-between; gap: 40px; padding-bottom: 56px; border-bottom: 1px solid var(--border-light);">
+      <div>
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px;">Las tres etapas</div>
+        <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0; max-width: 20ch; text-wrap: pretty;">Del modelo al acta de obra, sin salir del entorno.</h2>
+      </div>
+      <p style="font-size: 16px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0; max-width: 36ch;">Un mismo dato recorre las tres etapas: medición, precio y ejecución. Nada se vuelve a escribir a mano.</p>
+    </div>
+
+    <div class="stage-row" style="display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 72px; align-items: center; padding: 72px 0; border-bottom: 1px solid var(--border-light);">
+      <div>
+        <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 22px;">
+          <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 56px; line-height: 1; letter-spacing: -0.04em; color: var(--accent);">01</span>
+          <span style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft);">Presupuesto</span>
+        </div>
+        <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 32px; line-height: 1.15; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0 0 18px 0;">Integrado con BIM y CAD</h3>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0 0 28px 0;">ADOS conecta la información del modelo BIM con los datos económicos y de planificación: el diseño se convierte en un presupuesto medible y verificable, y la colaboración entre proyectistas, técnicos y gestores de obra deja de depender de archivos sueltos.</p>
+        <div style="display: grid; gap: 14px;">
+          <div style="display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start;"><span style="width: 8px; height: 8px; background: var(--accent); margin-top: 8px;"></span><span style="font-size: 16px; line-height: 1.55; color: var(--ados-ink);"><strong style="font-weight: 600;">Complemento para Revit</strong> — extracción automática de cantidades desde el modelo.</span></div>
+          <div style="display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start;"><span style="width: 8px; height: 8px; background: var(--accent); margin-top: 8px;"></span><span style="font-size: 16px; line-height: 1.55; color: var(--ados-ink);"><strong style="font-weight: 600;">Visor DWG/DXF</strong> — asignación de mediciones directamente sobre los planos.</span></div>
+          <div style="display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start;"><span style="width: 8px; height: 8px; background: var(--accent); margin-top: 8px;"></span><span style="font-size: 16px; line-height: 1.55; color: var(--ados-ink);"><strong style="font-weight: 600;">Importación desde Excel</strong> — para el flujo tradicional y los datos heredados.</span></div>
+        </div>
+      </div>
+      <div style="position: relative; padding: 0 40px 40px 0;">
+        <div style="aspect-ratio: 1919 / 1032; border: 1px solid var(--border-light); background: var(--ados-light);">
+          <image-slot id="etapa-01-a" src="assets/img/capturas/ados-presupuesto/etapa-01-a.png" shape="rect" fit="contain" placeholder="Mediciones desde el modelo"></image-slot>
+        </div>
+        <div style="position: absolute; right: 0; bottom: 0; width: 52%; aspect-ratio: 1919 / 1032; border: 1px solid var(--border-light-strong); background: var(--ados-light); box-shadow: 0 0 0 6px var(--ados-white);">
+          <image-slot id="etapa-01-b" src="assets/img/capturas/ados-presupuesto/etapa-01-b.png" shape="rect" fit="contain" placeholder="Complemento en Revit"></image-slot>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-row" style="display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 72px; align-items: center; padding: 72px 0; border-bottom: 1px solid var(--border-light);">
+      <div>
+        <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 22px;">
+          <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 56px; line-height: 1; letter-spacing: -0.04em; color: var(--accent);">02</span>
+          <span style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft);">Planificación</span>
+        </div>
+        <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 32px; line-height: 1.15; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0 0 18px 0;">Cotizaciones, márgenes e insumos en un mismo lugar</h3>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0 0 28px 0;">La planificación vive dentro del presupuesto, no al lado. Los insumos, las cotizaciones de proveedor y los márgenes se resuelven sobre las mismas partidas, y cualquier ajuste se refleja de inmediato en el costo del proyecto.</p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light);">
+          <div style="background: var(--ados-white); padding: 20px;"><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; color: var(--ados-ink); margin-bottom: 6px;">Cotizaciones</div><div style="font-size: 14px; line-height: 1.5; color: var(--ados-ink-soft);">Comparables por insumo y proveedor.</div></div>
+          <div style="background: var(--ados-white); padding: 20px;"><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; color: var(--ados-ink); margin-bottom: 6px;">Márgenes</div><div style="font-size: 14px; line-height: 1.5; color: var(--ados-ink-soft);">AIU y utilidad por capítulo.</div></div>
+          <div style="background: var(--ados-white); padding: 20px;"><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; color: var(--ados-ink); margin-bottom: 6px;">Insumos</div><div style="font-size: 14px; line-height: 1.5; color: var(--ados-ink-soft);">Base reutilizable entre proyectos.</div></div>
+        </div>
+      </div>
+      <div style="position: relative; padding: 0 40px 40px 0;">
+        <div style="aspect-ratio: 1919 / 1032; border: 1px solid var(--border-light); background: var(--ados-light);">
+          <image-slot id="etapa-02-a" src="assets/img/capturas/ados-presupuesto/etapa-02-a.png" shape="rect" fit="contain" placeholder="Cuadro de precios e insumos"></image-slot>
+        </div>
+        <div style="position: absolute; right: 0; bottom: 0; width: 52%; aspect-ratio: 1919 / 1032; border: 1px solid var(--border-light-strong); background: var(--ados-light); box-shadow: 0 0 0 6px var(--ados-white);">
+          <image-slot id="etapa-02-b" src="assets/img/capturas/ados-presupuesto/etapa-02-b.png" shape="rect" fit="contain" placeholder="Cotización comparada"></image-slot>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-row" style="display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 72px; align-items: center; padding: 72px 0;">
+      <div>
+        <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 22px;">
+          <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 56px; line-height: 1; letter-spacing: -0.04em; color: var(--accent);">03</span>
+          <span style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft);">Ejecución</span>
+        </div>
+        <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 32px; line-height: 1.15; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0 0 18px 0;">Seguimiento mensual, cobros y modificaciones</h3>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0 0 28px 0;">La obra cambia. Las actas de modificación registran mayores y menores cantidades sin perder el historial de versiones, y el corte mensual con cobros parciales se calcula sobre el presupuesto vigente, no sobre una copia.</p>
+        <div style="display: grid; gap: 14px;">
+          <div style="display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start;"><span style="width: 8px; height: 8px; background: var(--accent); margin-top: 8px;"></span><span style="font-size: 16px; line-height: 1.55; color: var(--ados-ink);"><strong style="font-weight: 600;">Actas de modificación</strong> — mayores y menores cantidades con historial completo.</span></div>
+          <div style="display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start;"><span style="width: 8px; height: 8px; background: var(--accent); margin-top: 8px;"></span><span style="font-size: 16px; line-height: 1.55; color: var(--ados-ink);"><strong style="font-weight: 600;">Corte mensual</strong> — avance y cobros parciales por partida.</span></div>
+          <div style="display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start;"><span style="width: 8px; height: 8px; background: var(--accent); margin-top: 8px;"></span><span style="font-size: 16px; line-height: 1.55; color: var(--ados-ink);"><strong style="font-weight: 600;">Memorias de cálculo</strong> — generación automática y masiva en PDF y Excel.</span></div>
+        </div>
+      </div>
+      <div style="position: relative; padding: 0 40px 40px 0;">
+        <div style="aspect-ratio: 1919 / 1032; border: 1px solid var(--border-light); background: var(--ados-light);">
+          <image-slot id="etapa-03-a" src="assets/img/capturas/ados-presupuesto/etapa-03-a.png" shape="rect" fit="contain" placeholder="Corte mensual de obra"></image-slot>
+        </div>
+        <div style="position: absolute; right: 0; bottom: 0; width: 52%; aspect-ratio: 1919 / 1032; border: 1px solid var(--border-light-strong); background: var(--ados-light); box-shadow: 0 0 0 6px var(--ados-white);">
+          <image-slot id="etapa-03-b" src="assets/img/capturas/ados-presupuesto/etapa-03-b.png" shape="rect" fit="contain" placeholder="Acta de modificación"></image-slot>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="integraciones" style="background: var(--ados-light); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 96px 32px;">
+      <div style="display: flex; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 48px;">
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px;">Integraciones</div>
+          <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0; max-width: 20ch; text-wrap: pretty;">Trabaja con las herramientas que ya usa.</h2>
+        </div>
+        <p style="font-size: 16px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0; max-width: 34ch;">El complemento para Revit añade tres acciones a la cinta y mantiene el modelo y el presupuesto sincronizados.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Card" tone="light" hint-size="100%,320px">
+          <svg viewBox="0 0 100 100" width="44" height="44" style="display: block; margin-bottom: 24px;">
+            <path d="M26 8 L62 8 L76 22 L76 92 L26 92 Z" fill="none" stroke="#222B35" stroke-width="3.4" stroke-linejoin="round"></path>
+            <path d="M62 8 L62 22 L76 22" fill="none" stroke="#222B35" stroke-width="3.4" stroke-linejoin="round"></path>
+            <g stroke="#222B35" stroke-width="3" stroke-linecap="round" opacity="0.55"><path d="M36 40 L66 40"></path><path d="M36 50 L66 50"></path><path d="M36 60 L54 60"></path></g>
+            <circle cx="70" cy="72" r="18" fill="#F9B233"></circle>
+            <path d="M70 63 L70 81 M62 73 L70 81 L78 73" fill="none" stroke="#222B35" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); margin-bottom: 10px;">Revit</div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: var(--ados-ink); margin-bottom: 10px;">Generar fichero de mediciones</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Exporta tipos, parámetros y cantidades del proyecto para vincular cada elemento del modelo con su partida.</p>
+        </x-import>
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Card" tone="light" hint-size="100%,320px">
+          <svg viewBox="0 0 100 100" width="44" height="44" style="display: block; margin-bottom: 24px;">
+            <circle cx="42" cy="42" r="30" fill="none" stroke="#222B35" stroke-width="6"></circle>
+            <path d="M64 64 L86 86" stroke="#222B35" stroke-width="7" stroke-linecap="round"></path>
+            <g stroke-linejoin="round" stroke-width="0.6">
+              <path d="M42 24 L58 33 L42 42 L26 33 Z" fill="#F9B233" stroke="#F9B233"></path>
+              <path d="M58 33 L58 51 L42 60 L42 42 Z" fill="#E7A11E" stroke="#E7A11E"></path>
+              <path d="M26 33 L42 42 L42 60 L26 51 Z" fill="var(--bg-deep)" stroke="var(--bg-deep)"></path>
+            </g>
+          </svg>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); margin-bottom: 10px;">Revit</div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: var(--ados-ink); margin-bottom: 10px;">Buscar elemento en el presupuesto</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Seleccione un elemento en el modelo y vea a qué partida está asignado, sin salir de Revit.</p>
+        </x-import>
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Card" tone="light" hint-size="100%,320px">
+          <svg viewBox="0 0 100 100" width="44" height="44" style="display: block; margin-bottom: 24px;">
+            <g stroke-linejoin="round" stroke-width="0.6">
+              <path d="M50 32 L64 39.5 L50 47 L36 39.5 Z" fill="#F9B233" stroke="#F9B233"></path>
+              <path d="M64 39.5 L64 54.5 L50 62 L50 47 Z" fill="#E7A11E" stroke="#E7A11E"></path>
+              <path d="M36 39.5 L50 47 L50 62 L36 54.5 Z" fill="#222B35" stroke="#222B35"></path>
+            </g>
+            <path d="M78 30 A34 34 0 0 0 24 22" fill="none" stroke="#222B35" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M70 24 L78 30 L83 20" fill="none" stroke="#222B35" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M22 70 A34 34 0 0 0 76 78" fill="none" stroke="#222B35" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M30 76 L22 70 L17 80" fill="none" stroke="#222B35" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); margin-bottom: 10px;">Revit</div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: var(--ados-ink); margin-bottom: 10px;">Actualizar modelo</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Recalcula las mediciones cuando el modelo cambia y refleja la diferencia en el presupuesto.</p>
+        </x-import>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 24px;">
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Card" tone="light" hint-size="100%,96px"><div style="display: flex; align-items: center; gap: 24px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.06em; color: var(--accent); min-width: 92px;">DWG · DXF</div>
+          <div style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft);">Visor CAD integrado para asignar mediciones directamente sobre los planos.</div>
+        </div></x-import>
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Card" tone="light" hint-size="100%,96px"><div style="display: flex; align-items: center; gap: 24px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.06em; color: var(--accent); min-width: 92px;">EXCEL</div>
+          <div style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft);">Importación de presupuestos existentes y exportación masiva de memorias.</div>
+        </div></x-import>
+      </div>
+    </div>
+  </section>
+
+  <section id="dirigido" style="background: var(--ados-white);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 104px 32px;">
+      <div style="display: flex; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 56px;">
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px;">Dirigido a</div>
+          <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0; max-width: 22ch; text-wrap: pretty;">Un mismo software, útil para cada perfil de la obra.</h2>
+        </div>
+        <p style="font-size: 16px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0; max-width: 34ch;">Cada agente de la obra entra al mismo archivo con la información que le corresponde, sin rehacerla.</p>
+      </div>
+      <div class="dirigido-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;">
+        <div style="border-left: 1px solid var(--border-light); padding: 0 28px; display: flex; flex-direction: column; gap: 16px;">
+          <svg viewBox="0 0 36 38" width="40" height="42" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><path d="M6 30 L18 8 L30 30" /><path d="M11 22 H25" /><path d="M4 34 H32" /></svg>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; line-height: 1.2; letter-spacing: -0.02em; color: var(--ados-ink); text-wrap: pretty;">Arquitectos, ingenieros y estudios técnicos</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Presupuesto y mediciones desde las primeras fases del diseño, con trazabilidad hasta el elemento del modelo. Comparar alternativas deja de costar una semana.</p>
+        </div>
+        <div style="border-left: 1px solid var(--border-light); padding: 0 28px; display: flex; flex-direction: column; gap: 16px;">
+          <svg viewBox="0 0 36 38" width="40" height="42" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><rect x="7" y="5" width="22" height="28" /><path d="M12 13 H24" /><path d="M12 19 H24" /><path d="M12 25 H19" /></svg>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; line-height: 1.2; letter-spacing: -0.02em; color: var(--ados-ink); text-wrap: pretty;">Dirección de obra e interventoría</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Control técnico y económico del contrato: cortes mensuales, avance real contra programado y actas de modificación con historial completo de versiones.</p>
+        </div>
+        <div style="border-left: 1px solid var(--border-light); padding: 0 28px; display: flex; flex-direction: column; gap: 16px;">
+          <svg viewBox="0 0 36 38" width="40" height="42" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><path d="M5 33 V17 L18 9 L31 17 V33 Z" /><path d="M14 33 V23 H22 V33" /></svg>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; line-height: 1.2; letter-spacing: -0.02em; color: var(--ados-ink); text-wrap: pretty;">Constructoras y contratistas</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Ofertas, análisis de precios unitarios y control de costos reales. Cotizaciones, insumos y márgenes viven en el mismo entorno del presupuesto.</p>
+        </div>
+        <div style="border-left: 1px solid var(--border-light); padding: 0 28px; display: flex; flex-direction: column; gap: 16px;">
+          <svg viewBox="0 0 36 38" width="40" height="42" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><circle cx="18" cy="18" r="13" /><path d="M18 11 V25" /><path d="M22 14.5 C22 12.5 20.2 11.8 18 11.8 C15.8 11.8 14 12.6 14 14.4 C14 18.6 22 17.2 22 21.4 C22 23.3 20.2 24.2 18 24.2 C15.8 24.2 14 23.4 14 21.4" /></svg>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; line-height: 1.2; letter-spacing: -0.02em; color: var(--ados-ink); text-wrap: pretty;">Entidades públicas y promotores</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Visión global del proyecto: presupuesto aprobado, ejecutado y pendiente, con la información estandarizada para intercambiarla entre todos los agentes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" style="background: var(--ados-navy-900);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 104px 32px; display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,0.8fr); gap: 80px; align-items: center;">
+      <div>
+        <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 48px; line-height: 1.05; letter-spacing: -0.035em; color: var(--ados-white); margin: 0; text-wrap: pretty;">Cuéntenos qué quiere construir.</h2>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 22px 0 0 0; max-width: 50ch;">Le mostramos ADOS Presupuesto sobre un proyecto suyo: cargamos su modelo, extraemos las mediciones y armamos el presupuesto en vivo.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; align-items: start;">
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="primary" size="lg" href="#contacto" full-width="{{ true }}" hint-size="100%,52px">Solicitar demostración</x-import>
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="secondary" size="lg" href="#contacto" full-width="{{ true }}" hint-size="100%,52px">Hablar con un consultor</x-import>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background: var(--ados-navy-900); border-top: 1px solid var(--border);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <img src="assets/logo/ados-logo-light.svg" alt="ADOS Ingeniería y Arquitectura" style="height: 26px; display: block;">
+      <div style="font-size: 13.5px; color: var(--text-faint);">ADOS Ingeniería y Arquitectura SAS · Colombia</div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#F9B233&quot;,&quot;options&quot;:[&quot;#F9B233&quot;,&quot;#E7A11E&quot;,&quot;#2F8A8A&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Marca&quot;},&quot;perfilesColumnas&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;4&quot;,&quot;2&quot;],&quot;default&quot;:&quot;4&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Dirigido a&quot;},&quot;mostrarPerfiles&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Dirigido a&quot;}}">
+class Component extends DCLogic {
+  applyTweaks() {
+    const accent = this.props.accent ?? '#F9B233';
+    document.documentElement.style.setProperty('--accent', accent);
+    const grid = document.querySelector('.dirigido-grid');
+    if (grid) grid.style.gridTemplateColumns = `repeat(${this.props.perfilesColumnas ?? '4'}, 1fr)`;
+    const sec = document.getElementById('dirigido');
+    if (sec) sec.style.display = (this.props.mostrarPerfiles ?? true) ? '' : 'none';
+  }
+  componentDidUpdate() { this.applyTweaks(); }
+  componentDidMount() {
+    this.applyTweaks();
+    const root = document.querySelector('x-dc') || document;
+    const links = Array.from(root.querySelectorAll('.nav-link'));
+    const sections = links
+      .map(l => ({ link: l, el: document.getElementById(l.dataset.spy) }))
+      .filter(s => s.el);
+    if (!sections.length) return;
+    const setActive = (id) => links.forEach(l => l.setAttribute('data-active', String(l.dataset.spy === id)));
+    this._onScroll = () => {
+      const probe = window.innerHeight * 0.35;
+      let current = sections[0].id;
+      let found = null;
+      for (const s of sections) {
+        const r = s.el.getBoundingClientRect();
+        if (r.top <= probe) found = s;
+      }
+      setActive(found ? found.link.dataset.spy : null);
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+  }
+  componentWillUnmount() {
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+  }
+}
+</script>
+</body>
+</html>

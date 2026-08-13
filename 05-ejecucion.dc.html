@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/base.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/components/interactions.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/styles.css">
+  <script src="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/_ds_bundle.js"></script>
+  <script src="./image-slot.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--ados-white); color: var(--ados-ink); font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--ados-ink); text-decoration: none; transition: color 120ms cubic-bezier(0.2,0,0,1); }
+    a:hover { color: #E7A11E; }
+
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+    .eyebrow { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .label { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); }
+    .h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0; text-wrap: pretty; }
+    .h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: var(--ados-ink); margin: 0; }
+    .lead { font-size: 17px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0; }
+    .lead strong, .feat .tx strong { color: var(--ados-ink); font-weight: 600; }
+    .mas { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; color: var(--ados-amber-600); }
+
+    /* Barra de apartados */
+    .apbar { display: flex; align-items: stretch; overflow-x: auto; scrollbar-width: none; }
+    .apbar::-webkit-scrollbar { display: none; }
+    .apbar > * { display: flex; align-items: center; gap: 8px; padding: 0 18px; height: 46px; white-space: nowrap; font-size: 13.5px; font-weight: 500; color: var(--ados-ink-soft); border-bottom: 2px solid transparent; }
+    .apbar > a:hover { color: var(--ados-ink); border-bottom-color: var(--border-light-strong); }
+    .apbar > .on { color: var(--ados-ink); font-weight: 600; border-bottom-color: var(--accent); }
+    .apbar .n { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.06em; color: var(--accent); }
+    .apbar > a .n { color: var(--ados-ink-soft); }
+    .apbar > a:hover .n { color: var(--accent); }
+
+    /* Bloques */
+    .bloque { padding: 96px 0; border-top: 1px solid var(--border-light); }
+    .bloque--first { border-top: none; }
+    .bnum { display: flex; align-items: baseline; gap: 16px; margin-bottom: 22px; }
+    .bnum .num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 46px; line-height: 1; letter-spacing: -0.04em; color: var(--accent); }
+    .cols { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 76px; align-items: start; }
+    .cols--center { align-items: center; }
+    .cols--head { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr); gap: 64px; align-items: end; margin-bottom: 52px; }
+
+    .feat { display: grid; gap: 15px; }
+    .feat > div { display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start; }
+    .feat .dot { width: 8px; height: 8px; background: var(--accent); margin-top: 8px; }
+    .feat .tx { font-size: 16px; line-height: 1.58; color: var(--ados-ink); }
+    .feat--dark .tx { color: var(--ados-white); }
+    .feat--dark .tx strong { color: var(--ados-white); font-weight: 600; }
+
+    /* Huecos de imagen */
+    figure.shot { margin: 0; border: 1px solid var(--border-light); background: var(--ados-light); }
+    figure.shot .body { position: relative; aspect-ratio: 1919 / 1032; }
+    figure.shot .body.wide { aspect-ratio: 1919 / 1032; }
+    figure.shot .body.tall { aspect-ratio: 1042 / 1346; }
+    figure.shot .body > image-slot { position: absolute; inset: 0; }
+    figure.shot figcaption { display: flex; align-items: baseline; gap: 10px; padding: 13px 16px; border-top: 1px solid var(--border-light); background: var(--ados-white); font-size: 14px; line-height: 1.5; color: var(--ados-ink-soft); }
+    /* El distintivo con el ID (IMG-EJE-01…11) es andamio de producción: sirve para
+       saber qué captura va en cada hueco. Ya están todas puestas, así que va
+       oculto; para volver a verlos, `display: inline-block` en la línea siguiente.
+       Los de los huecos de vídeo (VID-EJE-01…02) siguen a la vista:
+       esos aún están vacíos. */
+    figure.shot figcaption .pin { display: none; }
+    .pin { font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); border: 1px solid var(--border-light-strong); padding: 2px 6px; white-space: nowrap; }
+
+    /* Huecos de vídeo — reemplazar el div.vid por un <video controls poster> cuando lleguen */
+    .vid { border: 1px solid var(--border-light-strong); background: var(--ados-white); }
+    .vid .frame { position: relative; aspect-ratio: 16 / 9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 24px; }
+    .vid .frame::before { content: ''; position: absolute; inset: 12px; border: 1px dashed var(--border-light-strong); pointer-events: none; }
+    .vid .play { width: 62px; height: 62px; border: 2px solid var(--accent); border-radius: 999px; display: flex; align-items: center; justify-content: center; }
+    .vid .play span { width: 0; height: 0; border-left: 16px solid var(--accent); border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-left: 4px; }
+    .vid .que { font-size: 15px; line-height: 1.55; color: var(--ados-ink-soft); max-width: 46ch; }
+    .vid .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 13px 16px; border-top: 1px solid var(--border-light); background: var(--ados-light); }
+    .vid .rank { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: -0.01em; color: var(--ados-ink); }
+
+    /* Regla / cita */
+    .regla { border-left: 3px solid var(--accent); background: var(--ados-light); padding: 26px 30px; }
+    .cita { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.25; letter-spacing: -0.025em; color: var(--ados-ink); border-left: 3px solid var(--accent); padding-left: 22px; margin: 0; text-wrap: pretty; }
+
+    /* Franja ámbar — la frase que define el apartado */
+    .ambar { background: var(--accent); color: var(--on-accent); padding: 36px 40px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+    .ambar .f { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 28px; line-height: 1.2; letter-spacing: -0.028em; color: var(--on-accent); max-width: 26ch; text-wrap: pretty; }
+    .ambar .g { font-size: 16px; line-height: 1.6; color: var(--on-accent); opacity: 0.82; max-width: 34ch; }
+
+    /* Los tres estados de una línea al cobrar */
+    .estados { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light-strong); border: 1px solid var(--border-light-strong); }
+    .estados > div { background: var(--ados-white); padding: 28px; }
+    .estados .mk { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border: 2px solid var(--ados-navy-700); margin-bottom: 16px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 12px; color: var(--ados-ink); }
+    .estados .mk--on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+    .estados .mk--half { border-color: var(--accent); color: var(--ados-amber-600); width: auto; padding: 0 8px; }
+
+    /* Rejillas */
+    .tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .tri > div { background: var(--ados-white); padding: 26px; }
+    .duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .cuatro { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .cuatro > div { background: var(--ados-white); padding: 26px; }
+    .cinco-dolor { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
+    .cinco-dolor > div { border-left: 1px solid var(--border); padding: 0 22px; }
+    .cinco-dolor > div:first-child { border-left: none; padding-left: 0; }
+
+    /* Tablas */
+    .tabla { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+    .tabla th { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); text-align: left; padding: 13px 18px; border-bottom: 1px solid var(--border-light-strong); }
+    .tabla td { padding: 15px 18px; border-bottom: 1px solid var(--border-light); color: var(--ados-ink); line-height: 1.55; vertical-align: top; }
+    .tabla tr:last-child td { border-bottom: none; }
+    .tabla .vs { color: var(--ados-ink-soft); }
+    .tabla .col { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
+    .cuadro { border: 1px solid var(--border-light); background: var(--ados-white); }
+    .cuadro > .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 11px 18px; border-bottom: 1px solid var(--border-light); background: var(--ados-light); }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 13.5px; color: var(--ados-ink); border: 1px solid var(--border-light-strong); background: var(--ados-white); padding: 7px 13px; }
+    .chip b { color: var(--ados-amber-600); font-weight: 700; }
+
+    code { font-family: 'Space Grotesk', ui-monospace, monospace; font-size: 14.5px; background: var(--ados-white); border: 1px solid var(--border-light-strong); padding: 2px 7px; color: var(--ados-ink); }
+
+    /* el encabezado es sticky (68 + 46): los anclajes no deben quedar debajo */
+    section[id], div[id] { scroll-margin-top: 130px; }
+
+    @media (max-width: 1080px) {
+      .cuatro { grid-template-columns: repeat(2, 1fr); }
+      .cinco-dolor { grid-template-columns: repeat(3, 1fr); row-gap: 28px; }
+      .cinco-dolor > div:nth-child(4) { border-left: none; padding-left: 0; }
+    }
+    @media (max-width: 900px) {
+      .cols, .cols--head { grid-template-columns: 1fr !important; gap: 40px; }
+      .tri, .duo, .cuatro, .estados { grid-template-columns: 1fr; }
+      .cinco-dolor { grid-template-columns: 1fr; }
+      .cinco-dolor > div { border-left: none; border-top: 1px solid var(--border); padding: 22px 0 0 0; }
+      .cinco-dolor > div:first-child { border-top: none; padding-top: 0; }
+      .bloque { padding: 64px 0; }
+      .h2 { font-size: 29px; }
+      .hero-h1 { font-size: 36px !important; }
+      .cita { font-size: 21px; }
+      .ambar { padding: 28px; }
+      .ambar .f { font-size: 22px; }
+      .cta-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .tabla th, .tabla td { padding: 12px 14px; font-size: 14.5px; }
+    }
+  </style>
+</helmet>
+
+<div style="background: var(--ados-white);">
+
+  <!-- ===================== HEADER + BARRA DE APARTADOS ===================== -->
+  <header style="position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,0.90); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <a href="index.html" style="display: flex; align-items: center; gap: 12px;">
+        <img src="assets/logo/ados-presupuesto-icon.svg" alt="ADOS Presupuesto" style="width: 30px; height: 30px; display: block;">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-ink);">ADOS <span style="font-weight: 500; color: var(--ados-ink-soft);">Presupuesto</span></span>
+      </a>
+      <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="light" size="sm" href="Herramientas.dc.html#recorrido" hint-size="196px,34px">Volver al recorrido</x-import>
+    </div>
+    <div style="border-top: 1px solid var(--border-light);">
+      <div class="wrap">
+        <nav class="apbar">
+          <a href="01-presupuesto.dc.html"><span class="n">01</span>Presupuesto</a>
+          <a href="02-analisis.dc.html"><span class="n">02</span>Análisis</a>
+          <a href="03-medicion.dc.html"><span class="n">03</span>Medición</a>
+          <a href="04-programacion.dc.html"><span class="n">04</span>Programación</a>
+          <span class="on"><span class="n">05</span>Ejecución</span>
+          <a href="06-entrega.dc.html"><span class="n">06</span>Entrega</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="wrap" style="padding-top: 104px; padding-bottom: 96px;">
+    <div style="display: flex; align-items: baseline; gap: 18px; margin-bottom: 26px;">
+      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 76px; line-height: 1; letter-spacing: -0.04em; color: var(--accent);">05</span>
+      <span class="eyebrow">Ejecución · Cortes, actas y avance</span>
+    </div>
+    <h1 class="hero-h1" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 64px; line-height: 1.03; letter-spacing: -0.035em; color: var(--ados-ink); margin: 0; max-width: 17ch; text-wrap: pretty;">Cobrar la obra deja de ser volver a medirla.</h1>
+    <div style="display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,0.9fr); gap: 64px; align-items: end; margin-top: 38px;" class="cols--head">
+      <p style="font-size: 19.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0; max-width: 58ch; text-wrap: pretty;">
+        Se marca lo que ya se hizo sobre la misma memoria con la que se presupuestó, día a día si
+        se quiere, y el acta del mes sale de ahí.
+      </p>
+      <div style="border-left: 3px solid var(--accent); padding-left: 22px;">
+        <div class="label" style="margin-bottom: 8px;">Para quién es este apartado</div>
+        <p style="font-size: 16px; line-height: 1.6; color: var(--ados-ink); margin: 0;">Para el que <strong style="font-weight: 600;">ya ganó la obra</strong> y ahora tiene que ejecutarla, cobrarla y sustentarla mes a mes.</p>
+      </div>
+    </div>
+    <div class="tri" style="margin-top: 52px;">
+      <div>
+        <div class="label" style="color: var(--accent); margin-bottom: 12px;">Cobrar</div>
+        <div class="h3" style="margin-bottom: 8px;">Marcar, no volver a medir</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">La memoria ya está escrita desde que se presupuestó. Cobrar el mes es repasar la lista.</p>
+      </div>
+      <div>
+        <div class="label" style="color: var(--accent); margin-bottom: 12px;">Sustentar</div>
+        <div class="h3" style="margin-bottom: 8px;">Con papel, en el momento</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">«¿De dónde salen estas cantidades?» se responde con la memoria del corte, en PDF.</p>
+      </div>
+      <div>
+        <div class="label" style="color: var(--accent); margin-bottom: 12px;">No perder plata</div>
+        <div class="h3" style="margin-bottom: 8px;">Ni dos veces ni de menos</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Cada línea sabe cuánto de ella se cobró antes, aunque en el camino haya entrado una modificatoria.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EL PROBLEMA ===================== -->
+  <section style="background: var(--ados-navy-900); color: var(--ados-white);">
+    <div class="wrap" style="padding: 88px 32px;">
+      <div class="cols" style="margin-bottom: 52px;">
+        <div>
+          <div class="eyebrow" style="margin-bottom: 18px;">El problema que resuelve</div>
+          <h2 class="h2" style="color: var(--ados-white); font-size: 35px; max-width: 20ch;">El presupuesto se ganó, y ahí empieza el trabajo de verdad.</h2>
+        </div>
+        <p style="font-size: 16.5px; line-height: 1.7; color: var(--text-muted); margin: 0;">Cada mes hay que decir cuánto se ejecutó de cada partida, sustentarlo, pasarlo a un acta y cobrarlo. Y cada mes se hace igual: se abre el Excel del presupuesto, se copia a otra pestaña, se le agregan columnas «anterior», «presente» y «acumulado», y alguien se sienta a escribir cantidades de memoria o de una libreta.</p>
+      </div>
+      <div class="label" style="color: var(--text-faint); margin-bottom: 24px;">Lo que sale mal es siempre lo mismo</div>
+      <div class="cinco-dolor">
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; line-height: 1.25; letter-spacing: -0.02em; color: var(--ados-white); margin-bottom: 10px;">Se cobra dos veces o se deja de cobrar</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">Nadie sabe con certeza cuánto de ese muro entró en el acta de marzo.</p>
+        </div>
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; line-height: 1.25; letter-spacing: -0.02em; color: var(--ados-white); margin-bottom: 10px;">Se pasa del contratado sin darse cuenta</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">Y la interventoría lo devuelve.</p>
+        </div>
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; line-height: 1.25; letter-spacing: -0.02em; color: var(--ados-white); margin-bottom: 10px;">El acta no se puede sustentar</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">«¿De dónde salen esos 43,2 m³ de este mes?» y no hay respuesta escrita.</p>
+        </div>
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; line-height: 1.25; letter-spacing: -0.02em; color: var(--ados-white); margin-bottom: 10px;">El informe se arma la última semana</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">A la carrera, con lo que alguien se acuerde de lo que pasó hace veinte días.</p>
+        </div>
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; line-height: 1.25; letter-spacing: -0.02em; color: var(--ados-white); margin-bottom: 10px;">La obra parece atrasada todo el mes</div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin: 0;">Y se «arregla» el día que cierra el acta, porque hasta entonces no hay nada cargado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 1 ===================== -->
+  <section id="cortes" class="wrap">
+    <div class="bloque bloque--first">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">1</span><span class="label">Dos formas de cortar la obra</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Los meses para seguir la obra, las actas para cobrarla.</h2>
+        </div>
+        <p class="lead">Los dos se llevan <strong>a la vez y sin estorbarse</strong>: se puede seguir la obra por meses y cobrar por actas cuando toque.</p>
+      </div>
+
+      <figure class="shot" style="margin-bottom: 44px;">
+        <div class="body wide">
+          <image-slot id="IMG-EJE-01" src="assets/img/capturas/05-ejecucion/IMG-EJE-01.png" shape="rect" fit="contain" placeholder="IMG-EJE-01 · La hoja con las columnas de ejecución a la vista (Cantidad ejecutada, Valor ejecutado, % ejecutado) y la barra de cortes arriba con varios meses creados"></image-slot>
+        </div>
+        <figcaption><span class="pin">IMG-EJE-01</span><span>La obra ejecutada, sobre el mismo presupuesto.</span></figcaption>
+      </figure>
+
+      <div class="cols" style="gap: 76px;">
+        <div style="display: grid; gap: 20px;">
+          <div style="border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 24px 28px;">
+            <div class="h3" style="font-size: 21px; margin-bottom: 10px;">Seguimiento mensual</div>
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Un corte por mes, numerados 1, 2, 3… Es el ritmo natural de la obra y el que alimenta los informes.</p>
+          </div>
+          <div style="border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 24px 28px;">
+            <div class="h3" style="font-size: 21px; margin-bottom: 10px;">Parciales</div>
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Las actas que se cobran, numeradas por su lado. Una parcial puede cubrir uno o varios meses.</p>
+          </div>
+        </div>
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx"><strong>Un corte no modifica el presupuesto.</strong> Solo registra cuánto se ejecutó de cada partida. El presupuesto contratado queda intacto, que es justo lo que hay que poder demostrar.</span></div>
+          <div><span class="dot"></span><span class="tx">Y hay un <strong>modo acumulado</strong> que suma del corte 1 hasta el que esté seleccionado: lo ejecutado a la fecha, de un vistazo.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 2 · EL CORAZÓN DEL APARTADO ===================== -->
+  <section id="marcar" style="background: var(--ados-light); border-top: 3px solid var(--accent); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="padding: 104px 32px;">
+      <div class="bnum"><span class="num">2</span><span class="label">Medir lo ejecutado</span></div>
+      <h2 class="h2" style="font-size: 52px; max-width: 20ch; margin-bottom: 32px;">Es <span style="color: var(--accent);">marcar</span>, no volver a medir.</h2>
+      <p class="lead" style="font-size: 19px; max-width: 66ch; margin-bottom: 48px;">La partida ya se midió cuando se presupuestó: «Muro eje A», «Muro eje B», «Muro eje C», con sus dimensiones. Para cobrar el mes <strong>no hay que volver a escribir nada</strong>.</p>
+
+      <div class="ambar" style="margin-bottom: 48px;">
+        <div class="f">Cobrar el mes es repasar la lista y dejar marcado lo que se hizo.</div>
+        <div class="g">Con <strong>Traer medición</strong>, la memoria de la partida se copia dentro del corte: aparecen las mismas líneas, con sus rótulos y sus dimensiones.</div>
+      </div>
+
+      <div class="cols cols--center" style="gap: 76px; margin-bottom: 48px;">
+        <div>
+          <div class="label" style="margin-bottom: 20px;">Cómo llega cada línea al corte</div>
+          <div class="estados">
+            <div>
+              <div class="mk"></div>
+              <div class="h3" style="font-size: 17px; margin-bottom: 10px;">Ya cobrada</div>
+              <p style="font-size: 15px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Las líneas que ya se cobraron enteras en cortes anteriores llegan <strong style="color: var(--ados-ink); font-weight: 600;">desmarcadas</strong>. No hay que acordarse de cuáles eran.</p>
+            </div>
+            <div>
+              <div class="mk mk--on">✓</div>
+              <div class="h3" style="font-size: 17px; margin-bottom: 10px;">Se hizo este mes</div>
+              <p style="font-size: 15px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Lo que queda por delante viene <strong style="color: var(--ados-ink); font-weight: 600;">marcado</strong>. Se repasa y se deja marcado lo ejecutado.</p>
+            </div>
+            <div>
+              <div class="mk mk--half">60 %</div>
+              <div class="h3" style="font-size: 17px; margin-bottom: 10px;">Va a medias</div>
+              <p style="font-size: 15px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">El programa multiplica la línea por el avance <strong style="color: var(--ados-ink); font-weight: 600;">sin tocar sus dimensiones</strong>. El 40 % restante queda pendiente, y el programa lo sabe.</p>
+            </div>
+          </div>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--ados-ink-soft); margin: 16px 0 0 0;">Así el acta sigue enseñando el muro completo y lo que se cobra de él.</p>
+        </div>
+        <figure class="shot" style="background: var(--ados-white);">
+          <div class="body"><image-slot id="IMG-EJE-02" src="assets/img/capturas/05-ejecucion/IMG-EJE-02.png" shape="rect" fit="contain" placeholder="IMG-EJE-02 · El panel de Mediciones dentro de un corte, con las líneas traídas de la memoria del presupuesto: unas marcadas y otras desmarcadas, y alguna con avance parcial"></image-slot></div>
+          <figcaption><span class="pin">IMG-EJE-02</span><span>Cobrar el mes es marcar lo que se hizo.</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="cols" style="gap: 76px; margin-bottom: 48px;">
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx"><strong>Se pueden añadir líneas nuevas:</strong> lo que apareció en obra y no estaba medido se escribe ahí mismo, con la misma tabla, y queda sustentado.</span></div>
+          <div><span class="dot"></span><span class="tx">Funciona igual con las mediciones que salieron del <a href="03-medicion.dc.html#cad" class="mas">plano CAD</a> o del <a href="03-medicion.dc.html#revit" class="mas">modelo de Revit</a>: se marca el elemento ejecutado y ya está.</span></div>
+        </div>
+        <div class="regla" style="background: var(--ados-white);">
+          <div class="label" style="color: var(--ados-ink); margin-bottom: 12px;">Lo que sostiene todo</div>
+          <p style="font-size: 16.5px; line-height: 1.7; color: var(--ados-ink-soft); margin: 0;"><strong style="color: var(--ados-ink); font-weight: 600;">Cada línea conserva su identidad de un corte a otro.</strong> Por eso el programa sabe cuánto de ella se cobró antes —aunque en el camino haya entrado una modificatoria que cambió la memoria— y no se cobra dos veces ni se deja de cobrar.</p>
+        </div>
+      </div>
+
+      <!-- HUECO DE VÍDEO 1 · sustituir este div.vid por <video controls poster="…"> cuando llegue -->
+      <div class="vid">
+        <div class="frame">
+          <div class="play"><span></span></div>
+          <div>
+            <div class="label" style="margin-bottom: 8px;">Vídeo corto · VID-EJE-01</div>
+            <div class="que">Se trae la medición del presupuesto a un corte y se marca lo ejecutado: las ya cobradas llegan desmarcadas, una se deja al 60 % y el total del acta se arma solo.</div>
+          </div>
+        </div>
+        <div class="bar">
+          <span class="rank">Prioridad 1 de 2 — el gesto que define el apartado</span>
+          <span class="pin">VID-EJE-01</span>
+        </div>
+      </div>
+
+      <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 24px 0 0 0;">Cómo se mide la primera vez se cuenta en el <a href="03-medicion.dc.html" class="mas">apartado 03 · Medición →</a></p>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 3 ===================== -->
+  <section id="diario" class="wrap">
+    <div class="bloque bloque--first">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">3</span><span class="label">Seguimiento diario</span></div>
+          <h2 class="h2" style="max-width: 22ch;">El informe del mes no se hace el día 30: se hace todos los días, en cinco minutos.</h2>
+        </div>
+        <p class="lead">Se elige un día en el calendario y se carga lo que se hizo <strong>ese día</strong>. También un rango, para cargar la semana de una vez.</p>
+      </div>
+
+      <div class="duo" style="margin-bottom: 44px;">
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-EJE-03" src="assets/img/capturas/05-ejecucion/IMG-EJE-03.png" shape="rect" fit="contain" placeholder="IMG-EJE-03 · El calendario del mes desplegado, con puntos en los días que tienen avance cargado"></image-slot></div>
+          <figcaption><span class="pin">IMG-EJE-03</span><span>El avance, día a día.</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-EJE-04" src="assets/img/capturas/05-ejecucion/IMG-EJE-04.png" shape="rect" fit="contain" placeholder="IMG-EJE-04 · La hoja en modo diario, cargando el avance de un día concreto"></image-slot></div>
+          <figcaption><span class="pin">IMG-EJE-04</span><span>Cinco minutos al final de la jornada.</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="cols" style="gap: 76px;">
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx"><strong>No es otro tipo de corte.</strong> El corte sigue siendo el mes: el día es solo la fecha de cada línea. No hay que crear nada, ni mantener una lista de días, ni cerrar el día.</span></div>
+          <div><span class="dot"></span><span class="tx">El calendario <strong>marca los días que ya tienen algo cargado</strong>, así se ve de un vistazo qué días faltan por reportar.</span></div>
+          <div><span class="dot"></span><span class="tx">Al abrir el día 2, <strong>se ve lo que el día 1 ya hizo</strong>: las líneas que se cargaron ayer llegan desmarcadas, con su día anotado. No se repite el avance por error.</span></div>
+        </div>
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx"><strong>Una línea cuenta el último día de su rango</strong> —la semana del 8 al 12 cuenta el 12—, así que los días parten el mes sin solaparse: la suma de todos los días es exactamente el total del mes. Las cuentas cuadran solas.</span></div>
+          <div><span class="dot"></span><span class="tx">Lo que se digita <strong>sin bajar al día</strong> cuenta al cierre del mes, como siempre. Quien no quiera usar el diario, no lo usa.</span></div>
+        </div>
+      </div>
+
+      <div class="ambar" style="margin-top: 44px;">
+        <div class="f">El mes en curso cuenta desde el primer día.</div>
+        <div class="g">Como el avance está cargado día a día, se acabó lo de ver la obra atrasada todo el mes y que el atraso se «corrija» de golpe el día del cierre.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 4 ===================== -->
+  <section id="cierre" class="wrap">
+    <div class="bloque">
+      <div class="cols cols--center" style="gap: 76px;">
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-EJE-05" src="assets/img/capturas/05-ejecucion/IMG-EJE-05.png" shape="rect" fit="contain" placeholder="IMG-EJE-05 · La vista del mes cerrado con las cantidades y los valores ejecutados por capítulo"></image-slot></div>
+          <figcaption><span class="pin">IMG-EJE-05</span><span>Y el informe del mes ya está hecho.</span></figcaption>
+        </figure>
+        <div>
+          <div class="bnum"><span class="num">4</span><span class="label">Al cierre</span></div>
+          <h2 class="h2" style="margin-bottom: 20px; max-width: 20ch;">El mes no se arma: el mes es la suma de sus días.</h2>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx"><strong>El seguimiento mensual usa lo que se cargó día a día.</strong></span></div>
+            <div><span class="dot"></span><span class="tx">El que reporta a diario llega al día 30 con el acta lista; el que no, digita el total del mes como toda la vida. Los dos caminos conviven <strong>en el mismo archivo y sin convertir nada</strong>.</span></div>
+            <div><span class="dot"></span><span class="tx">Cada partida admite además <strong>notas de seguimiento</strong>, para lo que no es cantidad: por qué se paró, qué falta, qué se acordó en el comité.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 5 ===================== -->
+  <section id="parciales" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">5</span><span class="label">Las parciales</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Se arman solas, desde los meses.</h2>
+        </div>
+        <p class="lead">Cuando toca cobrar un acta que cubre varios meses, no hay que volver a medir nada: se elige <strong>de qué mes a qué mes</strong> va la parcial y el programa la llena sola.</p>
+      </div>
+
+      <div class="cols cols--center" style="gap: 76px; margin-bottom: 44px;">
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx"><strong>Trae las líneas de medición de esos meses</strong>, no solo los totales. Cada línea llega rotulada con el mes del que salió —<code>[Mes N.º 1 – Enero] Muro 1</code>—, así que el acta puede explicar de dónde salió cada número.</span></div>
+          <div><span class="dot"></span><span class="tx">Donde el mes se digitó a mano, sin memoria, la línea lo declara: «Reportado en el mes N.º 3». <strong>El acta nunca queda sin explicación.</strong></span></div>
+          <div><span class="dot"></span><span class="tx"><strong>La cantidad cuadra con el acumulado de esos meses</strong>, por construcción. No hay que cuadrarla a mano.</span></div>
+          <div><span class="dot"></span><span class="tx">Y lo traído <strong>sigue cruzándose</strong> con la memoria de la partida y con las parciales anteriores: no se cobra dos veces.</span></div>
+          <div><span class="dot"></span><span class="tx">Después se edita como cualquier medición: <strong>es una parcial normal</strong>, no un bloque cerrado.</span></div>
+        </div>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-EJE-06" src="assets/img/capturas/05-ejecucion/IMG-EJE-06.png" shape="rect" fit="contain" placeholder="IMG-EJE-06 · La ventana «Traer de los meses…» eligiendo el rango (del mes 1 al 4) y el resultado: la parcial llena, con cada línea rotulada con el mes del que salió"></image-slot></div>
+          <figcaption><span class="pin">IMG-EJE-06</span><span>Las actas se arman solas.</span></figcaption>
+        </figure>
+      </div>
+
+      <!-- HUECO DE VÍDEO 2 · sustituir este div.vid por <video controls poster="…"> cuando llegue -->
+      <div class="vid">
+        <div class="frame">
+          <div class="play"><span></span></div>
+          <div>
+            <div class="label" style="margin-bottom: 8px;">Vídeo corto · VID-EJE-02</div>
+            <div class="que">Se arma una parcial desde los meses: se elige el rango, la parcial se llena con las líneas rotuladas por mes y la cantidad cuadra con el acumulado.</div>
+          </div>
+        </div>
+        <div class="bar">
+          <span class="rank">Prioridad 2 de 2 — el acta de varios meses, en un clic</span>
+          <span class="pin">VID-EJE-02</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 6 ===================== -->
+  <section id="comparacion" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">6</span><span class="label">Lo contratado contra lo ejecutado</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Qué falta, qué ya se agotó y qué se está pasando.</h2>
+        </div>
+        <p class="lead">Sobre la misma hoja del presupuesto, sin cambiar de ventana.</p>
+      </div>
+
+      <figure class="shot" style="margin-bottom: 44px;">
+        <div class="body wide"><image-slot id="IMG-EJE-07" src="assets/img/capturas/05-ejecucion/IMG-EJE-07.png" shape="rect" fit="contain" placeholder="IMG-EJE-07 · La hoja con las columnas Cantidad ejecutada, Valor ejecutado y % ejecutado llenas, con capítulos sumando y algún porcentaje alto que salte a la vista"></image-slot></div>
+        <figcaption><span class="pin">IMG-EJE-07</span><span>Lo contratado contra lo ejecutado.</span></figcaption>
+      </figure>
+
+      <div class="cols" style="gap: 76px;">
+        <div class="cuadro">
+          <div class="bar"><span class="label">Las columnas de ejecución</span><span class="label">En la hoja</span></div>
+          <table class="tabla">
+            <tbody>
+              <tr><td class="col" style="width: 42%;">Cantidad ejecutada</td><td class="vs">Por partida, con los capítulos y el total sumando solos.</td></tr>
+              <tr><td class="col">Valor ejecutado</td><td class="vs">Lo que vale lo ejecutado, según el presupuesto.</td></tr>
+              <tr><td class="col">% ejecutado</td><td class="vs">Contra lo contratado, partida por partida.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx">El <strong>modo acumulado</strong> enseña lo ejecutado desde el corte 1 hasta el seleccionado; sin él, lo del corte presente.</span></div>
+          <div><span class="dot"></span><span class="tx">En las actas, el programa lleva por su cuenta <strong>lo ejecutado en actas anteriores</strong> y <strong>lo presente en ésta</strong>, que son las dos columnas que pide cualquier formato de acta.</span></div>
+          <div><span class="dot"></span><span class="tx">Todo esto <strong>se exporta a Excel tal como se ve</strong>, con las columnas de ejecución incluidas.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 7 ===================== -->
+  <section id="sustento" class="wrap">
+    <div class="bloque">
+      <div class="cols cols--center" style="gap: 76px;">
+        <div>
+          <div class="bnum"><span class="num">7</span><span class="label">El acta se sustenta sola</span></div>
+          <h2 class="h2" style="margin-bottom: 20px; max-width: 20ch;">La respuesta escrita a «¿de dónde salen estas cantidades?».</h2>
+          <p class="lead" style="margin-bottom: 32px;">No hay que armarla: <strong>es la misma tabla con la que se marcó el avance</strong>.</p>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx">La <strong>memoria de cálculo del corte</strong> sale en PDF, una hoja por partida medida, con el logo y los datos de la empresa.</span></div>
+            <div><span class="dot"></span><span class="tx">Con <strong>plantillas configurables</strong>, para el formato que pida cada entidad.</span></div>
+            <div><span class="dot"></span><span class="tx">Se genera <strong>en el momento</strong>, no la última semana del mes.</span></div>
+          </div>
+        </div>
+        <figure class="shot">
+          <div class="body tall"><image-slot id="IMG-EJE-08" src="assets/img/capturas/05-ejecucion/IMG-EJE-08.png" shape="rect" fit="contain" placeholder="IMG-EJE-08 · Una página de la memoria de cálculo de un corte en PDF, con las líneas del mes, lo de actas anteriores y lo presente"></image-slot></div>
+          <figcaption><span class="pin">IMG-EJE-08</span><span>Con qué sustentar cada cantidad del acta.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 8 ===================== -->
+  <section id="cronograma" style="background: var(--ados-light); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="padding: 88px 32px;">
+      <div class="cols cols--center" style="gap: 76px;">
+        <figure class="shot" style="background: var(--ados-white);">
+          <div class="body"><image-slot id="IMG-EJE-09" src="assets/img/capturas/05-ejecucion/IMG-EJE-09.png" shape="rect" fit="contain" placeholder="IMG-EJE-09 · La vista Programación con el % ejecutado y la desviación, o la curva S con la línea de ejecutado"></image-slot></div>
+          <figcaption><span class="pin">IMG-EJE-09</span><span>Y el cronograma se entera solo.</span></figcaption>
+        </figure>
+        <div>
+          <div class="bnum"><span class="num">8</span><span class="label">Y el cronograma se entera solo</span></div>
+          <h2 class="h2" style="margin-bottom: 20px; max-width: 22ch;">Medir para cobrar y medir para controlar dejan de ser dos trabajos.</h2>
+          <p class="lead" style="margin-bottom: 32px;">Lo que se marca aquí alimenta el <a href="04-programacion.dc.html#seguimiento" class="mas">apartado 04</a> sin digitar nada dos veces.</p>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx"><strong>% ejecutado y desviación</strong> por actividad en el Gantt.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>El desfase en jornadas</strong> de la obra: «vamos nueve jornadas atrasados».</span></div>
+            <div><span class="dot"></span><span class="tx">La <a href="04-programacion.dc.html#curva-s" class="mas">curva S</a> con su tercera línea, la de lo realmente ejecutado.</span></div>
+            <div><span class="dot"></span><span class="tx">Y todo eso <strong>se mueve día a día</strong>, gracias al seguimiento diario.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 9 ===================== -->
+  <section id="modificatorias" style="background: var(--ados-navy-900); color: var(--ados-white);">
+    <div class="wrap" style="padding: 96px 32px;">
+      <div class="cols--head" style="margin-bottom: 52px;">
+        <div>
+          <div class="bnum"><span class="num">9</span><span class="label" style="color: var(--text-faint);">Modificatorias y presupuesto contractual</span></div>
+          <h2 class="h2" style="color: var(--ados-white); max-width: 20ch;">La obra que se ejecuta casi nunca es la que se firmó.</h2>
+        </div>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 0;">Y lo que sostiene todo: <strong style="color: var(--ados-white); font-weight: 600;">lo ya ejecutado sigue cuadrando después de la modificatoria</strong>, porque cada línea de medición conserva su linaje.</p>
+      </div>
+
+      <div class="duo" style="margin-bottom: 48px;">
+        <figure class="shot" style="background: var(--ados-navy-950); border-color: var(--border);">
+          <div class="body"><image-slot id="IMG-EJE-10" src="assets/img/capturas/05-ejecucion/IMG-EJE-10.png" shape="rect" fit="contain" placeholder="IMG-EJE-10 · La hoja con la vista de Modificaciones activa: aumento, disminución, cantidad actualizada y presupuesto ajustado"></image-slot></div>
+          <figcaption style="background: var(--ados-navy-900); border-color: var(--border); color: var(--text-muted);"><span class="pin">IMG-EJE-10</span><span>Mayores y menores cantidades, medidas.</span></figcaption>
+        </figure>
+        <figure class="shot" style="background: var(--ados-navy-950); border-color: var(--border);">
+          <div class="body"><image-slot id="IMG-EJE-11" src="assets/img/capturas/05-ejecucion/IMG-EJE-11.png" shape="rect" fit="contain" placeholder="IMG-EJE-11 · El aviso o el estado de Bloquear (contractual), con la fecha del sello"></image-slot></div>
+          <figcaption style="background: var(--ados-navy-900); border-color: var(--border); color: var(--text-muted);"><span class="pin">IMG-EJE-11</span><span>El presupuesto firmado, sellado.</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="cols" style="gap: 76px;">
+        <div class="feat feat--dark">
+          <div><span class="dot"></span><span class="tx"><strong>Bloquear (contractual):</strong> se sella el presupuesto firmado y deja de poder editarse. El sello va firmado criptográficamente, con su fecha y su historial de bloqueos y desbloqueos. A partir de ahí, todo cambio entra como modificación.</span></div>
+          <div><span class="dot"></span><span class="tx"><strong>Modificaciones</strong> con mayores y menores cantidades por partida, cada una con su propia medición y su memoria de cálculo — se miden, no se estiman.</span></div>
+        </div>
+        <div class="feat feat--dark">
+          <div><span class="dot"></span><span class="tx"><strong>Versión activa:</strong> se elige ver el presupuesto original o el actualizado, sin duplicar el archivo. Se acabó el «v2 final bueno».</span></div>
+          <div><span class="dot"></span><span class="tx">Las columnas de la vista: <strong>Aumento / Disminución</strong>, <strong>Cantidad actualizada</strong> y <strong>Presupuesto ajustado</strong>.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== POR QUÉ IMPORTA ===================== -->
+  <section class="wrap" style="padding-top: 96px; padding-bottom: 96px;">
+    <div class="eyebrow" style="margin-bottom: 18px;">Por qué importa</div>
+    <h2 class="h2" style="max-width: 22ch; margin-bottom: 52px;">Ocho cosas que cambian el mes que hay que cobrar.</h2>
+    <div class="cuatro">
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Cobrar el mes es marcar una lista</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">La memoria ya está escrita desde que se presupuestó.</p>
+      </div>
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">No se cobra dos veces ni se deja de cobrar</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">El programa sabe qué parte de cada línea ya se pagó, incluso después de una modificatoria.</p>
+      </div>
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">El acta se sustenta con papel</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Generado en el momento y con el formato de la entidad.</p>
+      </div>
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">El informe deja de ser una noche de trabajo</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Si se reporta a diario, al día 30 ya está.</p>
+      </div>
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">La obra se ve como va, mientras va</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">El mes en curso cuenta desde el primer día en el avance y en la curva S.</p>
+      </div>
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Las parciales se arman de los meses</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Con cada línea diciendo de dónde salió.</p>
+      </div>
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">El contratado queda intacto y sellado</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Y todo lo posterior queda registrado como modificación.</p>
+      </div>
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Es el mismo archivo de siempre</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Presupuestar, programar, medir y cobrar pasan en un solo sitio.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PREGUNTAS ===================== -->
+  <section style="background: var(--ados-light); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="padding: 88px 32px;">
+      <div class="eyebrow" style="margin-bottom: 18px;">Preguntas</div>
+      <h2 class="h2" style="max-width: 22ch; margin-bottom: 52px;">Lo que preguntan cuando ya están ejecutando.</h2>
+      <div class="duo" style="gap: 44px 64px;">
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Tengo que volver a medir cada mes para hacer el acta?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No. Se trae la memoria de la partida y se marca lo ejecutado. Lo que ya se cobró entero llega desmarcado, y lo que va a medias se registra con su porcentaje.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Cómo sé que no estoy cobrando dos veces?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Porque cada línea de medición conserva su identidad de un corte a otro. El programa sabe cuánto de ella se cobró antes, aunque haya habido una modificatoria en el camino.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿El seguimiento diario me obliga a reportar todos los días?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No. Es opcional. Quien digita el total del mes lo sigue haciendo igual, en el mismo archivo. Quien reporta a diario llega al cierre con el acta lista.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿El acta me la genera el programa?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Le genera las cantidades, los valores —anterior, presente y acumulado— y la memoria de cálculo que las sustenta, en PDF y en Excel. El formato oficial de su entidad y los descuentos de ley —anticipo, amortización, retenciones— se manejan aparte.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Y cuando entra un otrosí?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Se registra como una modificación, con mayores y menores cantidades <strong style="color: var(--ados-ink); font-weight: 600;">medidas</strong>, y se elige si se ve el presupuesto original o el actualizado. Sin duplicar el archivo y sin descuadrar lo ya ejecutado.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Puedo bloquear el presupuesto que firmé?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Sí. Queda sellado y no se puede editar; lo que venga después entra como modificación, con constancia de quién y cuándo lo bloqueó o desbloqueó.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Me dice cuánto me está costando de verdad la obra?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No. El programa sabe lo que vale lo ejecutado según el presupuesto, no lo que usted gastó: no registra facturas, nómina ni compras.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section style="background: var(--ados-navy-900);">
+    <div class="wrap cta-grid" style="padding: 96px 32px; display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,0.8fr); gap: 80px; align-items: center;">
+      <div>
+        <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 44px; line-height: 1.05; letter-spacing: -0.035em; color: var(--ados-white); margin: 0; text-wrap: pretty;">Traiga el acta que está cobrando este mes.</h2>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 22px 0 0 0; max-width: 52ch;">La montamos sobre su presupuesto, marcamos lo ejecutado y le sacamos la memoria de cálculo que la sustenta antes de que termine la reunión.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; align-items: start;">
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="primary" size="lg" href="index.html#contacto" full-width="{{ true }}" hint-size="100%,52px">Solicitar demostración</x-import>
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="secondary" size="lg" href="Herramientas.dc.html#recorrido" full-width="{{ true }}" hint-size="100%,52px">Volver al recorrido</x-import>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ANTERIOR / SIGUIENTE ===================== -->
+  <section style="background: var(--ados-navy-950); border-top: 1px solid var(--border);">
+    <div class="wrap" style="padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <a href="04-programacion.dc.html" style="display: flex; align-items: baseline; gap: 12px; color: var(--ados-white);">
+        <span class="label" style="color: var(--text-faint);">Anterior</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-white);">← 04 · Programación</span>
+      </a>
+      <a href="Herramientas.dc.html#recorrido" style="color: var(--text-muted); font-size: 14.5px;">Todos los apartados</a>
+      <a href="06-entrega.dc.html" style="display: flex; align-items: baseline; gap: 12px; color: var(--ados-white);">
+        <span class="label" style="color: var(--text-faint);">Siguiente</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-white);">06 · Entrega →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer style="background: var(--ados-navy-900); border-top: 1px solid var(--border);">
+    <div class="wrap" style="padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <img src="assets/logo/ados-logo-light.svg" alt="ADOS Ingeniería y Arquitectura" style="height: 26px; display: block;">
+      <div style="font-size: 13.5px; color: var(--text-faint);">ADOS Ingeniería y Arquitectura SAS · Colombia</div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,67 @@
+/* ============================================================
+   ADOS — COLOR TOKENS
+   60% navy · 30% white/light · 10% amber accent
+   Amber #F9B233 is the ONLY warm color. Never dilute with beige/tan/gold.
+   ============================================================ */
+:root {
+  /* ---- Base palette: Navy (primary surface) ---- */
+  --ados-navy-950: #1A2129;  /* deepest background */
+  --ados-navy-900: #222B35;  /* PRIMARY navy — backgrounds, headers */
+  --ados-navy-800: #2A3441;  /* elevated dark surface / cards on dark */
+  --ados-navy-700: #3A4654;  /* hairline-strong borders, cube dark face */
+  --ados-navy-600: #4A5768;  /* disabled / faint strokes on dark */
+
+  /* ---- Base palette: Amber (accent — 10%) ---- */
+  --ados-amber-300: #FBC766; /* amber hover lift */
+  --ados-amber:     #F9B233; /* ACCENT — CTAs, highlights, icon fills */
+  --ados-amber-600: #E7A11E; /* amber pressed / cube right face */
+
+  /* ---- Base palette: Light & neutral ---- */
+  --ados-white:       #FFFFFF;
+  --ados-light:       #F5F5F3; /* light content surface */
+  --ados-light-200:   #ECECE8; /* light surface alt / dividers */
+  --ados-ink:         #222B35; /* text on light (== navy-900) */
+  --ados-ink-soft:    #4A5568; /* secondary text on light */
+
+  /* ---- Steel / technical accent (from BIM connection renders) ---- */
+  --ados-steel:       #2F8A8A; /* teal connection-plate accent, sparing use */
+
+  /* ============================================================
+     SEMANTIC ALIASES — dark-first
+     ============================================================ */
+  /* Surfaces */
+  --bg:            var(--ados-navy-900);
+  --bg-deep:       var(--ados-navy-950);
+  --surface:       var(--ados-navy-800);
+  --surface-light: var(--ados-white);
+  --surface-tint:  var(--ados-light);
+
+  /* Borders (no shadows on dark — 1px hairline instead) */
+  --border:        rgba(255,255,255,0.10);
+  --border-strong: rgba(255,255,255,0.18);
+  --border-light:  rgba(34,43,53,0.12);
+  --border-light-strong: rgba(34,43,53,0.20);
+
+  /* Text on dark */
+  --text:          var(--ados-white);
+  --text-muted:    rgba(255,255,255,0.60);
+  --text-faint:    rgba(255,255,255,0.40);
+  /* Text on light */
+  --text-on-light:        var(--ados-ink);
+  --text-on-light-muted:  var(--ados-ink-soft);
+
+  /* Accent */
+  --accent:        var(--ados-amber);
+  --accent-hover:  var(--ados-amber-300);
+  --accent-press:  var(--ados-amber-600);
+  --on-accent:     var(--ados-navy-900); /* navy text on amber */
+
+  /* Focus rings */
+  --focus-on-dark:  var(--ados-amber);
+  --focus-on-light: var(--ados-navy-900);
+
+  /* Status (kept minimal & cool except amber-warn) */
+  --warn:    var(--ados-amber);
+  --success: #3FA372;
+  --danger:  #D7544B;
+}

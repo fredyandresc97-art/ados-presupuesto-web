@@ -1,0 +1,65 @@
+/* ============================================================
+   ADOS — TYPOGRAPHY TOKENS
+   Display: Space Grotesk (geometric) · Body: Inter (technical/neutral)
+   Pairing principle: geometric display + neutral technical body = BIM precision
+   ============================================================ */
+:root {
+  /* Families */
+  --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:    'Space Grotesk', ui-monospace, 'SF Mono', monospace;
+
+  /* Weights */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* Type scale (rem · 16px base) */
+  --text-label:   0.7rem;    /* technical labels / captions (uppercase) */
+  --text-xs:      0.75rem;
+  --text-sm:      0.875rem;
+  --text-base:    1rem;
+  --text-md:      1.125rem;
+  --text-lg:      1.375rem;
+  --text-xl:      1.75rem;
+  --display-sm:   2.25rem;
+  --display-md:   3rem;
+  --display-lg:   4.25rem;
+  --display-xl:   5.5rem;
+
+  /* Line heights */
+  --leading-tight:  1.05;
+  --leading-snug:   1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  /* Tracking */
+  --tracking-display: -0.03em;  /* tight on large display */
+  --tracking-tight:   -0.015em;
+  --tracking-normal:  0em;
+  --tracking-caps:    0.08em;   /* all-caps labels */
+  --tracking-caps-wide: 0.1em;  /* technical captions */
+}
+
+/* ---- Helper classes (optional, for specimens & cards) ---- */
+.ados-display {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+}
+.ados-eyebrow,
+.ados-label {
+  font-family: var(--font-body);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-caps-wide);
+  text-transform: uppercase;
+}
+.ados-body {
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+}

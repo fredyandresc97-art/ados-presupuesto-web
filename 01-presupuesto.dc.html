@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/base.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/components/interactions.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/styles.css">
+  <script src="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/_ds_bundle.js"></script>
+  <script src="./image-slot.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--ados-white); color: var(--ados-ink); font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--ados-ink); text-decoration: none; transition: color 120ms cubic-bezier(0.2,0,0,1); }
+    a:hover { color: #E7A11E; }
+
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+    .eyebrow { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .label { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); }
+    .h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0; text-wrap: pretty; }
+    .h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: var(--ados-ink); margin: 0; }
+    .lead { font-size: 17px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0; }
+    .lead strong, .feat .tx strong { color: var(--ados-ink); font-weight: 600; }
+
+    /* Barra de apartados */
+    .apbar { display: flex; align-items: stretch; gap: 0; overflow-x: auto; scrollbar-width: none; }
+    .apbar::-webkit-scrollbar { display: none; }
+    .apbar > * { display: flex; align-items: center; gap: 8px; padding: 0 18px; height: 46px; white-space: nowrap; font-size: 13.5px; font-weight: 500; color: var(--ados-ink-soft); border-bottom: 2px solid transparent; }
+    .apbar > a:hover { color: var(--ados-ink); border-bottom-color: var(--border-light-strong); }
+    .apbar > .on { color: var(--ados-ink); font-weight: 600; border-bottom-color: var(--accent); }
+    .apbar .n { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.06em; color: var(--accent); }
+    .apbar > a .n { color: var(--ados-ink-soft); }
+    .apbar > a:hover .n { color: var(--accent); }
+
+    /* Bloques */
+    .bloque { padding: 88px 0; border-top: 1px solid var(--border-light); }
+    .bnum { display: flex; align-items: baseline; gap: 16px; margin-bottom: 22px; }
+    .bnum .num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 44px; line-height: 1; letter-spacing: -0.04em; color: var(--accent); }
+    .cols { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 72px; align-items: start; }
+    .cols--center { align-items: center; }
+    .cols--head { grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr); gap: 64px; align-items: end; margin-bottom: 48px; }
+    /* Apilada: para las secciones cuya segunda columna es una captura. A media
+       columna (≈580px) la ventana de la app quedaba al 30% y no se leía; en una
+       sola columna se lleva los 1216px del contenido. El texto conserva medida de
+       lectura para que no se estire de lado a lado. Va después de .cols para ganarle
+       las columnas y el gap, que tienen la misma especificidad. */
+    .cols--apilada { grid-template-columns: 1fr; gap: 40px; }
+    /* El :not(:has(figure)) es la parte que importa: sin el, un <figure> envuelto
+       en un <div> heredaba esta medida de lectura y la captura salia encogida
+       respecto a las demas. La medida es para el texto, no para las imagenes. */
+    .cols--apilada > div:not(:has(figure)) { max-width: 78ch; }
+
+    .feat { display: grid; gap: 14px; }
+    .feat > div { display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start; }
+    .feat .dot { width: 8px; height: 8px; background: var(--accent); margin-top: 8px; }
+    .feat .tx { font-size: 16px; line-height: 1.55; color: var(--ados-ink); }
+
+    /* Huecos de imagen */
+    figure.shot { margin: 0; border: 1px solid var(--border-light); background: var(--ados-light); }
+    /* Las diez capturas son la ventana de la app maximizada: 1919×1032 (≈1.86:1).
+       El hueco lleva esa misma proporción para que la imagen lo llene sin franjas
+       grises arriba y abajo. Los nombres .wide y .tall vienen de la maqueta, cuando
+       aún no se sabía la forma real; hoy las diez comparten proporción y se dejan
+       los nombres para no tocar el HTML de cada figura. Si algún día entra una
+       captura de otra forma, se le pone su propia aspect-ratio a ese .body. */
+    figure.shot .body { position: relative; aspect-ratio: 1919 / 1032; }
+    figure.shot .body.wide, figure.shot .body.tall { aspect-ratio: 1919 / 1032; }
+    figure.shot .body > image-slot { position: absolute; inset: 0; }
+    figure.shot figcaption { display: flex; align-items: baseline; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--border-light); background: var(--ados-white); font-size: 14px; line-height: 1.5; color: var(--ados-ink-soft); }
+    /* El distintivo con el ID (IMG-PRE-01…10) es andamio de producción: sirve para
+       saber qué captura va en cada hueco. Ya están las diez puestas, así que va
+       oculto; para volver a verlos, `display: inline-block` en la línea siguiente.
+       El texto del hueco vacío ya se borra solo al soltar la imagen. */
+    figure.shot figcaption .pin { display: none; }
+    figure.shot figcaption .pin { font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); border: 1px solid var(--border-light-strong); padding: 2px 6px; white-space: nowrap; }
+
+    /* Jerarquía */
+    .niveles { display: grid; gap: 12px; }
+    .nivel { border: 1px solid var(--border-light); border-left: 3px solid var(--accent); background: var(--ados-white); padding: 20px 24px; }
+    .nivel .k { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+    .nivel .kn { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.02em; color: var(--ados-ink); }
+    .nivel p { font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0; }
+    .nivel p strong { color: var(--ados-ink); font-weight: 600; }
+    .ind1 { margin-left: 36px; }
+    .ind2 { margin-left: 72px; }
+    .nivel--aiu { border-left-color: var(--ados-navy-700); margin-top: 12px; }
+
+    /* Regla / cita */
+    .regla { border-left: 3px solid var(--accent); background: var(--ados-light); padding: 26px 28px; }
+    .cita { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.25; letter-spacing: -0.025em; color: var(--ados-ink); border-left: 3px solid var(--accent); padding-left: 22px; margin: 0; text-wrap: pretty; }
+
+    /* Rejillas */
+    .tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .tri > div { background: var(--ados-white); padding: 26px; }
+    /* Variante apilada: la usa la rejilla de "No partir de cero", cuyas tres celdas
+       llevan captura. A un tercio de ancho (352px, 18%) la ventana de la app era
+       ilegible, así que cada bloque pasa a ocupar la fila entera —captura arriba a
+       todo el ancho, texto debajo—. El texto se limita a medida de lectura para que
+       no se estire los 1160px de la caja. */
+    .tri.apilada { grid-template-columns: 1fr; }
+    .tri.apilada > div > p, .tri.apilada > div > .h3 { max-width: 68ch; }
+    .duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .cinco { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
+    .cinco > div { border-left: 1px solid var(--border-light); padding: 0 24px; }
+    .cinco > div:first-child { border-left: none; padding-left: 0; }
+
+    /* Tablas */
+    .tabla { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+    .tabla th { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); text-align: left; padding: 12px 18px; border-bottom: 1px solid var(--border-light-strong); }
+    .tabla td { padding: 15px 18px; border-bottom: 1px solid var(--border-light); color: var(--ados-ink); line-height: 1.5; vertical-align: top; }
+    .tabla tr:last-child td { border-bottom: none; }
+    .tabla .vs { color: var(--ados-ink-soft); }
+    .tabla .vs-b { font-weight: 500; }
+    .tabla strong { font-weight: 600; }
+    .cuadro { border: 1px solid var(--border-light); }
+    .cuadro > .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 18px; border-bottom: 1px solid var(--border-light); background: var(--ados-light); }
+
+    code { font-family: 'Space Grotesk', ui-monospace, monospace; font-size: 14px; background: var(--ados-light); border: 1px solid var(--border-light); padding: 1px 6px; }
+
+    /* el encabezado es sticky (68 + 46): los anclajes no deben quedar debajo */
+    section[id] { scroll-margin-top: 130px; }
+
+    @media (max-width: 1080px) {
+      .cinco { grid-template-columns: repeat(3, 1fr); row-gap: 32px; }
+      .cinco > div:nth-child(4) { border-left: none; padding-left: 0; }
+    }
+    @media (max-width: 900px) {
+      .cols, .cols--head { grid-template-columns: 1fr !important; gap: 40px; }
+      .tri, .duo { grid-template-columns: 1fr; }
+      .cinco { grid-template-columns: 1fr; }
+      .cinco > div { border-left: none; border-top: 1px solid var(--border-light); padding: 24px 0 0 0; }
+      .cinco > div:first-child { border-top: none; padding-top: 0; }
+      .bloque { padding: 64px 0; }
+      .h2 { font-size: 30px; }
+      .hero-h1 { font-size: 38px !important; }
+      .ind1, .ind2 { margin-left: 0; }
+      .cita { font-size: 21px; }
+      .cta-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .tabla th, .tabla td { padding: 12px 14px; font-size: 14.5px; }
+    }
+  </style>
+</helmet>
+
+<div style="background: var(--ados-white);">
+
+  <!-- ===================== HEADER + BARRA DE APARTADOS ===================== -->
+  <header style="position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,0.90); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <a href="index.html" style="display: flex; align-items: center; gap: 12px;">
+        <img src="assets/logo/ados-presupuesto-icon.svg" alt="ADOS Presupuesto" style="width: 30px; height: 30px; display: block;">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-ink);">ADOS <span style="font-weight: 500; color: var(--ados-ink-soft);">Presupuesto</span></span>
+      </a>
+      <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="light" size="sm" href="Herramientas.dc.html#recorrido" hint-size="196px,34px">Volver al recorrido</x-import>
+    </div>
+    <div style="border-top: 1px solid var(--border-light);">
+      <div class="wrap">
+        <nav class="apbar">
+          <span class="on"><span class="n">01</span>Presupuesto</span>
+          <a href="02-analisis.dc.html"><span class="n">02</span>Análisis</a>
+          <a href="03-medicion.dc.html"><span class="n">03</span>Medición</a>
+          <a href="04-programacion.dc.html"><span class="n">04</span>Programación</a>
+          <a href="05-ejecucion.dc.html"><span class="n">05</span>Ejecución</a>
+          <a href="06-entrega.dc.html"><span class="n">06</span>Entrega</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="wrap" style="padding-top: 96px; padding-bottom: 88px;">
+    <div style="display: flex; align-items: baseline; gap: 18px; margin-bottom: 24px;">
+      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 72px; line-height: 1; letter-spacing: -0.04em; color: var(--accent);">01</span>
+      <span class="eyebrow">Presupuesto · Capítulos, partidas e insumos</span>
+    </div>
+    <h1 class="hero-h1" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 60px; line-height: 1.04; letter-spacing: -0.035em; color: var(--ados-ink); margin: 0; max-width: 19ch; text-wrap: pretty;">Una hoja de cálculo que ya sabe de obra.</h1>
+    <div style="display: grid; grid-template-columns: minmax(0,1fr) minmax(0,400px); gap: 64px; align-items: end; margin-top: 36px;" class="cols--head">
+      <p style="font-size: 19px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0; max-width: 58ch; text-wrap: pretty;">
+        Capítulos, partidas, análisis unitarios y AIU, donde cambiar el precio de un bulto de
+        cemento recalcula solo hasta el total del contrato.
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light);">
+        <div style="background: var(--ados-white); padding: 16px 14px;"><div class="label" style="margin-bottom: 6px;">Estructura</div><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; color: var(--ados-ink);">Cuatro niveles</div></div>
+        <div style="background: var(--ados-white); padding: 16px 14px;"><div class="label" style="margin-bottom: 6px;">Vistas</div><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; color: var(--ados-ink);">Árbol · Presupuesto</div></div>
+        <div style="background: var(--ados-white); padding: 16px 14px;"><div class="label" style="margin-bottom: 6px;">Insumos</div><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; color: var(--ados-ink);">Uno para toda la obra</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EL PROBLEMA ===================== -->
+  <section style="background: var(--ados-navy-900); color: var(--ados-white);">
+    <div class="wrap" style="padding: 80px 32px;">
+      <div class="cols">
+        <div>
+          <div class="eyebrow" style="margin-bottom: 18px;">El problema que resuelve</div>
+          <h2 class="h2" style="color: var(--ados-white); font-size: 34px; max-width: 20ch;">Excel no conoce la estructura de una obra.</h2>
+        </div>
+        <div style="display: grid; gap: 18px;">
+          <p style="font-size: 16.5px; line-height: 1.65; color: var(--text-muted); margin: 0;">Casi todo el gremio presupuesta en Excel, y funciona hasta que la obra crece: los análisis unitarios quedan en otra pestaña, el precio del acero se actualiza en tres sitios y en el cuarto no, alguien borra una fórmula sin darse cuenta y el total cambia sin que nadie sepa por qué. Cuando llega la modificatoria, se copia el archivo, se le pone «v2 final» y a los dos meses ya nadie sabe cuál era el bueno.</p>
+          <p style="font-size: 16.5px; line-height: 1.65; color: var(--ados-white); margin: 0;">El problema de fondo no es Excel: es que un presupuesto de obra tiene una estructura —capítulo, partida, insumo— que Excel no conoce, así que hay que sostenerla a mano, fila por fila, obra tras obra.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 1 ===================== -->
+  <section id="estructura" class="wrap">
+    <div class="bloque" style="border-top: none;">
+      <div class="bnum"><span class="num">1</span><span class="label">Cómo está armado un presupuesto</span></div>
+      <h2 class="h2" style="max-width: 24ch; margin-bottom: 40px;">Cuatro niveles, siempre los mismos.</h2>
+
+      <figure class="shot" style="margin-bottom: 48px;">
+        <div class="body wide">
+          <image-slot id="IMG-PRE-01" src="assets/img/capturas/01-presupuesto/IMG-PRE-01.png" shape="rect" fit="contain" placeholder="IMG-PRE-01 · Presupuesto real de varios capítulos, uno desplegado, con el APU de una partida abierto abajo"></image-slot>
+        </div>
+        <figcaption><span class="pin">IMG-PRE-01</span><span>Capítulos, partidas y análisis unitarios en una sola hoja.</span></figcaption>
+      </figure>
+
+      <div class="cols" style="gap: 64px;">
+        <div class="niveles">
+          <div class="nivel">
+            <div class="k"><span class="kn">Capítulo</span><span class="label">Agrupa</span></div>
+            <p>Puede tener <strong>subcapítulos</strong> dentro, tantos como haga falta: Preliminares → Excavaciones → Excavación manual. Su valor es la suma de lo que cuelga de él; <strong>no se digita nunca</strong>.</p>
+          </div>
+          <div class="nivel ind1">
+            <div class="k"><span class="kn">Partida</span><span class="label">Lo que se contrata</span></div>
+            <p>El ítem que se contrata y se paga: descripción, unidad, cantidad y precio unitario. Es la fila que le importa al contratante.</p>
+          </div>
+          <div class="nivel ind2">
+            <div class="k"><span class="kn">APU</span><span class="label">Análisis de precio unitario</span></div>
+            <p>El desglose de la partida en insumos —material, mano de obra, equipo, transporte y otros—, cada renglón con su <strong>rendimiento</strong> (cuánto entra por unidad de partida) y su <strong>% de desperdicio</strong>. El precio unitario es la suma de su APU, siempre: no es un número tecleado que alguien tenga que recordar.</p>
+          </div>
+          <div class="nivel nivel--aiu">
+            <div class="k"><span class="kn">AIU</span><span class="label">Sobre el costo directo</span></div>
+            <p>Administración, imprevistos y utilidad. Simple, con porcentajes, o detallado renglón por renglón.</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="label" style="margin-bottom: 16px;">Y dos cosas más, porque la obra las pide</div>
+          <div class="duo" style="grid-template-columns: 1fr; gap: 16px; margin-bottom: 40px;">
+            <div style="border: 1px solid var(--border-light); padding: 22px 24px;">
+              <div class="h3" style="margin-bottom: 8px;">Sub-partidas</div>
+              <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Una partida puede entrar como insumo de otra, para los ítems que se arman con otros ítems: una placa que lleva concreto, acero y formaleta ya analizados.</p>
+            </div>
+            <div style="border: 1px solid var(--border-light); padding: 22px 24px;">
+              <div class="h3" style="margin-bottom: 8px;">Precio manual</div>
+              <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Una partida que no se quiere desglosar acepta su precio a mano. En cuanto se le mete un APU, el precio pasa a calcularse.</p>
+            </div>
+          </div>
+
+          <div class="regla">
+            <div class="label" style="color: var(--ados-ink); margin-bottom: 12px;">La regla que lo sostiene todo</div>
+            <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.25; letter-spacing: -0.02em; color: var(--ados-ink); margin-bottom: 14px;">El orden de las filas manda.</div>
+            <p style="font-size: 15.5px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">La jerarquía no son punteros invisibles ni celdas de colores: una partida pertenece al capítulo bajo el que está. Se mueve una fila con las flechas <strong style="color: var(--ados-ink); font-weight: 600;">Arriba / Abajo</strong> o se corre de nivel con <strong style="color: var(--ados-ink); font-weight: 600;">Izq / Der</strong>, y el programa entiende de quién cuelga. Los códigos —1, 1.2, 1.2.3— se renumeran solos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 2 ===================== -->
+  <section id="vistas" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">2</span><span class="label">Las vistas</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Dos formas de mirar el mismo presupuesto.</h2>
+        </div>
+        <p class="lead">En la barra que va bajo la cinta se cambia de vista sin salir del archivo. Y las vistas se prenden y apagan en <strong>Ver → Presupuestos</strong>: quien no use una, no la ve.</p>
+      </div>
+
+      <!-- Apilada, no lado a lado: IMG-PRE-02 y 03 son la ventana completa y a media
+           columna (592px, 31%) la tabla no se leía. A todo el ancho van al 63%. -->
+      <div class="duo" style="grid-template-columns: 1fr; gap: 48px; margin-bottom: 48px;">
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-PRE-02" src="assets/img/capturas/01-presupuesto/IMG-PRE-02.png" shape="rect" fit="contain" placeholder="IMG-PRE-02 · Vista Árbol: la obra entera desplegada, con la barra de vistas visible arriba"></image-slot></div>
+          <figcaption><span class="pin">IMG-PRE-02</span><span>La obra completa, de un vistazo.</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-PRE-03" src="assets/img/capturas/01-presupuesto/IMG-PRE-03.png" shape="rect" fit="contain" placeholder="IMG-PRE-03 · Vista Presupuesto: la misma obra en un solo nivel, capítulos raíz con su total"></image-slot></div>
+          <figcaption><span class="pin">IMG-PRE-03</span><span>O nivel por nivel, para revisar y presentar.</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="cuadro">
+        <div class="bar"><span class="label">Las vistas</span><span class="label">Barra bajo la cinta</span></div>
+        <table class="tabla">
+          <thead><tr><th style="width: 22%;">Vista</th><th style="width: 43%;">Qué muestra</th><th>Para qué sirve</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Árbol</strong></td>
+              <td class="vs">Todo desplegado: capítulos, partidas y sus descompuestos, con contraer y expandir todo.</td>
+              <td class="vs vs-b">Trabajar de corrido, buscar, arrastrar y ver el conjunto.</td>
+            </tr>
+            <tr>
+              <td><strong>Presupuesto</strong></td>
+              <td class="vs">Un nivel a la vez, como Presto: solo los hijos directos del capítulo abierto. Se entra a un capítulo y se navega hacia dentro.</td>
+              <td class="vs vs-b">Revisar y presentar sin ruido: el capítulo con sus partidas y nada más.</td>
+            </tr>
+            <tr>
+              <td><strong>Insumos</strong></td>
+              <td class="vs">El listado de insumos de toda la obra.</td>
+              <td class="vs vs-b">Compras, comparación de precios y control del costo. <a href="#insumos" style="color: var(--ados-amber-600); font-weight: 500;">Más abajo →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Programación</strong></td>
+              <td class="vs">El cronograma sobre las mismas partidas.</td>
+              <td class="vs vs-b"><a href="04-programacion.dc.html" style="color: var(--ados-amber-600); font-weight: 500;">Apartado 04 · Programación →</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 3 ===================== -->
+  <section id="arbol" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">3</span><span class="label">Por qué un árbol</span></div>
+          <h2 class="h2" style="max-width: 22ch;">La estructura no es decoración: es lo que después usa todo lo demás.</h2>
+        </div>
+        <p class="lead">La programación, los cortes, las actas y las exportaciones salen de estos mismos capítulos y partidas. Armarla bien una vez sirve para toda la obra.</p>
+      </div>
+
+      <div class="cinco">
+        <div>
+          <div class="h3" style="margin-bottom: 12px;">El total no se rompe</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">El total de un capítulo es siempre la suma de lo suyo. No hay un <code>=SUMA(B4:B37)</code> que alguien pueda romper al insertar una fila: se agrega una partida y el capítulo, y el total de la obra, ya la contienen.</p>
+        </div>
+        <div>
+          <div class="h3" style="margin-bottom: 12px;">Un archivo, tres lecturas</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Al contratante se le enseña el resumen por capítulos; al residente, el capítulo abierto con sus partidas; al analista, el APU.</p>
+        </div>
+        <div>
+          <div class="h3" style="margin-bottom: 12px;">Reordenar es mover</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Un capítulo entero se sube, se baja o se cambia de nivel con las flechas, y los códigos se renumeran solos. No es recortar y pegar.</p>
+        </div>
+        <div>
+          <div class="h3" style="margin-bottom: 12px;">Mil filas, una pantalla</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Contraer y expandir deja ver una obra entera sin perderse en el desplazamiento.</p>
+        </div>
+        <div>
+          <div class="h3" style="margin-bottom: 12px;">Sirve para toda la obra</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Cronograma, cortes, actas y exportaciones se apoyan en la misma estructura. Se arma una vez.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 4 ===================== -->
+  <section id="contra-excel" class="wrap">
+    <div class="bloque">
+      <div class="bnum"><span class="num">4</span><span class="label">Contra una hoja de cálculo</span></div>
+      <h2 class="h2" style="max-width: 24ch; margin-bottom: 40px;">Qué cambia cuando el programa conoce la estructura.</h2>
+
+      <!-- La captura sale de la columna derecha y sube aquí, a ancho completo: dentro
+           de la rejilla quedaba en 580px (30%) y la hoja no se leía. Abajo siguen
+           enfrentadas la tabla «En Excel / Aquí» y la lista de lo que no se pierde,
+           que son texto y a media columna funcionan bien. -->
+      <figure class="shot" style="margin-bottom: 40px;">
+        <div class="body"><image-slot id="IMG-PRE-04" src="assets/img/capturas/01-presupuesto/IMG-PRE-04.png" shape="rect" fit="contain" placeholder="IMG-PRE-04 · Antes/después: se cambia el precio de un insumo y se mueven el precio unitario, el capítulo y el total"></image-slot></div>
+        <figcaption><span class="pin">IMG-PRE-04</span><span>Se cambia un precio: se recalcula toda la obra.</span></figcaption>
+      </figure>
+
+      <div class="cols cols--center" style="gap: 56px;">
+        <div class="cuadro">
+          <div class="bar"><span class="label">En Excel</span><span class="label">Aquí</span></div>
+          <table class="tabla">
+            <tbody>
+              <tr><td class="vs" style="width: 50%;">Los APU viven en otra pestaña, o en otro archivo</td><td><strong>El APU es parte de la partida</strong></td></tr>
+              <tr><td class="vs">Subir un precio obliga a buscarlo en cada análisis</td><td><strong>Se cambia el insumo una vez y se propaga a toda la obra</strong></td></tr>
+              <tr><td class="vs">Una fórmula borrada cambia el total sin avisar</td><td><strong>Los totales no son fórmulas que se puedan borrar</strong></td></tr>
+              <tr><td class="vs">La cantidad es un número sin respaldo</td><td><strong>La cantidad sale de sus mediciones, con la memoria de cálculo detrás</strong></td></tr>
+              <tr><td class="vs">La modificatoria se resuelve copiando el archivo</td><td><strong>Las modificatorias viven dentro, con versión activa</strong></td></tr>
+              <tr><td class="vs">Insertar una fila desordena los rangos</td><td><strong>Insertar una fila es insertar una fila</strong></td></tr>
+              <tr><td class="vs">El listado de materiales se arma a mano</td><td><strong>Ya está: es una vista</strong></td></tr>
+              <tr><td class="vs">Cada obra empieza de cero</td><td><strong>El catálogo y los presupuestos anteriores son el punto de partida</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <div class="label" style="margin-bottom: 16px;">Y lo que no se pierde</div>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx">Se sigue <strong>copiando y pegando contra Excel</strong> en bloques y en los dos sentidos.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Ctrl+Z / Ctrl+Y</strong> en todo el programa.</span></div>
+            <div><span class="dot"></span><span class="tx">Lo que se exporta a Excel sale <strong>con fórmulas vivas</strong>, no como un volcado muerto de números.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 5 ===================== -->
+  <section id="empezar" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">5</span><span class="label">No partir de cero</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Cuatro puertas de entrada, y todas evitan volver a teclear lo mismo.</h2>
+        </div>
+        <p class="cita">Presupuestar la obra número veinte es, en buena parte, escoger de las diecinueve anteriores.</p>
+      </div>
+
+      <div class="tri apilada" style="margin-bottom: 32px;">
+        <div>
+          <figure class="shot" style="border: none; background: transparent; margin-bottom: 20px;">
+            <div class="body tall" style="border: 1px solid var(--border-light); background: var(--ados-light);"><image-slot id="IMG-PRE-05" src="assets/img/capturas/01-presupuesto/IMG-PRE-05.png" shape="rect" fit="contain" placeholder="IMG-PRE-05 · Ventana de importar con un listado pegado desde Excel, ya reconocido en capítulos y partidas"></image-slot></div>
+            <figcaption style="padding: 12px 0 0 0; border-top: none;"><span class="pin">IMG-PRE-05</span><span>Lo que ya tiene en Excel, adentro.</span></figcaption>
+          </figure>
+          <div class="label" style="margin-bottom: 10px;">Inicio → Importar</div>
+          <div class="h3" style="margin-bottom: 10px;">Importar desde Excel o CSV</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Se pega el listado y el programa reconoce la estructura de capítulos y partidas. Lo que ya está hecho, entra.</p>
+        </div>
+        <div>
+          <figure class="shot" style="border: none; background: transparent; margin-bottom: 20px;">
+            <div class="body tall" style="border: 1px solid var(--border-light); background: var(--ados-light);"><image-slot id="IMG-PRE-06" src="assets/img/capturas/01-presupuesto/IMG-PRE-06.png" shape="rect" fit="contain" placeholder="IMG-PRE-06 · Panel de Referencias: otra obra abierta al lado y una partida arrastrándose a la obra nueva"></image-slot></div>
+            <figcaption style="padding: 12px 0 0 0; border-top: none;"><span class="pin">IMG-PRE-06</span><span>Las obras anteriores son su banco de precios.</span></figcaption>
+          </figure>
+          <div class="label" style="margin-bottom: 10px;">Herramientas → Referencias</div>
+          <div class="h3" style="margin-bottom: 10px;">Los presupuestos anteriores</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Se abre otra obra al lado y se <strong style="color: var(--ados-ink); font-weight: 600;">arrastran partidas con su APU completo</strong> —insumos, rendimientos, desperdicios— a la obra nueva. El código original se congela para que no se dupliquen numeraciones.</p>
+        </div>
+        <div>
+          <figure class="shot" style="border: none; background: transparent; margin-bottom: 20px;">
+            <div class="body tall" style="border: 1px solid var(--border-light); background: var(--ados-light);"><image-slot id="IMG-PRE-07" src="assets/img/capturas/01-presupuesto/IMG-PRE-07.png" shape="rect" fit="contain" placeholder="IMG-PRE-07 · Catálogo con el buscador escrito, enseñando insumos y plantillas de APU encontradas"></image-slot></div>
+            <figcaption style="padding: 12px 0 0 0; border-top: none;"><span class="pin">IMG-PRE-07</span><span>Sus precios y sus análisis, buscables.</span></figcaption>
+          </figure>
+          <div class="label" style="margin-bottom: 10px;">Herramientas → Catálogo</div>
+          <div class="h3" style="margin-bottom: 10px;">El catálogo de insumos</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Vive <strong style="color: var(--ados-ink); font-weight: 600;">fuera del archivo de obra</strong> y por eso sirve para todas: los precios propios de la empresa, con su buscador. Se llena pegando desde Excel y se puede tener más de uno, por región, por cliente o por año. Desde una partida se inserta un <strong style="color: var(--ados-ink); font-weight: 600;">Insumo del catálogo</strong> sin salir del APU.</p>
+        </div>
+      </div>
+
+      <div style="border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 32px 36px; display: grid; grid-template-columns: minmax(0,0.8fr) minmax(0,1.2fr); gap: 48px; align-items: center;" class="cols">
+        <div>
+          <div class="label" style="margin-bottom: 10px;">Herramientas → Partida seleccionada</div>
+          <div class="h3" style="font-size: 24px;">Los APU que arma quedan guardados</div>
+        </div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Con <strong style="color: var(--ados-ink); font-weight: 600;">Guardar APU</strong> el análisis se convierte en una plantilla con nombre dentro del catálogo, y con <strong style="color: var(--ados-ink); font-weight: 600;">Aplicar plantilla</strong> se le monta entero a otra partida, aquí o en cualquier otra obra. Las plantillas se buscan por nombre: con el tiempo la empresa termina con su propia biblioteca de análisis —su forma de hacer las cosas, con sus rendimientos— en lugar de tenerla repartida en carpetas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 6 ===================== -->
+  <section id="insumo-unico" class="wrap">
+    <div class="bloque">
+      <div class="cols cols--center cols--apilada">
+        <div>
+          <div class="bnum"><span class="num">6</span><span class="label">Un insumo, todas las partidas</span></div>
+          <h2 class="h2" style="margin-bottom: 18px; max-width: 20ch;">El cemento no es «el cemento de la partida 3».</h2>
+          <p class="lead" style="margin-bottom: 28px;">Es el cemento del presupuesto, y las partidas lo referencian. El mismo insumo puede estar en dos, en veinte o en todas.</p>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx"><strong>Cambiar su precio se propaga solo</strong> a cada partida donde entra, a su capítulo y al total. Es el mismo movimiento para una obra de 30 partidas que para una de 800.</span></div>
+            <div><span class="dot"></span><span class="tx">En cada renglón del APU, lo que cambia partida a partida es lo que tiene que cambiar: <strong>el rendimiento</strong> —cuánto entra por unidad— y <strong>el desperdicio</strong>. El precio es común.</span></div>
+            <div><span class="dot"></span><span class="tx">La <strong>mano de obra</strong> se maneja igual pero con su propia cuenta: se digita el <strong>jornal base</strong> y el <strong>porcentaje prestacional</strong>, y el programa saca el costo real de la cuadrilla, cargado.</span></div>
+            <div><span class="dot"></span><span class="tx">La columna <strong>Usos</strong> dice en cuántas partidas está metido cada insumo — útil para saber qué precio conviene negociar antes de firmar.</span></div>
+            <div><span class="dot"></span><span class="tx">Si una partida cuesta más por zona, altura o dificultad, está el <strong>factor de sobrecosto</strong>, que infla su precio unitario sin ensuciar el análisis ni tocar los insumos.</span></div>
+          </div>
+        </div>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-PRE-08" src="assets/img/capturas/01-presupuesto/IMG-PRE-08.png" shape="rect" fit="contain" placeholder="IMG-PRE-08 · Una partida con su APU abierto y, señalada, la columna Usos de la vista Insumos"></image-slot></div>
+          <figcaption><span class="pin">IMG-PRE-08</span><span>Un insumo, todas las partidas donde entra.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 7 ===================== -->
+  <section id="insumos" class="wrap">
+    <div class="bloque">
+      <div class="cols cols--center cols--apilada">
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-PRE-09" src="assets/img/capturas/01-presupuesto/IMG-PRE-09.png" shape="rect" fit="contain" placeholder="IMG-PRE-09 · Vista Insumos con el filtro en Material, mostrando Cant. total, Usos y % sobre el costo directo"></image-slot></div>
+          <figcaption><span class="pin">IMG-PRE-09</span><span>Qué lleva la obra, no solo cuánto vale.</span></figcaption>
+        </figure>
+        <div>
+          <div class="bnum"><span class="num">7</span><span class="label">Vista Insumos</span></div>
+          <h2 class="h2" style="margin-bottom: 18px; max-width: 20ch;">El listado de materiales de la obra.</h2>
+          <p class="lead" style="margin-bottom: 28px;">La vista Insumos es el presupuesto visto al revés: en vez de qué partidas tiene la obra, <strong>qué lleva la obra en total</strong>.</p>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx">Un renglón por insumo, con su <strong>cantidad total</strong> sumada de todas las partidas donde entra —ya multiplicada por cantidades y rendimientos— y su <strong>valor total</strong>.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Filtros por tipo:</strong> material, mano de obra, equipo, transporte y otros. El listado de materiales de la obra es un clic.</span></div>
+            <div><span class="dot"></span><span class="tx">Columnas que se prenden y apagan en <strong>Ver → Insumos</strong>: Cant. total, Usos, Cotizaciones, Margen y % —lo que pesa ese insumo sobre el costo directo—. Ordenar por <strong>%</strong> enseña en diez segundos dónde está la plata de la obra.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Por ámbito:</strong> en vez de toda la obra, los insumos de un capítulo o de las partidas que se elijan. Sirve para pedir materiales por frente de trabajo o por etapa.</span></div>
+            <div><span class="dot"></span><span class="tx">Ese mismo listado se exporta a Excel como <strong>Lista de insumos</strong>: es lo que se le manda al proveedor para que cotice.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 8 ===================== -->
+  <section id="cotizado" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">8</span><span class="label">Cotizaciones y margen</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Comparar contra lo que le cotizaron.</h2>
+        </div>
+        <p class="lead">El ciclo real de una licitación: se presupuesta con precios propios, se piden cotizaciones y después hay que ver si el presupuesto aguanta.</p>
+      </div>
+
+      <div class="cols cols--center cols--apilada">
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx">Cada insumo tiene su columna <strong>Cotizaciones</strong>, donde se teclea lo que el proveedor contestó. Mientras no haya nada, la celda enseña el precio del presupuesto en gris, para que se vea de un vistazo qué falta por cotizar.</span></div>
+          <div><span class="dot"></span><span class="tx">La columna <strong>Margen</strong> es la resta: precio del presupuesto − cotización. Positiva es colchón; negativa es que ese insumo se presupuestó por debajo de lo que va a costar.</span></div>
+          <div><span class="dot"></span><span class="tx">En la hoja, el botón <strong>Cotizado</strong> (Ver → Comparación) recalcula el presupuesto entero con los precios cotizados y lo pone al lado del presupuestado, con la diferencia, partida por partida y capítulo por capítulo. La pregunta «¿con estos precios de proveedor, cuánto gano o cuánto pierdo?» se responde sin armar un segundo presupuesto.</span></div>
+          <div><span class="dot"></span><span class="tx">Las cotizaciones <strong>viven en el archivo de la obra</strong>, no en el catálogo: son de esta licitación y no ensucian los precios de referencia de la empresa.</span></div>
+        </div>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-PRE-10" src="assets/img/capturas/01-presupuesto/IMG-PRE-10.png" shape="rect" fit="contain" placeholder="IMG-PRE-10 · Columnas Cotizaciones y Margen diligenciadas (alguna en verde, alguna en rojo), o la hoja con Cotizado activo"></image-slot></div>
+          <figcaption><span class="pin">IMG-PRE-10</span><span>Lo presupuestado contra lo que le cotizaron.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 9 ===================== -->
+  <section id="y-ademas" style="background: var(--ados-light); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); margin-top: 88px;">
+    <div class="wrap" style="padding: 80px 32px;">
+      <div class="cols--head" style="margin-bottom: 40px;">
+        <div>
+          <div class="bnum"><span class="num">9</span><span class="label">Y además</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Lo que arranca aquí y sigue en otro apartado.</h2>
+        </div>
+        <p class="lead">Piezas del presupuesto que tienen su propia página: desde aquí solo se nombran.</p>
+      </div>
+
+      <div class="tri" style="background: var(--border-light);">
+        <div style="background: var(--ados-light);">
+          <div class="label" style="margin-bottom: 10px;">Apartado 03</div>
+          <div class="h3" style="margin-bottom: 10px;">Mediciones y memoria de cálculo</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0 0 14px 0;">La cantidad de una partida puede salir de sus líneas de medición en vez de digitarse.</p>
+          <a href="03-medicion.dc.html" style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; color: var(--ados-amber-600);">Ver medición →</a>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="label" style="margin-bottom: 10px;">Apartado 05</div>
+          <div class="h3" style="margin-bottom: 10px;">Modificatorias y presupuesto contractual</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0 0 14px 0;">El presupuesto que se firmó se bloquea, y los cambios entran como modificaciones.</p>
+          <a href="05-ejecucion.dc.html" style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; color: var(--ados-amber-600);">Ver ejecución →</a>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="label" style="margin-bottom: 10px;">Apartado 06</div>
+          <div class="h3" style="margin-bottom: 10px;">Exportaciones</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0 0 14px 0;">Excel con fórmulas vivas y PDF con el logo y los datos de la empresa.</p>
+          <a href="06-entrega.dc.html" style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; color: var(--ados-amber-600);">Ver entrega →</a>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px; border: 1px solid var(--border-light); background: var(--ados-white); padding: 26px 32px; display: flex; align-items: baseline; gap: 28px; flex-wrap: wrap;">
+        <span class="label" style="white-space: nowrap;">Ajustes del presupuesto</span>
+        <span style="font-size: 16px; line-height: 1.6; color: var(--ados-ink-soft); flex: 1; min-width: 300px;"><strong style="color: var(--ados-ink); font-weight: 600;">AIU</strong> en modo simple o detallado (Ver → AIU) · <strong style="color: var(--ados-ink); font-weight: 600;">decimales</strong> configurables por columna · <strong style="color: var(--ados-ink); font-weight: 600;">unidades</strong> editables · <strong style="color: var(--ados-ink); font-weight: 600;">redondeo estilo Excel</strong>, que cambia el valor y no solo cómo se ve.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== POR QUÉ IMPORTA ===================== -->
+  <section class="wrap" style="padding-top: 96px; padding-bottom: 96px;">
+    <div class="cols--head">
+      <div>
+        <div class="eyebrow" style="margin-bottom: 18px;">Por qué importa</div>
+        <h2 class="h2" style="max-width: 22ch;">Lo que cambia en la empresa, no solo en la pantalla.</h2>
+      </div>
+    </div>
+    <div class="tri" style="border-bottom: none;">
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Un cambio de precio se propaga solo</div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Subió el cemento: se cambia en el insumo y se recalcula hasta el total del contrato. En Excel eso es una tarde y un riesgo.</p>
+      </div>
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">El total no se puede romper</div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No hay fórmulas que borrar ni rangos que se desordenen al insertar una fila.</p>
+      </div>
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">La segunda obra cuesta la mitad</div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Y la décima mucho menos: catálogo, plantillas de APU y presupuestos anteriores son el punto de partida.</p>
+      </div>
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Deja de depender de quién armó el Excel</div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Los análisis, los rendimientos y los precios quedan en el programa, no en la carpeta de una persona.</p>
+      </div>
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Se sabe qué lleva la obra</div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No solo cuánto vale. El listado de insumos con cantidades totales sale de lo mismo que el presupuesto, sin armarlo aparte.</p>
+      </div>
+      <div>
+        <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Se decide con números antes de firmar</div>
+        <p style="font-size: 15.5px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Qué insumo pesa más, en cuántas partidas está y cómo queda el total con los precios que mandó el proveedor.</p>
+      </div>
+    </div>
+    <div style="margin-top: 24px; border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 26px 32px;">
+      <p style="font-size: 16.5px; line-height: 1.65; color: var(--ados-ink); margin: 0;"><strong style="font-weight: 600;">Es de escritorio y el archivo es del usuario:</strong> <span style="color: var(--ados-ink-soft);">se trabaja sin internet, en obra, y no hay suscripción que al vencerse deje los presupuestos secuestrados.</span></p>
+    </div>
+  </section>
+
+  <!-- ===================== PREGUNTAS ===================== -->
+  <section style="background: var(--ados-light); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="padding: 88px 32px;">
+      <div class="eyebrow" style="margin-bottom: 18px;">Preguntas</div>
+      <h2 class="h2" style="max-width: 22ch; margin-bottom: 48px;">Lo que preguntan sobre el presupuesto.</h2>
+      <div class="duo" style="gap: 40px 64px;">
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Puedo traerme lo que ya tengo en Excel?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Sí, pegando por bloques: la estructura de capítulos y partidas se reconoce al pegar. Los análisis unitarios hay que armarlos, que es justo donde está el valor del programa — y se arman una sola vez, porque quedan como plantillas.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Tengo que armar los APU de todas las partidas?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No. Una partida puede llevar su precio a mano. Pero la partida con APU es la que después se recalcula sola, alimenta el listado de insumos y puede darle la duración a la programación.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Los precios se actualizan solos?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Los suyos, sí: se cambian en el insumo o en el catálogo y se propagan. Lo que no hace el programa es traerle precios de mercado — el catálogo lo llena usted.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Puedo usar el presupuesto de otra obra?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Sí. Se abre al lado con Referencias y se arrastran las partidas con su APU completo, con el código congelado para que no se dupliquen numeraciones.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Sirve para obra pública?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Para armar el presupuesto, el APU, el AIU, la programación y las actas de cantidades, sí. Los formatos propios de cada entidad y los descuentos de ley del acta se manejan aparte.</p>
+        </div>
+        <div>
+          <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Y si se me daña el computador?</div>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">El presupuesto es un archivo suyo; se copia y se respalda como cualquier otro. No está encerrado en un servidor ajeno.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA + VOLVER ===================== -->
+  <section style="background: var(--ados-navy-900);">
+    <div class="wrap cta-grid" style="padding: 96px 32px; display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,0.8fr); gap: 80px; align-items: center;">
+      <div>
+        <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 44px; line-height: 1.05; letter-spacing: -0.035em; color: var(--ados-white); margin: 0; text-wrap: pretty;">Armemos su presupuesto en vivo.</h2>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 22px 0 0 0; max-width: 50ch;">Traiga un listado suyo en Excel: lo pegamos, le montamos los análisis unitarios y le enseñamos qué pasa con el total cuando sube un precio.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; align-items: start;">
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="primary" size="lg" href="index.html#contacto" full-width="{{ true }}" hint-size="100%,52px">Solicitar demostración</x-import>
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="secondary" size="lg" href="Herramientas.dc.html#recorrido" full-width="{{ true }}" hint-size="100%,52px">Volver al recorrido</x-import>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SIGUIENTE ===================== -->
+  <section style="background: var(--ados-navy-950); border-top: 1px solid var(--border);">
+    <div class="wrap" style="padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <a href="Herramientas.dc.html#recorrido" style="display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 14.5px;">← Todos los apartados</a>
+      <a href="02-analisis.dc.html" style="display: flex; align-items: baseline; gap: 12px; color: var(--ados-white);">
+        <span class="label" style="color: var(--text-faint);">Siguiente</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-white);">02 · Análisis — APU, AIU y catálogo →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer style="background: var(--ados-navy-900); border-top: 1px solid var(--border);">
+    <div class="wrap" style="padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <img src="assets/logo/ados-logo-light.svg" alt="ADOS Ingeniería y Arquitectura" style="height: 26px; display: block;">
+      <div style="font-size: 13.5px; color: var(--text-faint);">ADOS Ingeniería y Arquitectura SAS · Colombia</div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+</body>
+</html>

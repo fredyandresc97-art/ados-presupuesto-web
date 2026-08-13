@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/base.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/components/interactions.css">
+  <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/styles.css">
+  <script src="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/_ds_bundle.js"></script>
+  <script src="./image-slot.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--ados-white); color: var(--ados-ink); font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--ados-ink); text-decoration: none; transition: color 120ms cubic-bezier(0.2,0,0,1); }
+    a:hover { color: #E7A11E; }
+
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+    .eyebrow { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .label { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); }
+    .h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0; text-wrap: pretty; }
+    .h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: var(--ados-ink); margin: 0; }
+    .lead { font-size: 17px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0; }
+    .lead strong, .feat .tx strong { color: var(--ados-ink); font-weight: 600; }
+    .mas { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; color: var(--ados-amber-600); }
+
+    /* Barra de apartados */
+    .apbar { display: flex; align-items: stretch; overflow-x: auto; scrollbar-width: none; }
+    .apbar::-webkit-scrollbar { display: none; }
+    .apbar > * { display: flex; align-items: center; gap: 8px; padding: 0 18px; height: 46px; white-space: nowrap; font-size: 13.5px; font-weight: 500; color: var(--ados-ink-soft); border-bottom: 2px solid transparent; }
+    .apbar > a:hover { color: var(--ados-ink); border-bottom-color: var(--border-light-strong); }
+    .apbar > .on { color: var(--ados-ink); font-weight: 600; border-bottom-color: var(--accent); }
+    .apbar .n { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.06em; color: var(--accent); }
+    .apbar > a .n { color: var(--ados-ink-soft); }
+    .apbar > a:hover .n { color: var(--accent); }
+
+    /* Bloques */
+    .bloque { padding: 96px 0; border-top: 1px solid var(--border-light); }
+    .bloque--first { border-top: none; }
+    .bnum { display: flex; align-items: baseline; gap: 16px; margin-bottom: 22px; }
+    .bnum .num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 46px; line-height: 1; letter-spacing: -0.04em; color: var(--accent); }
+    .cols { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 76px; align-items: start; }
+    .cols--center { align-items: center; }
+    .cols--head { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr); gap: 64px; align-items: end; margin-bottom: 52px; }
+    /* Apilada: para las secciones cuya otra columna es una captura. A media columna
+       (≈570px) la ventana de la app queda al 30% y la hoja no se lee; en una sola
+       columna se lleva los 1216px del contenido. Va después de .cols para ganarle las
+       columnas y el gap, que empatan en especificidad. */
+    .cols--apilada { grid-template-columns: 1fr; gap: 40px; }
+    /* El :not(:has(figure)) es la parte que importa: sin el, un <figure> envuelto
+       en un <div> heredaba esta medida de lectura y la captura salia encogida
+       respecto a las demas. La medida es para el texto, no para las imagenes. */
+    .cols--apilada > div:not(:has(figure)) { max-width: 78ch; }
+
+    .feat { display: grid; gap: 15px; }
+    .feat > div { display: grid; grid-template-columns: 8px 1fr; gap: 16px; align-items: start; }
+    .feat .dot { width: 8px; height: 8px; background: var(--accent); margin-top: 8px; }
+    .feat .tx { font-size: 16px; line-height: 1.58; color: var(--ados-ink); }
+    .feat--dark .tx { color: var(--ados-white); }
+    .feat--dark .tx strong { color: var(--ados-white); font-weight: 600; }
+
+    /* Huecos de imagen */
+    figure.shot { margin: 0; border: 1px solid var(--border-light); background: var(--ados-light); }
+    /* Cada hueco lleva la proporción exacta de su captura, para que la imagen lo llene
+       sin franjas grises. Once son la ventana de la app maximizada (1919×1032); la
+       duodécima es una ventana más pequeña (1379×887) y por eso .tall lleva la suya.
+       .wide la usan dos capturas apaisadas que van a ancho completo: comparten forma
+       con las demás, cambia el sitio, no el alto. */
+    figure.shot .body { position: relative; aspect-ratio: 1919 / 1032; }
+    figure.shot .body.wide { aspect-ratio: 1919 / 1032; }
+    figure.shot .body.tall { aspect-ratio: 1379 / 887; }
+    figure.shot .body > image-slot { position: absolute; inset: 0; }
+    figure.shot figcaption { display: flex; align-items: baseline; gap: 10px; padding: 13px 16px; border-top: 1px solid var(--border-light); background: var(--ados-white); font-size: 14px; line-height: 1.5; color: var(--ados-ink-soft); }
+    /* El distintivo con el ID (IMG-PRO-01…12) es andamio de producción: sirve para
+       saber qué captura va en cada hueco. Ya están todas puestas, así que va
+       oculto; para volver a verlos, `display: inline-block` en la línea siguiente.
+       Los de los huecos de vídeo (VID-PRO-01…02) siguen a la vista:
+       esos aún están vacíos. */
+    figure.shot figcaption .pin { display: none; }
+    .pin { font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); border: 1px solid var(--border-light-strong); padding: 2px 6px; white-space: nowrap; }
+
+    /* Huecos de vídeo — reemplazar el div.vid por un <video controls poster> cuando lleguen */
+    .vid { border: 1px solid var(--border-light-strong); background: var(--ados-light); }
+    .vid .frame { position: relative; aspect-ratio: 16 / 9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 24px; }
+    .vid .frame::before { content: ''; position: absolute; inset: 12px; border: 1px dashed var(--border-light-strong); pointer-events: none; }
+    .vid .play { width: 62px; height: 62px; border: 2px solid var(--accent); border-radius: 999px; display: flex; align-items: center; justify-content: center; }
+    .vid .play span { width: 0; height: 0; border-left: 16px solid var(--accent); border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-left: 4px; }
+    .vid .que { font-size: 15px; line-height: 1.55; color: var(--ados-ink-soft); max-width: 46ch; }
+    .vid .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 13px 16px; border-top: 1px solid var(--border-light); background: var(--ados-white); }
+    .vid .rank { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: -0.01em; color: var(--ados-ink); }
+
+    /* Regla / cita */
+    .regla { border-left: 3px solid var(--accent); background: var(--ados-light); padding: 26px 30px; }
+    .cita { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.25; letter-spacing: -0.025em; color: var(--ados-ink); border-left: 3px solid var(--accent); padding-left: 22px; margin: 0; text-wrap: pretty; }
+
+    /* Rejillas */
+    .tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .tri > div { background: var(--ados-white); padding: 26px; }
+    .duo { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .cuatro { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .cuatro > div { background: var(--ados-white); padding: 26px; }
+
+    /* Tablas */
+    .tabla { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+    .tabla th { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft); text-align: left; padding: 13px 18px; border-bottom: 1px solid var(--border-light-strong); }
+    .tabla td { padding: 15px 18px; border-bottom: 1px solid var(--border-light); color: var(--ados-ink); line-height: 1.55; vertical-align: top; }
+    .tabla tr:last-child td { border-bottom: none; }
+    .tabla .vs { color: var(--ados-ink-soft); }
+    .tabla .col { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
+    .cuadro { border: 1px solid var(--border-light); background: var(--ados-white); }
+    .cuadro > .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 11px 18px; border-bottom: 1px solid var(--border-light); background: var(--ados-light); }
+
+    /* Fichas */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 13.5px; color: var(--ados-ink); border: 1px solid var(--border-light-strong); background: var(--ados-white); padding: 7px 13px; }
+    .chip b { color: var(--ados-amber-600); font-weight: 700; }
+    .chip--soft { color: var(--ados-ink-soft); font-weight: 500; }
+
+    code { font-family: 'Space Grotesk', ui-monospace, monospace; font-size: 14.5px; background: var(--ados-white); border: 1px solid var(--border-light-strong); padding: 2px 7px; color: var(--ados-ink); }
+
+    /* el encabezado es sticky (68 + 46): los anclajes no deben quedar debajo */
+    section[id], div[id] { scroll-margin-top: 130px; }
+
+    @media (max-width: 1080px) {
+      .cuatro { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .cols, .cols--head { grid-template-columns: 1fr !important; gap: 40px; }
+      .tri, .duo, .cuatro { grid-template-columns: 1fr; }
+      .bloque { padding: 64px 0; }
+      .h2 { font-size: 29px; }
+      .hero-h1 { font-size: 36px !important; }
+      .cita { font-size: 21px; }
+      .cta-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .tabla th, .tabla td { padding: 12px 14px; font-size: 14.5px; }
+    }
+  </style>
+</helmet>
+
+<div style="background: var(--ados-white);">
+
+  <!-- ===================== HEADER + BARRA DE APARTADOS ===================== -->
+  <header style="position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,0.90); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <a href="index.html" style="display: flex; align-items: center; gap: 12px;">
+        <img src="assets/logo/ados-presupuesto-icon.svg" alt="ADOS Presupuesto" style="width: 30px; height: 30px; display: block;">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-ink);">ADOS <span style="font-weight: 500; color: var(--ados-ink-soft);">Presupuesto</span></span>
+      </a>
+      <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="light" size="sm" href="Herramientas.dc.html#recorrido" hint-size="196px,34px">Volver al recorrido</x-import>
+    </div>
+    <div style="border-top: 1px solid var(--border-light);">
+      <div class="wrap">
+        <nav class="apbar">
+          <a href="01-presupuesto.dc.html"><span class="n">01</span>Presupuesto</a>
+          <a href="02-analisis.dc.html"><span class="n">02</span>Análisis</a>
+          <a href="03-medicion.dc.html"><span class="n">03</span>Medición</a>
+          <span class="on"><span class="n">04</span>Programación</span>
+          <a href="05-ejecucion.dc.html"><span class="n">05</span>Ejecución</a>
+          <a href="06-entrega.dc.html"><span class="n">06</span>Entrega</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== HERO — el argumento central del apartado ===================== -->
+  <section class="wrap" style="padding-top: 104px; padding-bottom: 96px;">
+    <div style="display: flex; align-items: baseline; gap: 18px; margin-bottom: 26px;">
+      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 76px; line-height: 1; letter-spacing: -0.04em; color: var(--accent);">04</span>
+      <span class="eyebrow">Programación · Duraciones, Gantt y ruta crítica</span>
+    </div>
+    <h1 class="hero-h1" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 64px; line-height: 1.03; letter-spacing: -0.035em; color: var(--ados-ink); margin: 0; max-width: 17ch; text-wrap: pretty;">Del presupuesto al cronograma hay un paso, no un proyecto.</h1>
+    <p style="font-size: 19.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 38px 0 0 0; max-width: 60ch; text-wrap: pretty;">
+      El cronograma no se vuelve a escribir: las partidas ya están, la duración sale del análisis
+      unitario y lo único que hay que decirle es cuándo arranca la obra.
+    </p>
+    <div class="tri" style="margin-top: 52px;">
+      <div>
+        <div class="label" style="color: var(--accent); margin-bottom: 12px;">Las actividades</div>
+        <div class="h3" style="margin-bottom: 8px;">Ya existen</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Son las partidas del presupuesto. No hay importación, ni exportación, ni un segundo archivo que mantener.</p>
+      </div>
+      <div>
+        <div class="label" style="color: var(--accent); margin-bottom: 12px;">Las duraciones</div>
+        <div class="h3" style="margin-bottom: 8px;">Salen del APU</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">De la cantidad y del rendimiento del renglón más lento. O se escriben a mano, si se prefiere.</p>
+      </div>
+      <div>
+        <div class="label" style="color: var(--accent); margin-bottom: 12px;">Lo único que se decide</div>
+        <div class="h3" style="margin-bottom: 8px;">Cuándo empieza la obra</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Lo demás es escribir duraciones y encadenar. Si cambia el inicio del contrato, se mueve todo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EL PROBLEMA ===================== -->
+  <section style="background: var(--ados-navy-900); color: var(--ados-white);">
+    <div class="wrap" style="padding: 88px 32px;">
+      <div class="cols">
+        <div>
+          <div class="eyebrow" style="margin-bottom: 18px;">El problema que resuelve</div>
+          <h2 class="h2" style="color: var(--ados-white); font-size: 35px; max-width: 19ch;">El trabajo que se hace dos veces y se actualiza cero.</h2>
+        </div>
+        <div style="display: grid; gap: 20px;">
+          <p style="font-size: 16.5px; line-height: 1.7; color: var(--text-muted); margin: 0;">Se termina el presupuesto, se abre un programa distinto y se vuelven a teclear las mismas doscientas actividades —mal escritas, con otros nombres y sin las cantidades—, se estiman duraciones a ojo, se imprime el Gantt para la propuesta y ahí muere: nadie lo vuelve a abrir porque mantenerlo cuesta más que la obra.</p>
+          <p style="font-size: 16.5px; line-height: 1.7; color: var(--ados-white); margin: 0;">Y mientras tanto la información para programar bien ya estaba en el presupuesto. La cantidad está. El rendimiento de la cuadrilla está, escrito en el APU. Lo que vale cada partida está. Lo único que faltaba era usarlo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 1 ===================== -->
+  <section id="un-paso" class="wrap">
+    <div class="bloque bloque--first">
+      <div class="bnum"><span class="num">1</span><span class="label">Del presupuesto al cronograma</span></div>
+      <h2 class="h2" style="max-width: 24ch; margin-bottom: 44px;">Sin volver a escribir nada.</h2>
+
+      <figure class="shot" style="margin-bottom: 52px;">
+        <div class="body wide">
+          <image-slot id="IMG-PRO-01" src="assets/img/capturas/04-programacion/IMG-PRO-01.png" shape="rect" fit="contain" placeholder="IMG-PRO-01 · Vista Programación completa: la tabla de partidas a la izquierda —las mismas del presupuesto, con sus capítulos— y el Gantt a la derecha"></image-slot>
+        </div>
+        <figcaption><span class="pin">IMG-PRO-01</span><span>Las actividades ya están: son sus partidas.</span></figcaption>
+      </figure>
+
+      <div class="cols" style="gap: 76px;">
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx"><strong>Las actividades ya existen: son las partidas del presupuesto.</strong> Aquí se llaman actividades porque se habla de cronograma, pero son exactamente las mismas filas. Se cambia el nombre de una partida y cambia en el cronograma, porque es la misma.</span></div>
+          <div><span class="dot"></span><span class="tx"><strong>Los capítulos son los resúmenes:</strong> sus fechas y su duración son la envolvente de lo que cuelga de ellos, y se calculan solas. No se digitan.</span></div>
+        </div>
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx"><strong>Lo único que hay que decidir es cuándo empieza la obra.</strong> Toda partida sin fecha propia arranca el día de inicio del proyecto, así que programar es, en la práctica, escribir duraciones y enlaces.</span></div>
+          <div><span class="dot"></span><span class="tx">Lo demás se ajusta solo donde hace falta: se fija una fecha a la actividad que sí tiene día propio, y esa fecha actúa de <strong>suelo</strong> —«no antes de aquí»—, no de camisa de fuerza.</span></div>
+        </div>
+      </div>
+
+      <p class="cita" style="margin-top: 44px; max-width: 30ch;">Si cambia el inicio del contrato, se mueve todo lo que no se haya fijado a mano.</p>
+
+      <!-- HUECO DE VÍDEO 2 · sustituir este div.vid por <video controls poster="…"> cuando llegue -->
+      <div class="vid" style="margin-top: 44px;">
+        <div class="frame">
+          <div class="play"><span></span></div>
+          <div>
+            <div class="label" style="margin-bottom: 8px;">Vídeo corto · VID-PRO-02</div>
+            <div class="que">Se cambia la fecha de inicio del contrato y el cronograma entero se corre solo, menos las actividades con fecha fijada a mano.</div>
+          </div>
+        </div>
+        <div class="bar">
+          <span class="rank">Prioridad 2 de 2 — el argumento del apartado, en diez segundos</span>
+          <span class="pin">VID-PRO-02</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 2 ===================== -->
+  <section id="duracion" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">2</span><span class="label">La duración</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Sale del APU. O se escribe, si se prefiere.</h2>
+        </div>
+        <p class="lead">Dos maneras, y conviven en el mismo cronograma. El análisis unitario se cuenta en el <a href="02-analisis.dc.html" class="mas">apartado 02 →</a></p>
+      </div>
+
+      <div class="cols cols--center cols--apilada" style="margin-bottom: 44px;">
+        <div style="display: grid; gap: 20px;">
+          <div style="border: 1px solid var(--border-light); border-left: 3px solid var(--accent); padding: 28px 30px;">
+            <div class="label" style="margin-bottom: 10px;">Programación → Duración</div>
+            <div class="h3" style="font-size: 22px; margin-bottom: 14px;">Calculada con el rendimiento del APU</div>
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0 0 18px 0;">La partida ya tiene su cantidad y su análisis; si un renglón se mide en tiempo —hora, hora cuadrilla, jornal, día—, ese renglón dice cuánto tarda: <strong style="color: var(--ados-ink); font-weight: 600;">cantidad × rendimiento → jornadas</strong>.</p>
+            <div class="feat">
+              <div><span class="dot"></span><span class="tx"><strong>Manda el renglón más lento</strong>, que es la regla de obra: la volqueta y la retro no rinden igual y la actividad va al paso del recurso crítico. Se puede fijar otro a mano.</span></div>
+              <div><span class="dot"></span><span class="tx"><strong>Factor de rendimiento</strong> para lo que el análisis no cuenta —traslados, acomodación de equipo, arranques—: 1,2 = un 20 % más lento. No toca el precio.</span></div>
+              <div><span class="dot"></span><span class="tx"><strong>No se congela.</strong> Si después cambia la cantidad, el APU o el calendario, la duración se reajusta sola.</span></div>
+              <div><span class="dot"></span><span class="tx">Y se puede aplicar <strong>a todas las partidas de un golpe</strong>, no una por una.</span></div>
+            </div>
+          </div>
+          <div style="border: 1px solid var(--border-light); border-left: 3px solid var(--ados-navy-700); padding: 26px 30px;">
+            <div class="h3" style="font-size: 22px; margin-bottom: 12px;">Manual</div>
+            <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Se escriben los días. Admite fracciones para lo que no llega a una jornada.</p>
+          </div>
+        </div>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-PRO-02" src="assets/img/capturas/04-programacion/IMG-PRO-02.png" shape="rect" fit="contain" placeholder="IMG-PRO-02 · Ventana Duración en modo «Calculada con el rendimiento del APU», con la tabla de renglones y el que marca el ritmo resaltado"></image-slot></div>
+          <figcaption><span class="pin">IMG-PRO-02</span><span>La duración sale del análisis unitario.</span></figcaption>
+        </figure>
+      </div>
+
+      <!-- HUECO DE VÍDEO 1 · sustituir este div.vid por <video controls poster="…"> cuando llegue -->
+      <div class="vid">
+        <div class="frame">
+          <div class="play"><span></span></div>
+          <div>
+            <div class="label" style="margin-bottom: 8px;">Vídeo corto · VID-PRO-01</div>
+            <div class="que">Se calculan las duraciones de toda la obra de un golpe y el Gantt se arma solo a partir de los rendimientos que ya están escritos en los análisis.</div>
+          </div>
+        </div>
+        <div class="bar">
+          <span class="rank">Prioridad 1 de 2 — lo que más cuesta creer hasta que se ve</span>
+          <span class="pin">VID-PRO-01</span>
+        </div>
+      </div>
+
+      <div class="regla" style="margin-top: 32px;">
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No confundir el <strong style="color: var(--ados-ink); font-weight: 600;">factor de rendimiento</strong>, que es tiempo y vive aquí, con el <strong style="color: var(--ados-ink); font-weight: 600;">factor de sobrecosto</strong>, que es precio y vive en el análisis. <a href="02-analisis.dc.html#ajustes" class="mas">Ver la diferencia en el apartado 02 →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 3 ===================== -->
+  <section id="calendario" class="wrap">
+    <div class="bloque">
+      <div class="cols cols--center cols--apilada">
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-PRO-03" src="assets/img/capturas/04-programacion/IMG-PRO-03.png" shape="rect" fit="contain" placeholder="IMG-PRO-03 · Ventana Calendario con la jornada, los días laborales y la lista de festivos del año"></image-slot></div>
+          <figcaption><span class="pin">IMG-PRO-03</span><span>Con la jornada y los festivos de su obra.</span></figcaption>
+        </figure>
+        <div>
+          <div class="bnum"><span class="num">3</span><span class="label">El calendario de la obra</span></div>
+          <h2 class="h2" style="margin-bottom: 20px; max-width: 22ch;">Un cronograma que cuenta días corridos no sirve para pagar ni para reclamar.</h2>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx"><strong>Jornada en horas al día</strong>, la de la obra. Un jornal no son ocho horas clavadas: si se trabaja nueve, el jornal son nueve.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Días laborales</strong>, con el <strong>sábado a medio día</strong> si así se trabaja — y el programa cuenta el medio día de verdad, no lo redondea.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Festivos de Colombia calculados solos</strong>, incluidas la ley Emiliani —los que se corren al lunes— y los que dependen de la Pascua. No hay que teclear el calendario cada año.</span></div>
+            <div><span class="dot"></span><span class="tx">Se pueden añadir o quitar días concretos: una semana de paro, un puente de la obra.</span></div>
+            <div><span class="dot"></span><span class="tx">El calendario <strong>es del proyecto</strong>: lo usan la duración, las fechas, las holguras y el seguimiento, así que todo cuenta con la misma vara.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 4 ===================== -->
+  <section id="enlaces" class="wrap">
+    <div class="bloque">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">4</span><span class="label">Enlaces, ruta crítica y holguras</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Las cuatro uniones de siempre, escritas como se escriben siempre.</h2>
+        </div>
+        <p class="lead">Se programa <strong>lo antes posible</strong>: la actividad arranca en cuanto todos sus enlaces lo permiten.</p>
+      </div>
+
+      <div class="cuatro" style="margin-bottom: 32px;">
+        <div><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 8px;">FC</div><div style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft);">fin → comienzo</div></div>
+        <div><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 8px;">CC</div><div style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft);">comienzo → comienzo</div></div>
+        <div><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 8px;">FF</div><div style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft);">fin → fin</div></div>
+        <div><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 8px;">CF</div><div style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft);">comienzo → fin</div></div>
+      </div>
+
+      <div class="cols cols--apilada">
+        <div>
+          <div class="label" style="margin-bottom: 14px;">En la columna Predecesoras, con su desfase en días</div>
+          <div class="chips" style="margin-bottom: 28px;">
+            <code>5</code><code>5FC+2</code><code>1.2CC</code><code>MUR-01FF-1</code>
+          </div>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx">También hay una <strong>ventana de Enlaces</strong> para hacerlo señalando, y se pueden <strong>arrastrar flechas sobre el Gantt</strong>.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Si se arma un ciclo, el programa avisa</strong> y señala las actividades afectadas, en vez de dar fechas que no significan nada.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Ruta crítica</strong> calculada: la cadena que no tiene holgura, marcada en el diagrama. Si una de ésas se atrasa un día, la obra se atrasa un día.</span></div>
+          </div>
+        </div>
+        <div>
+          <figure class="shot" style="margin-bottom: 28px;">
+            <div class="body"><image-slot id="IMG-PRO-04" src="assets/img/capturas/04-programacion/IMG-PRO-04.png" shape="rect" fit="contain" placeholder="IMG-PRO-04 · Gantt con flechas de sucesión entre varias barras y la ruta crítica marcada; si cabe, con la columna Holgura a la vista"></image-slot></div>
+            <figcaption><span class="pin">IMG-PRO-04</span><span>Precedencias, ruta crítica y holguras.</span></figcaption>
+          </figure>
+          <div class="cuadro">
+            <div class="bar"><span class="label">Dos holguras</span><span class="label">Columna Holgura</span></div>
+            <table class="tabla">
+              <tbody>
+                <tr><td class="col" style="width: 34%;">Holgura total</td><td class="vs">Cuánto se puede correr la actividad sin retrasar el fin de la obra.</td></tr>
+                <tr><td class="col">Holgura libre</td><td class="vs">Cuánto se puede correr sin mover a ninguna de sus sucesoras.</td></tr>
+                <tr><td class="col">Negativa</td><td class="vs">Ya no cabe: su fecha choca con sus enlaces.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 5 ===================== -->
+  <section id="gantt" class="wrap">
+    <div class="bloque">
+      <div class="bnum"><span class="num">5</span><span class="label">El diagrama de Gantt</span></div>
+      <h2 class="h2" style="max-width: 22ch; margin-bottom: 44px;">Tabla a la izquierda, barras a la derecha, como se espera.</h2>
+
+      <!-- Apilada, no lado a lado: IMG-PRO-05 y 06 son la ventana completa y a media
+      columna (585px, 30%) no se leian. A todo el ancho van al 63%. -->
+      <div class="duo" style="grid-template-columns: 1fr; gap: 48px; margin-bottom: 44px;">
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-PRO-05" src="assets/img/capturas/04-programacion/IMG-PRO-05.png" shape="rect" fit="contain" placeholder="IMG-PRO-05 · Gantt con zoom cerrado: fines de semana y festivos sombreados, la línea de hoy y las barras de un capítulo con sus partidas"></image-slot></div>
+          <figcaption><span class="pin">IMG-PRO-05</span><span>El cronograma, como se espera verlo.</span></figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="body"><image-slot id="IMG-PRO-06" src="assets/img/capturas/04-programacion/IMG-PRO-06.png" shape="rect" fit="contain" placeholder="IMG-PRO-06 · Ventana de columnas (clic derecho en el encabezado), con la lista de disponibles y las que están a la vista"></image-slot></div>
+          <figcaption><span class="pin">IMG-PRO-06</span><span>Con las columnas que usted use.</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="cols" style="gap: 76px;">
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx"><strong>Zoom continuo con Ctrl + rueda</strong> —de la obra entera a un día— y el fondo se arrastra con el ratón.</span></div>
+          <div><span class="dot"></span><span class="tx"><strong>Fines de semana y festivos sombreados</strong> según el calendario de la obra, <strong>línea de hoy</strong>, flechas de sucesión y las barras de capítulo como resumen de sus partidas.</span></div>
+          <div><span class="dot"></span><span class="tx"><strong>Las barras se mueven y se estiran con el ratón:</strong> mover fija el inicio; estirar cambia la duración.</span></div>
+        </div>
+        <div>
+          <div class="label" style="margin-bottom: 14px;">Las columnas se eligen y se ordenan — clic derecho en el encabezado</div>
+          <div class="chips">
+            <span class="chip chip--soft">N.º</span><span class="chip chip--soft">Orden</span><span class="chip chip--soft">Código</span><span class="chip chip--soft">Descripción</span><span class="chip chip--soft">Cantidad</span><span class="chip chip--soft">Ud</span><span class="chip chip--soft">Importe</span><span class="chip chip--soft">Duración</span><span class="chip chip--soft">Inicio</span><span class="chip chip--soft">Fin</span><span class="chip chip--soft">Predecesoras</span><span class="chip chip--soft">Sucesoras</span><span class="chip chip--soft">Holgura</span><span class="chip chip--soft">% programado</span><span class="chip chip--soft">% ejecutado</span><span class="chip chip--soft">Desv.</span><span class="chip chip--soft">Inicio base</span><span class="chip chip--soft">Fin base</span><span class="chip chip--soft">Δ inicio</span><span class="chip chip--soft">Δ fin</span>
+          </div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 18px 0 0 0;">Cada quien deja a la vista lo suyo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 6 · LÍNEA BASE ===================== -->
+  <section id="linea-base" style="background: var(--ados-navy-900); color: var(--ados-white); margin-top: 24px;">
+    <div class="wrap" style="padding: 96px 32px;">
+      <div class="bnum"><span class="num">6</span><span class="label" style="color: var(--text-faint);">Línea base</span></div>
+      <div class="cols--head" style="margin-bottom: 52px;">
+        <h2 class="h2" style="color: var(--ados-white); max-width: 20ch;">Lo que convierte el cronograma en un documento contractual.</h2>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 0;">Se congela el cronograma aprobado: el que se firmó, el que se entregó con la propuesta.</p>
+      </div>
+
+      <div class="cols cols--center cols--apilada">
+        <div class="feat feat--dark">
+          <div><span class="dot"></span><span class="tx">Guarda <strong>lo que el programa decía ese día</strong>: fechas, y también la <strong>cantidad y el importe</strong> con que se planeó — así, si después entra una modificatoria, lo prometido no se mueve.</span></div>
+          <div><span class="dot"></span><span class="tx">En el Gantt, la línea base se dibuja <strong>bajo la barra vigente</strong>: se ve de un vistazo qué se corrió.</span></div>
+          <div><span class="dot"></span><span class="tx">Las columnas <strong>Δ inicio</strong> y <strong>Δ fin</strong> dicen cuántas jornadas se movió cada actividad respecto de lo aprobado, en jornadas del calendario de obra, no en días corridos.</span></div>
+          <div><span class="dot"></span><span class="tx">Se pueden guardar <strong>varias líneas base</strong> y elegir contra cuál se compara.</span></div>
+        </div>
+        <figure class="shot" style="background: var(--ados-navy-950); border-color: var(--border);">
+          <div class="body"><image-slot id="IMG-PRO-07" src="assets/img/capturas/04-programacion/IMG-PRO-07.png" shape="rect" fit="contain" placeholder="IMG-PRO-07 · Gantt con la línea base dibujada bajo las barras y las columnas Δ inicio / Δ fin a la vista, con algún valor en positivo (atraso)"></image-slot></div>
+          <figcaption style="background: var(--ados-navy-900); border-color: var(--border); color: var(--text-muted);"><span class="pin">IMG-PRO-07</span><span>Lo aprobado contra lo que va.</span></figcaption>
+        </figure>
+      </div>
+
+      <p style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.28; letter-spacing: -0.025em; color: var(--ados-white); border-left: 3px solid var(--accent); padding-left: 22px; margin: 52px 0 0 0; max-width: 46ch; text-wrap: pretty;">No es «vamos retrasados»: es «esta actividad empezó nueve jornadas después de lo aprobado».</p>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 7 ===================== -->
+  <section id="seguimiento" class="wrap">
+    <div class="bloque bloque--first">
+      <div class="cols--head">
+        <div>
+          <div class="bnum"><span class="num">7</span><span class="label">El cronograma se conecta con el seguimiento</span></div>
+          <h2 class="h2" style="max-width: 22ch;">Donde el cronograma deja de ser un dibujo para la propuesta.</h2>
+        </div>
+        <p class="lead">El % ejecutado se lee de <strong>lo que ya se midió</strong> en el seguimiento mensual, en las parciales y en el seguimiento diario. No se digita dos veces: es la misma medición con la que se cobra. <a href="03-medicion.dc.html#toda-la-obra" class="mas">Ver medición →</a></p>
+      </div>
+
+      <figure class="shot" style="margin-bottom: 44px;">
+        <div class="body wide"><image-slot id="IMG-PRO-08" src="assets/img/capturas/04-programacion/IMG-PRO-08.png" shape="rect" fit="contain" placeholder="IMG-PRO-08 · Vista Programación con las columnas % programado, % ejecutado y Desv., y el resumen de avance de la barra superior"></image-slot></div>
+        <figcaption><span class="pin">IMG-PRO-08</span><span>Y cuántas jornadas de atraso lleva la obra.</span></figcaption>
+      </figure>
+
+      <div class="tri" style="margin-bottom: 40px;">
+        <div>
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">% programado</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Cuánto debería llevarse a la fecha, según el plan. En las partidas es la fracción de jornadas transcurridas; en los capítulos, la media <strong style="color: var(--ados-ink); font-weight: 600;">ponderada por importe</strong>, porque no todas las partidas pesan igual.</p>
+        </div>
+        <div>
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">% ejecutado</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Cuánto se lleva de verdad, leído de lo que se midió en los cortes. La misma medición con la que se cobra.</p>
+        </div>
+        <div>
+          <div class="label" style="color: var(--accent); margin-bottom: 12px;">Desv.</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">La diferencia entre las dos, actividad por actividad. Se ve <strong style="color: var(--ados-ink); font-weight: 600;">qué</strong> está frenando la obra, no solo que la obra está frenada.</p>
+        </div>
+      </div>
+
+      <div class="cols cols--center" style="gap: 76px;">
+        <div>
+          <p class="cita" style="margin-bottom: 24px;">«Vamos nueve jornadas atrasados.»</p>
+          <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Ésa es la lectura que de verdad se entiende en obra. En vez de «vamos un 3 % por debajo», que no dice nada, el programa calcula qué día decía el plan que se llegaría al porcentaje que hoy se lleva ejecutado, y responde en jornadas.</p>
+        </div>
+        <div class="feat">
+          <div><span class="dot"></span><span class="tx"><strong>Fecha de estado:</strong> una línea a rayas sobre el Gantt que se puede mover para analizar cualquier día, arrancando en hoy.</span></div>
+          <div><span class="dot"></span><span class="tx">Como el <strong>seguimiento diario</strong> permite cargar el avance día a día, el cronograma refleja el atraso <strong>mientras el mes va corriendo</strong>, no solo cuando se cierra el acta.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUES 8 · 9 · 10 ===================== -->
+  <section style="background: var(--ados-light); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="padding: 96px 32px;">
+      <div class="cols--head" style="margin-bottom: 64px;">
+        <div>
+          <div class="eyebrow" style="margin-bottom: 18px;">Del mismo cronograma</div>
+          <h2 class="h2" style="max-width: 20ch;">Tres entregables más, sin trabajo extra.</h2>
+        </div>
+        <p class="lead">La plata por período, la curva que pide la interventoría y el plan de compras salen de cruzar lo que ya está: el presupuesto y las fechas.</p>
+      </div>
+
+      <!-- 8 -->
+      <div id="flujo" style="padding-bottom: 64px; border-bottom: 1px solid var(--border-light-strong);">
+        <div class="cols cols--center cols--apilada">
+          <div>
+            <div class="bnum"><span class="num">8</span><span class="label">Flujo de caja</span></div>
+            <h2 class="h2" style="font-size: 32px; margin-bottom: 20px; max-width: 20ch;">Cuánta plata hay que poner cada mes, y cuándo se recupera.</h2>
+            <div class="feat">
+              <div><span class="dot"></span><span class="tx">El mismo lienzo del Gantt, con un botón: <strong>Gantt | Flujo de caja</strong>.</span></div>
+              <div><span class="dot"></span><span class="tx"><strong>El importe de cada partida se reparte sobre los días que dura</strong>, así que el flujo no es una estimación: sale del cronograma y del presupuesto.</span></div>
+              <div><span class="dot"></span><span class="tx">Se agrupa <strong>por día, por semana o por mes</strong>.</span></div>
+              <div><span class="dot"></span><span class="tx">Cuando hay AIU, el flujo separa <strong>costo directo</strong> y <strong>AIU</strong>, que es como se presenta.</span></div>
+              <div><span class="dot"></span><span class="tx">La <strong>franja de totales</strong> queda fija abajo mientras se recorre la obra.</span></div>
+            </div>
+          </div>
+          <figure class="shot" style="background: var(--ados-white);">
+            <div class="body"><image-slot id="IMG-PRO-09" src="assets/img/capturas/04-programacion/IMG-PRO-09.png" shape="rect" fit="contain" placeholder="IMG-PRO-09 · La vista en modo Flujo de caja, con la franja de totales por período abajo"></image-slot></div>
+            <figcaption><span class="pin">IMG-PRO-09</span><span>Cuánta plata hay que poner cada mes.</span></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div id="curva-s" style="padding: 64px 0; border-bottom: 1px solid var(--border-light-strong);">
+        <div class="cols cols--center cols--apilada">
+          <figure class="shot" style="background: var(--ados-white);">
+            <div class="body"><image-slot id="IMG-PRO-10" src="assets/img/capturas/04-programacion/IMG-PRO-10.png" shape="rect" fit="contain" placeholder="IMG-PRO-10 · La ventana de Curva S con las tres curvas dibujadas"></image-slot></div>
+            <figcaption><span class="pin">IMG-PRO-10</span><span>Línea base, programado y ejecutado.</span></figcaption>
+          </figure>
+          <div>
+            <div class="bnum"><span class="num">9</span><span class="label">Curva S</span></div>
+            <h2 class="h2" style="font-size: 32px; margin-bottom: 20px; max-width: 20ch;">La lámina que pide la interventoría todos los meses.</h2>
+            <div class="feat">
+              <div><span class="dot"></span><span class="tx"><strong>Tres acumulados mes a mes:</strong> lo que prometía la línea base, lo que dice el cronograma vigente y lo ejecutado de verdad.</span></div>
+              <div><span class="dot"></span><span class="tx">Además del acumulado, <strong>lo que se mueve cada mes</strong>, que es lo que se lleva a los informes.</span></div>
+              <div><span class="dot"></span><span class="tx">Lo ejecutado solo aparece en los meses que ya tienen corte cerrado: <strong>la curva no inventa lo que todavía no se ha medido</strong>.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div id="recursos" style="padding-top: 64px;">
+        <div class="bnum"><span class="num">10</span><span class="label">Recursos por período</span></div>
+        <h2 class="h2" style="font-size: 32px; margin-bottom: 20px; max-width: 24ch;">El plan de compras: qué hay que comprar, cuánto y cuándo.</h2>
+        <p class="lead" style="max-width: 68ch; margin-bottom: 40px;">El APU de cada partida se reparte sobre las fechas de su actividad. Resultado: el listado de insumos <strong>con una columna por período</strong>. No es un plan de compras aparte — es el presupuesto y el cronograma cruzados, y se recalcula solo cuando cualquiera de los dos cambia.</p>
+
+        <figure class="shot" style="background: var(--ados-white); margin-bottom: 40px;">
+          <div class="body wide"><image-slot id="IMG-PRO-11" src="assets/img/capturas/04-programacion/IMG-PRO-11.png" shape="rect" fit="contain" placeholder="IMG-PRO-11 · La ventana de Recursos con los insumos en filas, los períodos en columnas y la separación por tipo (materiales, mano de obra, equipo…)"></image-slot></div>
+          <figcaption><span class="pin">IMG-PRO-11</span><span>Qué comprar, cuánto y cuándo.</span></figcaption>
+        </figure>
+
+        <div class="cols" style="gap: 76px;">
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx">Se agrupa <strong>por día, por semana o por mes</strong>, y se separa <strong>por tipo de insumo</strong>.</span></div>
+            <div><span class="dot"></span><span class="tx">Responde de una sola vez: cuántos bultos de cemento en la semana 12, cuántas horas de retroexcavadora en marzo.</span></div>
+          </div>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx">Para los insumos que se miden en tiempo, además está <strong>cuántos hacen falta a la vez</strong> y el <strong>pico</strong>: cuántos oficiales tienen que estar en obra ese período para que el plan se cumpla.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOQUE 11 ===================== -->
+  <section id="imprimir" class="wrap">
+    <div class="bloque bloque--first">
+      <div class="cols cols--center cols--apilada">
+        <div>
+          <div class="bnum"><span class="num">11</span><span class="label">Imprimir y entregar</span></div>
+          <h2 class="h2" style="margin-bottom: 20px; max-width: 20ch;">Se imprime como se ve.</h2>
+          <div class="feat">
+            <div><span class="dot"></span><span class="tx"><strong>El Gantt se imprime en PDF</strong> tal como se ve: las columnas que estén a la vista, las barras, la línea base y las flechas de sucesión.</span></div>
+            <div><span class="dot"></span><span class="tx">Se elige <strong>tamaño de hoja</strong> y orientación, y el programa <strong>avisa cuántas hojas van a salir</strong> antes de imprimir.</span></div>
+            <div><span class="dot"></span><span class="tx">Cuando la obra no cabe en una hoja, <strong>se parte a la misma escala en todas</strong>, para poder pegarlas y que el cronograma cuadre.</span></div>
+            <div><span class="dot"></span><span class="tx"><strong>Recursos por período</strong> y <strong>Flujo de caja</strong> salen en Excel o PDF; el Gantt, en PDF.</span></div>
+          </div>
+        </div>
+        <figure class="shot">
+          <div class="body tall"><image-slot id="IMG-PRO-12" src="assets/img/capturas/04-programacion/IMG-PRO-12.png" shape="rect" fit="contain" placeholder="IMG-PRO-12 · El Gantt exportado a PDF, con su tabla a la izquierda, las barras y la línea base"></image-slot></div>
+          <figcaption><span class="pin">IMG-PRO-12</span><span>Y se imprime como se ve.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== POR QUÉ IMPORTA ===================== -->
+  <section style="background: var(--ados-light); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
+    <div class="wrap" style="padding: 88px 32px;">
+      <div class="eyebrow" style="margin-bottom: 18px;">Por qué importa</div>
+      <h2 class="h2" style="max-width: 22ch; margin-bottom: 52px;">Ocho cosas que cambian cuando el cronograma sale del presupuesto.</h2>
+      <div class="cuatro" style="background: var(--border-light);">
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Deja de ser un trabajo aparte</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Las actividades son las partidas; no hay segundo archivo que mantener.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Las duraciones tienen respaldo</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Salen de la cantidad y del rendimiento del APU, no de una estimación a ojo — y si mañana cambia la cantidad, se reajustan solas.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Programar es ajustar el inicio y encadenar</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Lo que no se toca queda alineado al día 1.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">El cronograma se puede mantener</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Que es donde fracasan los demás: cambió el presupuesto, cambió el cronograma.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">El atraso se dice en jornadas</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Que es como se habla en obra y como se reclama.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Del mismo cronograma salen la plata y las compras</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Flujo de caja por mes y qué comprar cada semana. Dos entregables más sin trabajo extra.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">La línea base convierte el plan en un compromiso medible</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Con la cantidad y el importe con que se prometió.</p>
+        </div>
+        <div style="background: var(--ados-light);">
+          <div class="h3" style="border-left: 2px solid var(--accent); padding-left: 14px; margin-bottom: 12px;">Se imprime como se ve</div>
+          <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Y a una escala que permite pegar las hojas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PREGUNTAS ===================== -->
+  <section class="wrap" style="padding-top: 88px; padding-bottom: 88px;">
+    <div class="eyebrow" style="margin-bottom: 18px;">Preguntas</div>
+    <h2 class="h2" style="max-width: 22ch; margin-bottom: 52px;">Lo que preguntan sobre la programación.</h2>
+    <div class="duo" style="gap: 44px 64px;">
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Tengo que volver a escribir las actividades?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">No. Las actividades son las partidas del presupuesto. Si cambia una, cambia en el cronograma.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿De dónde saca la duración?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">De la cantidad de la partida y del rendimiento de su APU, tomando el recurso más lento, con un factor para traslados y acomodación. Y si prefiere escribirla a mano, también.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Y si no tengo APU en todas las partidas?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Esas se programan a mano. El programa le dice cuáles no puede calcular y por qué.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Reemplaza a Project?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Para una obra de edificación, sí: duraciones, las cuatro precedencias con desfase, ruta crítica, holguras total y libre, línea base y Gantt imprimible. Lo que no hace es nivelación de recursos ni leer archivos de Project.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Cómo sé si voy atrasado?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Por el % ejecutado, que sale de lo que ya midió en las actas y en el seguimiento diario, y sobre todo por el desfase en jornadas: «vamos nueve jornadas atrasados».</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿El cronograma me sirve para saber qué comprar?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Sí. Recursos por período reparte el APU sobre las fechas y le da el listado de insumos con una columna por día, semana o mes.</p>
+      </div>
+      <div>
+        <div class="h3" style="font-size: 18px; margin-bottom: 10px;">¿Puedo imprimir el Gantt de una obra grande?</div>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0;">Sí, en PDF. Elige el tamaño de hoja, el programa le dice cuántas hojas salen y las parte a la misma escala para que se puedan pegar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section style="background: var(--ados-navy-900);">
+    <div class="wrap cta-grid" style="padding: 96px 32px; display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,0.8fr); gap: 80px; align-items: center;">
+      <div>
+        <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 44px; line-height: 1.05; letter-spacing: -0.035em; color: var(--ados-white); margin: 0; text-wrap: pretty;">Vea armarse el cronograma de su obra.</h2>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 22px 0 0 0; max-width: 52ch;">Con su presupuesto: calculamos las duraciones de un golpe, encadenamos, ponemos la fecha de inicio y sale el Gantt, el flujo de caja y el plan de compras.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; align-items: start;">
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="primary" size="lg" href="index.html#contacto" full-width="{{ true }}" hint-size="100%,52px">Solicitar demostración</x-import>
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="secondary" size="lg" href="Herramientas.dc.html#recorrido" full-width="{{ true }}" hint-size="100%,52px">Volver al recorrido</x-import>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ANTERIOR / SIGUIENTE ===================== -->
+  <section style="background: var(--ados-navy-950); border-top: 1px solid var(--border);">
+    <div class="wrap" style="padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <a href="03-medicion.dc.html" style="display: flex; align-items: baseline; gap: 12px; color: var(--ados-white);">
+        <span class="label" style="color: var(--text-faint);">Anterior</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-white);">← 03 · Medición</span>
+      </a>
+      <a href="Herramientas.dc.html#recorrido" style="color: var(--text-muted); font-size: 14.5px;">Todos los apartados</a>
+      <a href="05-ejecucion.dc.html" style="display: flex; align-items: baseline; gap: 12px; color: var(--ados-white);">
+        <span class="label" style="color: var(--text-faint);">Siguiente</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ados-white);">05 · Ejecución →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer style="background: var(--ados-navy-900); border-top: 1px solid var(--border);">
+    <div class="wrap" style="padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <img src="assets/logo/ados-logo-light.svg" alt="ADOS Ingeniería y Arquitectura" style="height: 26px; display: block;">
+      <div style="font-size: 13.5px; color: var(--text-faint);">ADOS Ingeniería y Arquitectura SAS · Colombia</div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+</body>
+</html>

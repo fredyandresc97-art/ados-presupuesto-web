@@ -1,0 +1,10 @@
+<svg width="350" height="84" viewBox="0 0 350 84" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ADOS Ingeniería y Arquitectura SAS">
+  <g stroke-linejoin="round" stroke-width="2.6">
+    <path d="M40 10 L69 26.5 L40 43 L11 26.5 Z" fill="#F9B233" stroke="#F9B233"></path>
+    <path d="M69 26.5 L69 60.5 L40 77 L40 43 Z" fill="#E7A11E" stroke="#E7A11E"></path>
+    <path d="M11 26.5 L40 43 L40 77 L11 60.5 Z" fill="#3A4654" stroke="#3A4654"></path>
+  </g>
+  <line x1="90" y1="18" x2="90" y2="66" stroke="#FFFFFF" stroke-width="2" opacity="0.65"></line>
+  <text x="104" y="55" font-family="&#39;Space Grotesk&#39;, sans-serif" font-weight="700" font-size="44" letter-spacing="-1.5" fill="#FFFFFF">ADOS</text>
+  <text x="106" y="71" font-family="&#39;Inter&#39;, sans-serif" font-weight="500" font-size="9.2" letter-spacing="2.1" fill="#F9B233">INGENIERÍA Y ARQUITECTURA SAS</text>
+</svg>

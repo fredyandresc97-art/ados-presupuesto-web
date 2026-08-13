@@ -1,0 +1,34 @@
+# ---------------------------------------------------------------------------
+# Lo que NO sale a internet.
+#
+# El repo de esta carpeta es PÚBLICO (requisito de GitHub Pages gratis), así
+# que todo lo que no esté aquí queda visible para cualquiera, aunque no haya
+# un enlace que lleve a ello.
+# ---------------------------------------------------------------------------
+
+# Material interno de redacción. Cada ficha lleva una sección marcada
+# «No publicar» con los límites de lo que el programa NO hace.
+fichas/
+
+# Imágenes pegadas durante el trabajo. Ningún documento las usa.
+uploads/
+
+# Fragmentos de trabajo.
+snippets/
+
+# Borrador de diseño del icono: no está enlazado desde ningún documento
+# y su nombre lleva espacios.
+Icono App Presupuestos.dc.html
+
+# Guías de producción de las capturas: dicen qué debe mostrar cada hueco.
+# Ya no hacen falta y no aportan nada al visitante.
+assets/img/capturas/**/_GUIA.md
+assets/img/capturas/_LEEME.md
+
+# Basura del sistema
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Miniatura de vista previa del editor, no la usa el sitio
+.thumbnail

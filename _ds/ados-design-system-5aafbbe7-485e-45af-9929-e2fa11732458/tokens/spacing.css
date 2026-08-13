@@ -1,0 +1,52 @@
+/* ============================================================
+   ADOS — SPACING, GEOMETRY & LAYOUT TOKENS
+   8pt base · 12-col / 24px gutter / 1280px max
+   Radius: 6px UI · 0px images & diagrams · 999px tags only
+   ============================================================ */
+:root {
+  /* Spacing scale (8pt base) */
+  --space-0:   0;
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   16px;
+  --space-4:   24px;
+  --space-5:   32px;
+  --space-6:   48px;
+  --space-7:   64px;
+  --space-8:   96px;
+  --space-9:   128px;
+
+  /* Radius — geometry is intentionally sharp */
+  --radius-none:  0px;      /* images, technical diagrams, hero media */
+  --radius-ui:    6px;      /* cards, inputs, buttons */
+  --radius-sm:    4px;      /* small controls */
+  --radius-pill:  999px;    /* tags / chips ONLY */
+  --radius-cube:  12px;     /* logo mark only — do not over-apply */
+
+  /* Borders */
+  --border-width: 1px;
+  --border-width-strong: 2px;
+
+  /* Layout grid */
+  --container-max: 1280px;
+  --container-wide: 1440px;
+  --gutter: 24px;
+  --grid-columns: 12; /* @kind other */
+
+  /* Elevation — NO soft Material shadows.
+     Hairline borders on dark; a single hard overlay shadow for modals only. */
+  --shadow-none: none;
+  --shadow-overlay: 0 24px 64px rgba(10,14,18,0.55);
+  --shadow-overlay-light: 0 16px 48px rgba(34,43,53,0.18);
+
+  /* Motion — restrained, precise (no bounce) */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1); /* @kind other */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --dur-fast: 120ms; /* @kind other */
+  --dur-base: 200ms; /* @kind other */
+  --dur-slow: 320ms; /* @kind other */
+
+  /* Focus ring */
+  --ring-width: 2px;
+  --ring-offset: 2px;
+}
