@@ -32,3 +32,7 @@ desktop.ini
 
 # Miniatura de vista previa del editor, no la usa el sitio
 .thumbnail
+
+# Copia suelta que quedo al arrastrar el video: el bueno vive en
+# assets/img/capturas/03-medicion/
+/vid-med-01.mp4
