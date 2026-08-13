@@ -141,6 +141,10 @@
        Quitando estas dos líneas el documento vuelve a quedar estático. -->
   <link rel="stylesheet" href="./motion.css">
   <script src="./motion.js"></script>
+  <!-- Formulario de compra y WhatsApp. El flotante lo pone contacto.js
+       en todas las paginas; el formulario solo existe en index.html. -->
+  <link rel="stylesheet" href="./contacto.css">
+  <script src="./contacto.js"></script>
 </helmet>
 
 <div style="background: var(--ados-white);">
@@ -604,7 +608,7 @@
         <p style="font-size: 17px; line-height: 1.65; color: var(--text-muted); margin: 22px 0 0 0; max-width: 50ch;">Con su cuadrilla, su factor prestacional y sus rendimientos — y le enseñamos qué pasa con el precio unitario cuando sube el jornal.</p>
       </div>
       <div style="display: flex; flex-direction: column; gap: 14px; align-items: start;">
-        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="primary" size="lg" href="index.html#contacto" full-width="{{ true }}" hint-size="100%,52px">Solicitar demostración</x-import>
+        <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="primary" size="lg" href="index.html#comprar" full-width="{{ true }}" hint-size="100%,52px">Comprar</x-import>
         <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Button" variant="secondary" size="lg" href="Herramientas.dc.html#recorrido" full-width="{{ true }}" hint-size="100%,52px">Volver al recorrido</x-import>
       </div>
     </div>

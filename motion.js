@@ -36,6 +36,8 @@
     '.problema-row',
     '.stage-row',
     '.dirigido-grid > *',
+    '.compra-grid > *',
+    '.planes > *',
 
     /* Herramientas.dc.html */
     '.ruta > a',
