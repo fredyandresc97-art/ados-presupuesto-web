@@ -369,3 +369,16 @@
   .wa-float, .wa-boton { transition: none; }
   .wa-float:hover { transform: none; }
 }
+
+/* Campo trampa contra robots.
+   Se saca de la vista en vez de usar display:none o hidden, porque muchos
+   robots saltan los campos ocultos de esa manera — y este lo tienen que ver
+   para caer en él. Los lectores de pantalla lo ignoran por el aria-hidden
+   del contenedor, y el tabindex="-1" impide llegar con el tabulador. */
+.trampa {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

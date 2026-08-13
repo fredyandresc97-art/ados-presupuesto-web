@@ -453,6 +453,12 @@
         </div>
 
         <form id="form-compra" class="compra-form">
+          <!-- Campo trampa contra robots. No se ve, no recibe el foco y no se
+               guarda: si llega con contenido, contacto.js descarta el envío.
+               No quitar. -->
+          <div class="trampa" aria-hidden="true">
+            <label>No llene este campo<input type="text" name="sitio" tabindex="-1" autocomplete="off"></label>
+          </div>
           <label><span>Plan</span>
             <select class="ados-select" name="plan">
               <option>Anual · $399.000 COP</option>
