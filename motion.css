@@ -1,0 +1,221 @@
+/* ============================================================
+   ADOS Presupuesto — capa de movimiento
+   Traslada el lenguaje de animación de la landing del plugin
+   (plugin.adosiya.com) a los documentos de este sitio.
+
+   Va junto a motion.js: el JS decide QUÉ se anima, este archivo
+   dice CÓMO. Ninguno de los dos toca el marcado de los documentos.
+
+   Para desactivarlo todo: quitar las dos líneas de <helmet>
+   (motion.css y motion.js) del documento. No queda rastro.
+
+   Regla del sistema de diseño que se respeta aquí: nada de sombras
+   difusas tipo Material. La elevación se expresa con filete de 1px
+   (box-shadow: 0 0 0 1px) y un desplazamiento corto.
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   1. Entrada al hacer scroll
+   El JS pone data-reveal en cada bloque y lo cambia a "in" cuando
+   entra en pantalla. Si el JS no corre, nada lleva el atributo y
+   la página se ve completa: no hay riesgo de dejar texto invisible.
+
+   Se usa la propiedad `translate` en vez de `transform` a propósito:
+   así el desplazamiento de entrada y el `transform` de los :hover de
+   más abajo conviven sin pisarse.
+   ------------------------------------------------------------ */
+[data-reveal] {
+  opacity: 0;
+  translate: 0 14px;
+  transition:
+    opacity var(--dur-slow, 320ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+    translate var(--dur-slow, 320ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+  /* el escalonado entre hermanos lo calcula el JS */
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-reveal="in"] {
+  opacity: 1;
+  translate: none;
+}
+
+
+/* ------------------------------------------------------------
+   2. Tarjetas de rejilla — .tri .cuatro .estados .detras
+   Son fichas blancas separadas por filetes de 1px (la rejilla se
+   ve porque el padre tiene fondo). Al pasar por encima se levantan
+   3px y se les enciende el filete en ámbar.
+   ------------------------------------------------------------ */
+.tri > div,
+.cuatro > div,
+.estados > div,
+.detras > div {
+  position: relative;
+  transition:
+    box-shadow var(--dur-base, 200ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    transform var(--dur-base, 200ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+.tri > div:hover,
+.cuatro > div:hover,
+.estados > div:hover,
+.detras > div:hover {
+  /* por encima de las vecinas, para que el filete no quede cortado */
+  z-index: 1;
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+
+/* ------------------------------------------------------------
+   3. Capturas de pantalla — figure.shot y .shot
+   Hay 84 en el sitio: el realce tiene que ser discreto o cansa.
+   Solo se oscurece el filete y sube 3px. Sin ámbar.
+   ------------------------------------------------------------ */
+figure.shot,
+.shot {
+  transition:
+    border-color var(--dur-base, 200ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    transform var(--dur-slow, 320ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+figure.shot:hover,
+.shot:hover {
+  border-color: var(--border-light-strong);
+  transform: translateY(-3px);
+}
+
+
+/* ------------------------------------------------------------
+   4. Tarjetas del recorrido (Herramientas) y fichas de vídeo
+   ------------------------------------------------------------ */
+.ruta > a {
+  transition:
+    background var(--dur-base, 200ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    box-shadow var(--dur-base, 200ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    transform var(--dur-base, 200ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+.ruta > a:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+/* el «Conoce más →» se adelanta un poco, como las flechas de la landing */
+.ruta > a .mas,
+.ruta > a .mas svg {
+  transition: translate var(--dur-base, 200ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+.ruta > a:hover .mas {
+  translate: 3px 0;
+}
+
+.vid {
+  transition: border-color var(--dur-base, 200ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+.vid:hover {
+  border-color: var(--accent);
+}
+.vid .play {
+  transition: transform var(--dur-base, 200ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+.vid:hover .play {
+  transform: scale(1.06);
+}
+
+
+/* ------------------------------------------------------------
+   5. Filas de tabla y chips
+   ------------------------------------------------------------ */
+.tabla tr:hover td {
+  background: var(--ados-light);
+}
+.tabla td {
+  transition: background var(--dur-fast, 120ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.chip {
+  transition:
+    border-color var(--dur-fast, 120ms) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    transform var(--dur-fast, 120ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+.chip:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+
+/* ------------------------------------------------------------
+   6. Botones del sistema de diseño — el destello de la landing
+   El componente Button no trae `position` ni `overflow` en sus
+   estilos en línea, así que estas dos reglas entran sin pelear.
+   ------------------------------------------------------------ */
+.ados-btn {
+  position: relative;
+  overflow: hidden;
+}
+.ados-btn--primary::after,
+.ados-btn--light::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+.ados-btn--primary:hover::after,
+.ados-btn--light:hover::after {
+  animation: ados-destello 720ms var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+@keyframes ados-destello {
+  from { left: -120%; }
+  to   { left: 160%; }
+}
+
+
+/* ------------------------------------------------------------
+   7. Cabecera y barra de lectura
+   Los documentos 01–06 son largos; la barra ámbar de arriba dice
+   cuánto queda. El JS la crea y le ajusta el ancho al hacer scroll.
+   ------------------------------------------------------------ */
+header[data-scrolled="true"] {
+  border-bottom-color: var(--border-light-strong);
+}
+
+.ados-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  scale: 0 1;
+  z-index: 60;
+  pointer-events: none;
+}
+
+
+/* ------------------------------------------------------------
+   8. Quien pide menos movimiento, no ve ninguno
+   El JS ya se apaga solo con esta misma consulta; esto es el
+   segundo cierre, por si el CSS llega y el JS no.
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+  .tri > div, .cuatro > div, .estados > div, .detras > div,
+  figure.shot, .shot, .ruta > a, .chip, .vid .play {
+    transition: none;
+  }
+  .tri > div:hover, .cuatro > div:hover, .estados > div:hover, .detras > div:hover,
+  figure.shot:hover, .shot:hover, .ruta > a:hover, .chip:hover, .vid:hover .play {
+    transform: none;
+  }
+  .ruta > a:hover .mas { translate: none; }
+  .ados-btn--primary:hover::after,
+  .ados-btn--light:hover::after { animation: none; }
+  .ados-progress { display: none; }
+}

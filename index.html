@@ -36,6 +36,10 @@
       .dirigido-grid { grid-template-columns: repeat(2, 1fr) !important; row-gap: 40px !important; }
     }
   </style>
+  <!-- Capa de movimiento. Va la última para poder ajustar lo de arriba.
+       Quitando estas dos líneas el documento vuelve a quedar estático. -->
+  <link rel="stylesheet" href="./motion.css">
+  <script src="./motion.js"></script>
 </helmet>
 
 <div style="background: var(--ados-white);">
