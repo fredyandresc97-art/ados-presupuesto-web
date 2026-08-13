@@ -96,22 +96,45 @@
 
     @media (max-width: 1080px) {
       .nav-links { display: none !important; }
-      .ruta { grid-template-columns: repeat(3, 1fr); }
-      .porque { grid-template-columns: repeat(2, 1fr); }
+      .ruta { grid-template-columns: repeat(3, 1fr) !important; }
+      .porque { grid-template-columns: repeat(2, 1fr) !important; }
     }
     @media (max-width: 900px) {
       .paso { grid-template-columns: 1fr !important; direction: ltr !important; gap: 40px; padding: 64px 0; }
-      .ruta { grid-template-columns: repeat(2, 1fr); }
-      .tri { grid-template-columns: 1fr; }
-      .duo { grid-template-columns: 1fr; }
-      .detras { grid-template-columns: 1fr; }
-      .porque { grid-template-columns: 1fr; }
-      .faq { grid-template-columns: 1fr; }
+      .ruta { grid-template-columns: repeat(2, 1fr) !important; }
+      .tri { grid-template-columns: 1fr !important; }
+      .duo { grid-template-columns: 1fr !important; }
+      .detras { grid-template-columns: 1fr !important; }
+      .porque { grid-template-columns: 1fr !important; }
+      .faq { grid-template-columns: 1fr !important; }
       .h2 { font-size: 32px; }
       .hero-h1 { font-size: 40px !important; }
       .hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
       .cta-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
     }
+
+    /* Teléfono. Con 32 px de margen a cada lado, un móvil de 390 deja 326
+       para el contenido: los titulares de arriba no caben. */
+    @media (max-width: 560px) {
+      .wrap { padding-left: 20px !important; padding-right: 20px !important; }
+      .hero-h1 { font-size: 30px !important; letter-spacing: -0.02em !important; }
+      .h2 { font-size: 25px !important; }
+      .subh { font-size: 20px !important; }
+      .cita { font-size: 19px !important; padding-left: 16px !important; }
+      .bnum .num { font-size: 36px !important; }
+      /* El numero y su epigrafe comparten linea base; en pantalla estrecha
+         el epigrafe parte en dos y queda una L. Mejor uno encima del otro. */
+      .bnum { flex-direction: column !important; align-items: flex-start !important; gap: 6px !important; }
+      .ambar { padding: 26px 22px !important; }
+      .ambar .f { font-size: 22px !important; }
+      .regla { padding: 20px 22px !important; }
+      .bloque { padding: 56px 0 !important; }
+    }
+
+    /* Las tablas no encogen por debajo de su ancho minimo: si se aprietan,
+       o desbordan la pagina o quedan ilegibles. En pantalla estrecha se
+       deslizan en horizontal dentro de su propio marco. */
+    .tabla-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; min-width: 0; }
   </style>
   <!-- Capa de movimiento. Va la última para poder ajustar lo de arriba.
        Quitando estas dos líneas el documento vuelve a quedar estático. -->
@@ -407,7 +430,7 @@
         <div class="bar" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 16px; border-bottom: 1px solid var(--border-light); background: var(--ados-light);">
           <span class="label">Qué sale y en qué formato</span><span class="label">Presupuesto</span>
         </div>
-        <table class="tabla">
+        <div class="tabla-scroll"><table class="tabla">
           <thead>
             <tr><th>Contenido</th><th class="c">Excel</th><th class="c">PDF</th></tr>
           </thead>
@@ -420,7 +443,7 @@
             <tr><td>APU · análisis unitario</td><td class="c si">✓</td><td class="c si">✓</td></tr>
             <tr><td style="border-bottom: none;">Memoria de cálculo</td><td class="c no" style="border-bottom: none;">—</td><td class="c si" style="border-bottom: none;">✓</td></tr>
           </tbody>
-        </table>
+        </table></div>
       </div>
     </div>
   </section>

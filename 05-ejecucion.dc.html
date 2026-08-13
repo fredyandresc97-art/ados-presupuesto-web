@@ -126,14 +126,14 @@
     section[id], div[id] { scroll-margin-top: 130px; }
 
     @media (max-width: 1080px) {
-      .cuatro { grid-template-columns: repeat(2, 1fr); }
-      .cinco-dolor { grid-template-columns: repeat(3, 1fr); row-gap: 28px; }
+      .cuatro { grid-template-columns: repeat(2, 1fr) !important; }
+      .cinco-dolor { grid-template-columns: repeat(3, 1fr) !important; row-gap: 28px; }
       .cinco-dolor > div:nth-child(4) { border-left: none; padding-left: 0; }
     }
     @media (max-width: 900px) {
       .cols, .cols--head { grid-template-columns: 1fr !important; gap: 40px; }
-      .tri, .duo, .cuatro, .estados { grid-template-columns: 1fr; }
-      .cinco-dolor { grid-template-columns: 1fr; }
+      .tri, .duo, .cuatro, .estados { grid-template-columns: 1fr !important; }
+      .cinco-dolor { grid-template-columns: 1fr !important; }
       .cinco-dolor > div { border-left: none; border-top: 1px solid var(--border); padding: 22px 0 0 0; }
       .cinco-dolor > div:first-child { border-top: none; padding-top: 0; }
       .bloque { padding: 64px 0; }
@@ -145,6 +145,29 @@
       .cta-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
       .tabla th, .tabla td { padding: 12px 14px; font-size: 14.5px; }
     }
+
+    /* Teléfono. Con 32 px de margen a cada lado, un móvil de 390 deja 326
+       para el contenido: los titulares de arriba no caben. */
+    @media (max-width: 560px) {
+      .wrap { padding-left: 20px !important; padding-right: 20px !important; }
+      .hero-h1 { font-size: 30px !important; letter-spacing: -0.02em !important; }
+      .h2 { font-size: 25px !important; }
+      .subh { font-size: 20px !important; }
+      .cita { font-size: 19px !important; padding-left: 16px !important; }
+      .bnum .num { font-size: 36px !important; }
+      /* El numero y su epigrafe comparten linea base; en pantalla estrecha
+         el epigrafe parte en dos y queda una L. Mejor uno encima del otro. */
+      .bnum { flex-direction: column !important; align-items: flex-start !important; gap: 6px !important; }
+      .ambar { padding: 26px 22px !important; }
+      .ambar .f { font-size: 22px !important; }
+      .regla { padding: 20px 22px !important; }
+      .bloque { padding: 56px 0 !important; }
+    }
+
+    /* Las tablas no encogen por debajo de su ancho minimo: si se aprietan,
+       o desbordan la pagina o quedan ilegibles. En pantalla estrecha se
+       deslizan en horizontal dentro de su propio marco. */
+    .tabla-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; min-width: 0; }
   </style>
   <!-- Capa de movimiento. Va la última para poder ajustar lo de arriba.
        Quitando estas dos líneas el documento vuelve a quedar estático. -->
@@ -454,13 +477,13 @@
       <div class="cols" style="gap: 76px;">
         <div class="cuadro">
           <div class="bar"><span class="label">Las columnas de ejecución</span><span class="label">En la hoja</span></div>
-          <table class="tabla">
+          <div class="tabla-scroll"><table class="tabla">
             <tbody>
               <tr><td class="col" style="width: 42%;">Cantidad ejecutada</td><td class="vs">Por partida, con los capítulos y el total sumando solos.</td></tr>
               <tr><td class="col">Valor ejecutado</td><td class="vs">Lo que vale lo ejecutado, según el presupuesto.</td></tr>
               <tr><td class="col">% ejecutado</td><td class="vs">Contra lo contratado, partida por partida.</td></tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
         <div class="feat">
           <div><span class="dot"></span><span class="tx">El <strong>modo acumulado</strong> enseña lo ejecutado desde el corte 1 hasta el seleccionado; sin él, lo del corte presente.</span></div>

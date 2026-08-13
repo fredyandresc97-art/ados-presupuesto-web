@@ -130,11 +130,11 @@
     section[id], div[id] { scroll-margin-top: 130px; }
 
     @media (max-width: 1080px) {
-      .cuatro { grid-template-columns: repeat(2, 1fr); }
+      .cuatro { grid-template-columns: repeat(2, 1fr) !important; }
     }
     @media (max-width: 900px) {
       .cols, .cols--head { grid-template-columns: 1fr !important; gap: 40px; }
-      .tri, .duo, .cuatro { grid-template-columns: 1fr; }
+      .tri, .duo, .cuatro { grid-template-columns: 1fr !important; }
       .bloque { padding: 64px 0; }
       .h2 { font-size: 29px; }
       .hero-h1 { font-size: 36px !important; }
@@ -142,6 +142,29 @@
       .cta-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
       .tabla th, .tabla td { padding: 12px 14px; font-size: 14.5px; }
     }
+
+    /* Teléfono. Con 32 px de margen a cada lado, un móvil de 390 deja 326
+       para el contenido: los titulares de arriba no caben. */
+    @media (max-width: 560px) {
+      .wrap { padding-left: 20px !important; padding-right: 20px !important; }
+      .hero-h1 { font-size: 30px !important; letter-spacing: -0.02em !important; }
+      .h2 { font-size: 25px !important; }
+      .subh { font-size: 20px !important; }
+      .cita { font-size: 19px !important; padding-left: 16px !important; }
+      .bnum .num { font-size: 36px !important; }
+      /* El numero y su epigrafe comparten linea base; en pantalla estrecha
+         el epigrafe parte en dos y queda una L. Mejor uno encima del otro. */
+      .bnum { flex-direction: column !important; align-items: flex-start !important; gap: 6px !important; }
+      .ambar { padding: 26px 22px !important; }
+      .ambar .f { font-size: 22px !important; }
+      .regla { padding: 20px 22px !important; }
+      .bloque { padding: 56px 0 !important; }
+    }
+
+    /* Las tablas no encogen por debajo de su ancho minimo: si se aprietan,
+       o desbordan la pagina o quedan ilegibles. En pantalla estrecha se
+       deslizan en horizontal dentro de su propio marco. */
+    .tabla-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; min-width: 0; }
   </style>
   <!-- Capa de movimiento. Va la última para poder ajustar lo de arriba.
        Quitando estas dos líneas el documento vuelve a quedar estático. -->
@@ -365,13 +388,13 @@
           </figure>
           <div class="cuadro">
             <div class="bar"><span class="label">Dos holguras</span><span class="label">Columna Holgura</span></div>
-            <table class="tabla">
+            <div class="tabla-scroll"><table class="tabla">
               <tbody>
                 <tr><td class="col" style="width: 34%;">Holgura total</td><td class="vs">Cuánto se puede correr la actividad sin retrasar el fin de la obra.</td></tr>
                 <tr><td class="col">Holgura libre</td><td class="vs">Cuánto se puede correr sin mover a ninguna de sus sucesoras.</td></tr>
                 <tr><td class="col">Negativa</td><td class="vs">Ya no cabe: su fecha choca con sus enlaces.</td></tr>
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
       </div>

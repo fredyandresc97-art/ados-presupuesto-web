@@ -33,12 +33,44 @@
     .nav-link[data-active="true"] .nav-rule { transform: scaleX(1) !important; }
     .stage-row:nth-child(even) { direction: rtl; }
     .stage-row:nth-child(even) > * { direction: ltr; }
+    /* ------------------------------------------------------------------
+       Móvil.
+
+       Ojo con el !important: las columnas de estas rejillas están escritas
+       en el atributo style del marcado, y un style="" le gana a cualquier
+       selector. Sin el !important la regla no se aplica y la rejilla sigue
+       teniendo dos columnas en una pantalla de 390 px — que es justo lo que
+       pasaba: el texto salía a una palabra por línea y el título se cortaba.
+       ------------------------------------------------------------------ */
     @media (max-width: 900px) {
       .stage-row { grid-template-columns: 1fr !important; }
       .nav-links { display: none !important; }
       .hero-h1 { font-size: 48px !important; }
       .problema-row { grid-template-columns: 1fr !important; gap: 28px !important; }
       .dirigido-grid { grid-template-columns: repeat(2, 1fr) !important; row-gap: 40px !important; }
+      /* Todas las rejillas de dos columnas de este documento llevan las
+         columnas escritas en el atributo style, y varias no tienen clase.
+         Este selector las alcanza por el propio style, así ninguna se queda
+         sin colapsar por olvido — que es lo que dejaba titulares en cajas de
+         96 px con el texto saliéndose. */
+      [style*="grid-template-columns: minmax"] { grid-template-columns: 1fr !important; gap: 32px !important; }
+      .hero-grid { align-items: start !important; }
+      /* Las rejillas de tarjetas que van dentro de otra columna. A tres
+         columnas en un móvil cada tarjeta se queda en 70 px de texto, y una
+         palabra como «Cotizaciones» ya no cabe: la rejilla se ensancha por
+         dentro y arrastra a toda la página. */
+      .mini-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+
+    /* Teléfono. Con 32 px de margen a cada lado, un móvil de 390 deja 326
+       para el contenido: los cuerpos de arriba no caben. */
+    @media (max-width: 560px) {
+      section, header > div { padding-left: 20px !important; padding-right: 20px !important; }
+      .hero-h1 { font-size: 34px !important; letter-spacing: -0.02em !important; }
+      h2 { font-size: 27px !important; }
+      h3 { font-size: 22px !important; }
+      .dirigido-grid { grid-template-columns: 1fr !important; }
+      .mini-grid { grid-template-columns: 1fr !important; }
     }
   </style>
   <!-- Capa de movimiento. Va la última para poder ajustar lo de arriba.
@@ -75,7 +107,7 @@
       <span style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ados-ink-soft);">Presupuesto · Costo · Tiempo</span>
     </div>
     <h1 class="hero-h1" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 78px; line-height: 1.02; letter-spacing: -0.035em; color: var(--ados-ink); margin: 0; max-width: 16ch; text-wrap: pretty;">ADOS <span style="color: var(--accent);">Presupuesto</span></h1>
-    <div style="display: grid; grid-template-columns: minmax(0,1fr) minmax(0,420px); gap: 64px; align-items: end; margin-top: 40px;">
+    <div class="hero-grid" style="display: grid; grid-template-columns: minmax(0,1fr) minmax(0,420px); gap: 64px; align-items: end; margin-top: 40px;">
       <p style="font-size: 19px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0; max-width: 58ch; text-wrap: pretty;">
         Un software que le permite crear presupuestos de obra completos y estructurados — capítulos, subcapítulos, partidas y análisis de precios unitarios — donde las cantidades salen siempre de mediciones trazables: ingresadas manualmente, tomadas de los planos CAD o extraídas del modelo BIM. Ese mismo presupuesto acompaña la obra hasta el cierre, con seguimiento mensual, cobros parciales y actas de modificación.
       </p>
@@ -102,7 +134,7 @@
   </section>
 
   <section id="producto" style="max-width: 1280px; margin: 0 auto; padding: 112px 32px 0 32px;">
-    <div style="display: grid; grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); gap: 80px; align-items: start;">
+    <div class="producto-grid" style="display: grid; grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); gap: 80px; align-items: start;">
       <div>
         <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px;">Qué es</div>
         <h2 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0; text-wrap: pretty;">La herramienta para crear presupuestos, mantener catálogos y seguir los contratos de obra.</h2>
@@ -259,7 +291,7 @@
         </div>
         <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 32px; line-height: 1.15; letter-spacing: -0.03em; color: var(--ados-ink); margin: 0 0 18px 0;">Cotizaciones, márgenes e insumos en un mismo lugar</h3>
         <p style="font-size: 17px; line-height: 1.65; color: var(--ados-ink-soft); margin: 0 0 28px 0;">La planificación vive dentro del presupuesto, no al lado. Los insumos, las cotizaciones de proveedor y los márgenes se resuelven sobre las mismas partidas, y cualquier ajuste se refleja de inmediato en el costo del proyecto.</p>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light);">
+        <div class="mini-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light);">
           <div style="background: var(--ados-white); padding: 20px;"><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; color: var(--ados-ink); margin-bottom: 6px;">Cotizaciones</div><div style="font-size: 14px; line-height: 1.5; color: var(--ados-ink-soft);">Comparables por insumo y proveedor.</div></div>
           <div style="background: var(--ados-white); padding: 20px;"><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; color: var(--ados-ink); margin-bottom: 6px;">Márgenes</div><div style="font-size: 14px; line-height: 1.5; color: var(--ados-ink-soft);">AIU y utilidad por capítulo.</div></div>
           <div style="background: var(--ados-white); padding: 20px;"><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; color: var(--ados-ink); margin-bottom: 6px;">Insumos</div><div style="font-size: 14px; line-height: 1.5; color: var(--ados-ink-soft);">Base reutilizable entre proyectos.</div></div>
@@ -309,7 +341,7 @@
         </div>
         <p style="font-size: 16px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0; max-width: 34ch;">El complemento para Revit añade tres acciones a la cinta y mantiene el modelo y el presupuesto sincronizados.</p>
       </div>
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+      <div class="mini-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
         <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Card" tone="light" hint-size="100%,320px">
           <svg viewBox="0 0 100 100" width="44" height="44" style="display: block; margin-bottom: 24px;">
             <path d="M26 8 L62 8 L76 22 L76 92 L26 92 Z" fill="none" stroke="#222B35" stroke-width="3.4" stroke-linejoin="round"></path>
@@ -353,7 +385,7 @@
           <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 0;">Recalcula las mediciones cuando el modelo cambia y refleja la diferencia en el presupuesto.</p>
         </x-import>
       </div>
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 24px;">
+      <div class="mini-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 24px;">
         <x-import component-from-global-scope="ADOSDesignSystem_5aafbb.Card" tone="light" hint-size="100%,96px"><div style="display: flex; align-items: center; gap: 24px;">
           <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.06em; color: var(--accent); min-width: 92px;">DWG · DXF</div>
           <div style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft);">Visor CAD integrado para asignar mediciones directamente sobre los planos.</div>
