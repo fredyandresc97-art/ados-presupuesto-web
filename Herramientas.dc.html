@@ -8,6 +8,11 @@
 <body>
 <x-dc>
 <helmet>
+  <!-- Icono de la pestana. El .svg lo usan los navegadores modernos; el
+       .ico cubre los antiguos y la peticion automatica a /favicon.ico. -->
+  <link rel="icon" href="./favicon.ico" sizes="32x32">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
   <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/fonts.css">
   <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/colors.css">
   <link rel="stylesheet" href="_ds/ados-design-system-5aafbbe7-485e-45af-9929-e2fa11732458/tokens/typography.css">

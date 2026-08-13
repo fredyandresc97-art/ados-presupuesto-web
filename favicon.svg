@@ -1,0 +1,11 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Versión del icono para la pestaña del navegador.
+       Es ados-presupuesto-icon.svg sin el círculo del dólar: a 16 px ese
+       detalle se convierte en una mancha, y su texto usa Space Grotesk,
+       que en un favicon no llega a cargar. Quedan las tres barras, que
+       siguen leyéndose pequeñas. -->
+  <rect x="2" y="2" width="96" height="96" rx="21" fill="#222B35"></rect>
+  <rect x="20" y="64" width="16" height="18" fill="#F5F5F3" fill-opacity="0.9"></rect>
+  <rect x="42" y="48" width="16" height="34" fill="#E7A11E"></rect>
+  <rect x="64" y="28" width="16" height="54" fill="#F9B233"></rect>
+</svg>
