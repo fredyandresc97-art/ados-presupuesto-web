@@ -127,6 +127,47 @@
   }
 
   /* ----------------------------------------------------------
+     Vídeos: se mueven solos al entrar en pantalla.
+
+     Con `controls` y un póster que es una captura de la aplicación, un
+     vídeo parado se confunde con las demás capturas de la página: no hay
+     nada que diga que aquello se reproduce. Así que arranca solo —en
+     silencio y en bucle, que es lo único que los navegadores permiten
+     reproducir sin que el visitante lo pida— y se para al salir de la
+     vista, para no gastar batería ni datos de fondo.
+
+     Los controles siguen ahí: quien quiera parar, rebobinar o quitar el
+     silencio, puede. Y si el sistema pide menos movimiento, este archivo
+     ha salido antes por la puerta de arriba y los vídeos se quedan
+     quietos con su póster, como debe ser.
+     ---------------------------------------------------------- */
+  function vigilarVideos() {
+    if (!('IntersectionObserver' in window)) return;
+    var videos = document.querySelectorAll('.vid video:not([data-autoplay])');
+    if (!videos.length) return;
+
+    var ojo = new IntersectionObserver(function (entradas) {
+      for (var i = 0; i < entradas.length; i++) {
+        var v = entradas[i].target;
+        if (entradas[i].isIntersecting) {
+          /* play() devuelve una promesa que el navegador rechaza si aún
+             considera que no toca reproducir. No es un error: se ignora y
+             queda el póster con sus controles. */
+          var p = v.play();
+          if (p && p.catch) p.catch(function () {});
+        } else if (!v.paused) {
+          v.pause();
+        }
+      }
+    }, { threshold: 0.35 });
+
+    for (var i = 0; i < videos.length; i++) {
+      videos[i].setAttribute('data-autoplay', '');
+      ojo.observe(videos[i]);
+    }
+  }
+
+  /* ----------------------------------------------------------
      Barra de lectura + estado de la cabecera
      ---------------------------------------------------------- */
   var barra = null;
@@ -163,7 +204,7 @@
   function programarBarrido() {
     if (barridoEnCola) return;
     barridoEnCola = true;
-    requestAnimationFrame(function () { barridoEnCola = false; barrer(); });
+    requestAnimationFrame(function () { barridoEnCola = false; barrer(); vigilarVideos(); });
   }
 
   var iniciado = false;
@@ -180,6 +221,7 @@
     cabecera = document.querySelector('header');
 
     barrer();
+    vigilarVideos();
     pintarScroll();
 
     window.addEventListener('scroll', alScroll, { passive: true });
