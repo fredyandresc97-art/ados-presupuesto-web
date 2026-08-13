@@ -87,20 +87,15 @@
     /* El distintivo con el ID (IMG-MED-01…12) es andamio de producción: sirve para
        saber qué captura va en cada hueco. Ya están todas puestas, así que va
        oculto; para volver a verlos, `display: inline-block` en la línea siguiente.
-       Los de los huecos de vídeo (VID-MED-01…03) siguen a la vista:
-       esos aún están vacíos. */
+       Los vídeos ya están puestos, así que tampoco llevan distintivo. */
     figure.shot figcaption .pin { display: none; }
     .pin { font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); border: 1px solid var(--border-light-strong); padding: 2px 6px; white-space: nowrap; }
 
-    /* Huecos de vídeo — reemplazar el div.vid por un <video controls poster> cuando lleguen */
+    /* Vídeos. El .bar de abajo es el pie que explica lo que se ve. */
     .vid { border: 1px solid var(--border-light-strong); background: var(--ados-light); }
-    .vid .frame { position: relative; aspect-ratio: 16 / 9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 24px; }
-    .vid .frame::before { content: ''; position: absolute; inset: 12px; border: 1px dashed var(--border-light-strong); pointer-events: none; }
-    .vid .play { width: 62px; height: 62px; border: 2px solid var(--accent); border-radius: 999px; display: flex; align-items: center; justify-content: center; }
-    .vid .play span { width: 0; height: 0; border-left: 16px solid var(--accent); border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-left: 4px; }
-    .vid .qué { font-size: 15px; line-height: 1.55; color: var(--ados-ink-soft); max-width: 46ch; }
+    .vid video { display: block; width: 100%; height: auto; background: var(--ados-navy-950); }
     .vid .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 13px 16px; border-top: 1px solid var(--border-light); background: var(--ados-white); }
-    .vid .rank { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: -0.01em; color: var(--ados-ink); }
+    .vid .rank { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; line-height: 1.5; letter-spacing: -0.01em; color: var(--ados-ink-soft); }
 
     /* Regla / cita */
     .regla { border-left: 3px solid var(--accent); background: var(--ados-light); padding: 28px 32px; }
@@ -388,20 +383,17 @@
         </figure>
       </div>
 
-      <!-- HUECO DE VÍDEO 1 · sustituir este div.vid por <video controls poster="…"> cuando llegue -->
-      <div class="vid" style="margin-bottom: 48px;">
-        <div class="frame">
-          <div class="play"><span></span></div>
-          <div>
-            <div class="label" style="margin-bottom: 8px;">Vídeo corto · VID-MED-01</div>
-            <div class="qué">Los dos pasos seguidos: se mide sobre el plano enganchado a un vértice y la medida aparece escrita en la línea de Mediciones.</div>
-          </div>
-        </div>
-        <div class="bar">
-          <span class="rank">Prioridad 1 de 3 — la demostración más vistosa del programa</span>
-          <span class="pin">VID-MED-01</span>
-        </div>
-      </div>
+      <figure class="vid" style="margin: 0 0 48px 0;">
+        <video controls preload="metadata" playsinline width="1920" height="1080"
+               poster="assets/img/capturas/03-medicion/vid-med-01-poster.jpg">
+          <source src="assets/img/capturas/03-medicion/vid-med-01.mp4" type="video/mp4">
+          Su navegador no puede reproducir este vídeo.
+          <a href="assets/img/capturas/03-medicion/vid-med-01.mp4">Descargarlo</a>.
+        </video>
+        <figcaption class="bar">
+          <span class="rank">Se mide sobre el plano enganchado a un vértice y la medida aparece escrita en la línea de Mediciones.</span>
+        </figcaption>
+      </figure>
 
       <div class="cols" style="gap: 72px;">
         <div class="feat">
@@ -600,20 +592,17 @@
           <figcaption><span class="pin">IMG-MED-10</span><span>F3: y Revit le muestra cuál es.</span></figcaption>
         </figure>
 
-        <!-- HUECO DE VÍDEO 2 · sustituir este div.vid por <video controls poster="…"> cuando llegue -->
-        <div class="vid">
-          <div class="frame">
-            <div class="play"><span></span></div>
-            <div>
-              <div class="label" style="margin-bottom: 8px;">Vídeo corto · VID-MED-02</div>
-              <div class="qué">Se pulsa F3 sobre una partida y Revit selecciona, enfoca y resalta el elemento. Y la vuelta: se escoge un elemento en Revit y el presupuesto abre su partida.</div>
-            </div>
-          </div>
-          <div class="bar">
-            <span class="rank">Prioridad 2 de 3 — lo que más impresiona en una demostración</span>
-            <span class="pin">VID-MED-02</span>
-          </div>
-        </div>
+        <figure class="vid" style="margin: 0;">
+          <video controls preload="metadata" playsinline width="1920" height="1080"
+                 poster="assets/img/capturas/03-medicion/vid-med-02-poster.jpg">
+            <source src="assets/img/capturas/03-medicion/vid-med-02.mp4" type="video/mp4">
+            Su navegador no puede reproducir este vídeo.
+            <a href="assets/img/capturas/03-medicion/vid-med-02.mp4">Descargarlo</a>.
+          </video>
+          <figcaption class="bar">
+            <span class="rank">Se pulsa F3 sobre una partida y Revit selecciona, enfoca y resalta el elemento. Y a la vuelta: se escoge un elemento en Revit y el presupuesto abre su partida.</span>
+          </figcaption>
+        </figure>
       </div>
 
       <!-- 5.8 -->
@@ -664,20 +653,17 @@
         </div>
       </div>
 
-      <!-- HUECO DE VÍDEO 3 · sustituir este div.vid por <video controls poster="…"> cuando llegue -->
-      <div class="vid" style="margin-top: 56px;">
-        <div class="frame">
-          <div class="play"><span></span></div>
-          <div>
-            <div class="label" style="margin-bottom: 8px;">Vídeo corto · VID-MED-03</div>
-            <div class="qué">Una medición completa de principio a fin: se abre la partida, se escriben las líneas, se mide sobre el plano, y sale la memoria de cálculo en PDF.</div>
-          </div>
-        </div>
-        <div class="bar">
-          <span class="rank">Prioridad 3 de 3 — el recorrido completo, de la primera línea a la memoria</span>
-          <span class="pin">VID-MED-03</span>
-        </div>
-      </div>
+      <figure class="vid" style="margin: 56px 0 0 0;">
+        <video controls preload="metadata" playsinline width="1920" height="1080"
+               poster="assets/img/capturas/03-medicion/vid-med-03-poster.jpg">
+          <source src="assets/img/capturas/03-medicion/vid-med-03.mp4" type="video/mp4">
+          Su navegador no puede reproducir este vídeo.
+          <a href="assets/img/capturas/03-medicion/vid-med-03.mp4">Descargarlo</a>.
+        </video>
+        <figcaption class="bar">
+          <span class="rank">Una medición completa de principio a fin: se abre la partida, se escriben las líneas, se mide sobre el plano y sale la memoria de cálculo en PDF.</span>
+        </figcaption>
+      </figure>
     </div>
   </section>
 

@@ -73,20 +73,12 @@
     /* El distintivo con el ID (IMG-EJE-01…11) es andamio de producción: sirve para
        saber qué captura va en cada hueco. Ya están todas puestas, así que va
        oculto; para volver a verlos, `display: inline-block` en la línea siguiente.
-       Los de los huecos de vídeo (VID-EJE-01…02) siguen a la vista:
-       esos aún están vacíos. */
+       Este documento ya no lleva vídeos. */
     figure.shot figcaption .pin { display: none; }
     .pin { font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); border: 1px solid var(--border-light-strong); padding: 2px 6px; white-space: nowrap; }
 
-    /* Huecos de vídeo — reemplazar el div.vid por un <video controls poster> cuando lleguen */
-    .vid { border: 1px solid var(--border-light-strong); background: var(--ados-white); }
-    .vid .frame { position: relative; aspect-ratio: 16 / 9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 24px; }
-    .vid .frame::before { content: ''; position: absolute; inset: 12px; border: 1px dashed var(--border-light-strong); pointer-events: none; }
-    .vid .play { width: 62px; height: 62px; border: 2px solid var(--accent); border-radius: 999px; display: flex; align-items: center; justify-content: center; }
-    .vid .play span { width: 0; height: 0; border-left: 16px solid var(--accent); border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-left: 4px; }
-    .vid .que { font-size: 15px; line-height: 1.55; color: var(--ados-ink-soft); max-width: 46ch; }
-    .vid .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 13px 16px; border-top: 1px solid var(--border-light); background: var(--ados-light); }
-    .vid .rank { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: -0.01em; color: var(--ados-ink); }
+    /* Este documento ya no tiene huecos de vídeo, así que aquí no hay
+       estilos .vid. Si algún día vuelve a haberlos, están en 04-programacion. */
 
     /* Regla / cita */
     .regla { border-left: 3px solid var(--accent); background: var(--ados-light); padding: 26px 30px; }
@@ -349,21 +341,6 @@
         </div>
       </div>
 
-      <!-- HUECO DE VÍDEO 1 · sustituir este div.vid por <video controls poster="…"> cuando llegue -->
-      <div class="vid">
-        <div class="frame">
-          <div class="play"><span></span></div>
-          <div>
-            <div class="label" style="margin-bottom: 8px;">Vídeo corto · VID-EJE-01</div>
-            <div class="que">Se trae la medición del presupuesto a un corte y se marca lo ejecutado: las ya cobradas llegan desmarcadas, una se deja al 60 % y el total del acta se arma solo.</div>
-          </div>
-        </div>
-        <div class="bar">
-          <span class="rank">Prioridad 1 de 2 — el gesto que define el apartado</span>
-          <span class="pin">VID-EJE-01</span>
-        </div>
-      </div>
-
       <p style="font-size: 15.5px; line-height: 1.6; color: var(--ados-ink-soft); margin: 24px 0 0 0;">Cómo se mide la primera vez se cuenta en el <a href="03-medicion.dc.html" class="mas">apartado 03 · Medición →</a></p>
     </div>
   </section>
@@ -455,20 +432,6 @@
         </figure>
       </div>
 
-      <!-- HUECO DE VÍDEO 2 · sustituir este div.vid por <video controls poster="…"> cuando llegue -->
-      <div class="vid">
-        <div class="frame">
-          <div class="play"><span></span></div>
-          <div>
-            <div class="label" style="margin-bottom: 8px;">Vídeo corto · VID-EJE-02</div>
-            <div class="que">Se arma una parcial desde los meses: se elige el rango, la parcial se llena con las líneas rotuladas por mes y la cantidad cuadra con el acumulado.</div>
-          </div>
-        </div>
-        <div class="bar">
-          <span class="rank">Prioridad 2 de 2 — el acta de varios meses, en un clic</span>
-          <span class="pin">VID-EJE-02</span>
-        </div>
-      </div>
     </div>
   </section>
 
